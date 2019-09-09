@@ -14,12 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.thuanthien.R;
 import com.example.thuanthien.data.model.Question;
+import com.example.thuanthien.ui.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
     private List<Question> questionList = new ArrayList<>();
+    private MainViewModel mainViewModel;
+
+    public QuestionAdapter(MainViewModel mainViewModel) {
+        this.mainViewModel = mainViewModel;
+    }
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
@@ -34,7 +40,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     @Override
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
-        holder.initData(questionList.get(position));
+        final Question question = questionList.get(position);
+        holder.initData(question);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainViewModel.getSelectedQuestion().setValue(question);
+            }
+        });
     }
 
     @Override

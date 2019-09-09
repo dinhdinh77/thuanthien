@@ -12,57 +12,36 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.thuanthien.R;
+import com.example.thuanthien.data.model.Question;
 import com.example.thuanthien.data.model.Questions;
 import com.example.thuanthien.ui.viewmodel.MainViewModel;
 import com.example.thuanthien.ui.viewmodel.ViewModelFactory;
 import com.example.thuanthien.ui.viewmodel.model.ViewResult;
 
 public class MainActivity extends AppCompatActivity {
-    private MainViewModel mainViewModel;
-    private QuestionAdapter adapter;
+    private NavController navController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView lvQuestion = findViewById(R.id.lv_question);
-        lvQuestion.setLayoutManager(new LinearLayoutManager(this));
-        lvQuestion.setHasFixedSize(true);
-        lvQuestion.addItemDecoration(new DividerItemDecoration(lvQuestion.getContext(), DividerItemDecoration.VERTICAL));
-        adapter = new QuestionAdapter();
-        lvQuestion.setAdapter(adapter);
-
-        mainViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(MainViewModel.class);
-        mainViewModel.getQuestionsList();
-        mainViewModel.getResult().observe(this, new Observer<ViewResult<Questions>>() {
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        MainViewModel mainViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(MainViewModel.class);
+        mainViewModel.getSelectedQuestion().observe(this, new Observer<Question>() {
             @Override
-            public void onChanged(ViewResult<Questions> questionsViewResult) {
-                if (questionsViewResult == null) {
-                    return;
-                }
-                if (questionsViewResult.getError() != null) {
-                    showDataFailed(questionsViewResult.getError());
-                }
-                if (questionsViewResult.getSuccess() != null) {
-                    updateUiWithData(questionsViewResult.getSuccess());
-                }
-
+            public void onChanged(Question question) {
+                navController.navigate(R.id.action_questionFragment_to_answerFragment);
             }
         });
     }
 
-    private void showDataFailed(String errorString){
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
-    }
-
-    private void updateUiWithData(Questions questions){
-        adapter.setQuestionList(questions.getQuestions());
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.accountInfo:
-                Toast.makeText(getApplicationContext(), "OKIE", Toast.LENGTH_SHORT).show();
+                navController.navigate(R.id.action_questionFragment_to_userDetailFragment);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
