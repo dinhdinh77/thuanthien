@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/questionFragment"
         android:name="com.example.thuanthien.ui.main.QuestionFragment"
-        android:label="QuestionFragment"
+        android:label="@string/title_main"
         tools:layout="@layout/fragment_question">
         <action
             android:id="@+id/action_questionFragment_to_answerFragment"
@@ -22,11 +22,11 @@
     <fragment
         android:id="@+id/answerFragment"
         android:name="com.example.thuanthien.ui.main.AnswerFragment"
-        android:label="fragment_answer"
+        android:label="@string/title_main"
         tools:layout="@layout/fragment_answer" />
     <fragment
         android:id="@+id/userDetailFragment"
         android:name="com.example.thuanthien.ui.main.UserDetailFragment"
-        android:label="fragment_detail"
+        android:label="@string/title_user_info"
         tools:layout="@layout/fragment_detail" />
 </navigation>

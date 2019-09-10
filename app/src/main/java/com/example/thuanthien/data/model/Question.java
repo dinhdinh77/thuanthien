@@ -1,8 +1,9 @@
 package com.example.thuanthien.data.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Question {
+public class Question implements Serializable {
     private int questionID;
     private String question;
     private QuestionType type;

@@ -6,7 +6,7 @@
     <string name="action_login">Đăng Nhập</string>
     <string name="title_login">ĐĂNG NHẬP</string>
     <string name="title_main">KHẢO SÁT</string>
-
+    <string name="prompt_input_answer">Xin vui lòng nhập câu trả lời...</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Số điện thoại trống</string>
@@ -14,4 +14,12 @@
     <string name="login_failed">Đăng Nhập thất bại</string>
     <string name="title_question">Câu hỏi</string>
     <string name="title_video">Video</string>
+    <string name="title_no_data">Không có dữ liệu</string>
+    <string name="title_user_info">Thông tin cá nhân</string>
+    <string name="prompt_name">Họ và tên*</string>
+    <string name="prompt_address">Địa chỉ*</string>
+    <string name="prompt_old_pass">Mật khẩu cũ*</string>
+    <string name="prompt_new_pass">Mật khẩu mới*</string>
+    <string name="prompt_new_pass_again">Nhập lại mật khẩu mới*</string>
+    <string name="prompt_change_pass">Đổi mật khẩu</string>
 </resources>

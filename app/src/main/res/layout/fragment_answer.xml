@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/txtQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
-        android:text="Answer"
+        android:text="@string/title_question"
         android:textColor="@android:color/black"
         android:padding="@dimen/title_padding"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lv_answer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/answer_item"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/input_answer"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/title_padding"
+        android:background="@drawable/bg_input_answer"
+        android:hint="@string/prompt_input_answer"
+        android:inputType="text"
+        android:gravity="top"
+        android:padding="@dimen/title_padding"
+        android:selectAllOnFocus="true"/>
 
 </LinearLayout>

@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/userDetailFragment"
+        android:id="@+id/saveInfo"
+        android:icon="@drawable/ic_check_symbol"
+        android:title="TODO"
         android:visible="true"
-        android:icon="@drawable/ic_account"
-        app:showAsAction="always"
-        android:title="TODO" />
-
+        app:showAsAction="always" />
 </menu>

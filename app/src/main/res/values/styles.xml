@@ -6,13 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary2</item>
         <item name="colorPrimaryDark">@color/colorPrimary2</item>
         <item name="colorAccent">@color/colorPrimary2</item>
-        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
-    </style>
-
-    <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
-    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_account</item>
-        <item name="android:background">?android:attr/actionBarItemBackground</item>
     </style>
 
 </resources>

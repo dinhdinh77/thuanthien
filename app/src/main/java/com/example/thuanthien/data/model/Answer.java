@@ -1,6 +1,8 @@
 package com.example.thuanthien.data.model;
 
-public class Answer {
+import java.io.Serializable;
+
+public class Answer implements Serializable {
     private String content;
 
     public String getContent() {
