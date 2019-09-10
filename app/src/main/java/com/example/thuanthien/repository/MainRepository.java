@@ -28,4 +28,9 @@ public class MainRepository extends Repository<MainDataSource> {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
         getDataSource().getUserInfo(currUserId, listener);
     }
+
+    public void updateUserInfo(String name, String old_password, String new_password, IRepository<UserInfo> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().updateUserInfo(currUserId, name, old_password, new_password, listener);
+    }
 }

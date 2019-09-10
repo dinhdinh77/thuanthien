@@ -4,6 +4,7 @@
     <string name="prompt_phone">Số điện thoại*</string>
     <string name="prompt_password">Mật khẩu*</string>
     <string name="action_login">Đăng Nhập</string>
+    <string name="action_logout">Đăng Xuất</string>
     <string name="title_login">ĐĂNG NHẬP</string>
     <string name="title_main">KHẢO SÁT</string>
     <string name="prompt_input_answer">Xin vui lòng nhập câu trả lời...</string>
@@ -22,4 +23,8 @@
     <string name="prompt_new_pass">Mật khẩu mới*</string>
     <string name="prompt_new_pass_again">Nhập lại mật khẩu mới*</string>
     <string name="prompt_change_pass">Đổi mật khẩu</string>
+    <string name="invalid_name">Họ và tên trống</string>
+    <string name="invalid_new_password">Mật khẩu mới trống</string>
+    <string name="invalid_new_password_2">Không đủ 6 kí tự</string>
+    <string name="invalid_new_password_3">Mật khẩu mới không giống nhau</string>
 </resources>

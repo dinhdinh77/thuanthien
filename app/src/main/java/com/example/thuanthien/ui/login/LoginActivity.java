@@ -1,14 +1,7 @@
 package com.example.thuanthien.ui.login;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -27,6 +20,12 @@ import com.example.thuanthien.ui.viewmodel.LoginViewModel;
 import com.example.thuanthien.ui.viewmodel.ViewModelFactory;
 import com.example.thuanthien.ui.viewmodel.model.LoginFormState;
 import com.example.thuanthien.ui.viewmodel.model.ViewResult;
+import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        final TextInputLayout inputPassword = findViewById(R.id.inputPassword);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -54,7 +54,9 @@ public class LoginActivity extends AppCompatActivity {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
                 if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                    inputPassword.setError(getString(loginFormState.getPasswordError()));
+                } else {
+                    inputPassword.setError(null);
                 }
             }
         });
@@ -119,6 +121,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
+        setResult(RESULT_OK);
+        finish();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);

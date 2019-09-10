@@ -1,14 +1,13 @@
 package com.example.thuanthien.ui.viewmodel;
 
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
-
 import com.example.thuanthien.datasource.LoginDataSource;
 import com.example.thuanthien.datasource.MainDataSource;
 import com.example.thuanthien.repository.LoginRepository;
 import com.example.thuanthien.repository.MainRepository;
-import com.example.thuanthien.ui.viewmodel.LoginViewModel;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -24,6 +23,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
         } else if (modelClass.isAssignableFrom(MainViewModel.class)) {
             return (T) new MainViewModel(MainRepository.getInstance(new MainDataSource()));
+        } else if (modelClass.isAssignableFrom(UserViewModel.class)) {
+            return (T) new UserViewModel(MainRepository.getInstance(new MainDataSource()));
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

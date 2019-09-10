@@ -34,4 +34,5 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.1.0'
     implementation 'androidx.navigation:navigation-ui:2.1.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'androidx.navigation:navigation-runtime:2.1.0'
 }
