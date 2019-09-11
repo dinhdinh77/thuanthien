@@ -24,6 +24,8 @@ import com.example.thuanthien.ui.viewmodel.MainViewModel;
 import com.example.thuanthien.ui.viewmodel.ViewModelFactory;
 
 public class AnswerFragment extends Fragment {
+    private MainViewModel mainViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_answer, container, false);
         return root;
@@ -32,7 +34,7 @@ public class AnswerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainViewModel mainViewModel = ViewModelProviders.of(getActivity(), new ViewModelFactory()).get(MainViewModel.class);
+        mainViewModel = ViewModelProviders.of(getActivity(), new ViewModelFactory()).get(MainViewModel.class);
         Question question = mainViewModel.getSelectedQuestion().getValue();
         TextView txtQuestion = view.findViewById(R.id.txtQuestion);
         txtQuestion.setText(question.getQuestion());
@@ -52,6 +54,10 @@ public class AnswerFragment extends Fragment {
         }
     }
 
+    private void answerQuestion(){
+
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +73,7 @@ public class AnswerFragment extends Fragment {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.saveInfo) {
-
+            answerQuestion();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -27,4 +27,5 @@
     <string name="invalid_new_password">Mật khẩu mới trống</string>
     <string name="invalid_new_password_2">Không đủ 6 kí tự</string>
     <string name="invalid_new_password_3">Mật khẩu mới không giống nhau</string>
+    <string name="prompt_update_success">Cập nhật thông tin thành công</string>
 </resources>

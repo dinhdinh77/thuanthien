@@ -1,5 +1,6 @@
 package com.example.thuanthien.repository;
 
+import com.example.thuanthien.api.APIResponse;
 import com.example.thuanthien.data.model.Questions;
 import com.example.thuanthien.data.model.UserInfo;
 import com.example.thuanthien.datasource.MainDataSource;
@@ -22,6 +23,11 @@ public class MainRepository extends Repository<MainDataSource> {
     public void getQuestionsList(IRepository<Questions> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
         getDataSource().getQuestionsList(currUserId, listener);
+    }
+
+    public void addAnswer(int questionId, String answer, IRepository<APIResponse> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().addAnswer(currUserId, questionId, answer, listener);
     }
 
     public void getUserInfo(IRepository<UserInfo> listener) {

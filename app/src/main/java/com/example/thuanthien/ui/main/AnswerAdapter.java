@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
         this.answerList = answerList;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public AnswerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,8 +37,28 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AnswerViewHolder holder, int position) {
-        holder.initData(answerList.get(position));
+    public void onBindViewHolder(@NonNull final AnswerViewHolder holder, final int position) {
+        final CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                selectedAnswer(answerList.get(position), isChecked);
+                notifyDataSetChanged();
+            }
+        };
+
+        holder.initData(answerList.get(position), listener);
+    }
+
+    private void selectedAnswer(Answer answer, boolean isChecked) {
+        if (isChecked) {
+            for (Answer ans : answerList) {
+                if (ans.equals(answer)) ans.setSelected(true);
+                else ans.setSelected(false);
+            }
+        } else {
+            answer.setSelected(false);
+        }
+
     }
 
     @Override
@@ -45,17 +67,18 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
     }
 
     protected static class AnswerViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtAnswer;
         private CheckBox selectedAnswer;
 
         public AnswerViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtAnswer = itemView.findViewById(R.id.txtAnswer);
             selectedAnswer = itemView.findViewById(R.id.selectedAnswer);
         }
 
-        public void initData(Answer answer) {
-            txtAnswer.setText(answer.getContent());
+        public void initData(Answer answer, CompoundButton.OnCheckedChangeListener listener) {
+            selectedAnswer.setText(answer.getContent());
+            selectedAnswer.setOnCheckedChangeListener(null);
+            selectedAnswer.setChecked(answer.isSelected());
+            selectedAnswer.setOnCheckedChangeListener(listener);
         }
     }
 }

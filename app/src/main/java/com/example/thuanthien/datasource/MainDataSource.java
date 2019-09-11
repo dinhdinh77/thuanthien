@@ -33,6 +33,28 @@ public class MainDataSource extends DataSource {
         });
     }
 
+    public void addAnswer(int userId, int questionId, String answer, final IRepository<APIResponse> listener) {
+        getApiInterface().addAnswer(userId, questionId, answer).enqueue(new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isStatus()) {
+                        listener.onSuccess(new Result.Success<>(response.body()));
+                    } else {
+                        listener.onError(new Result.Error(new Exception(response.body().getMessage())));
+                    }
+                } else {
+                    listener.onError(new Result.Error(new Exception(response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                listener.onError(new Result.Error(new Exception(t)));
+            }
+        });
+    }
+
     public void getUserInfo(int userId, final IRepository<UserInfo> listener) {
         getApiInterface().getUserInfo(userId).enqueue(new Callback<APIResponse<UserInfo>>() {
             @Override

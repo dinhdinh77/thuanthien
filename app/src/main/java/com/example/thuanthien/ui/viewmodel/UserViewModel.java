@@ -14,13 +14,18 @@ import androidx.lifecycle.MutableLiveData;
 
 public class UserViewModel extends BaseViewModel<MainRepository, ViewResult<UserInfo>> {
     private MutableLiveData<UpdateInfoState> updateInfoState = new MutableLiveData<>();
+    private MutableLiveData<ViewResult<UserInfo>> userUpdate = new MutableLiveData<>();
+
+    public UserViewModel(MainRepository repository) {
+        super(repository);
+    }
 
     public MutableLiveData<UpdateInfoState> getUpdateInfoState() {
         return updateInfoState;
     }
 
-    public UserViewModel(MainRepository repository) {
-        super(repository);
+    public MutableLiveData<ViewResult<UserInfo>> getUserUpdate() {
+        return userUpdate;
     }
 
     public void getUserInfo() {
@@ -37,16 +42,25 @@ public class UserViewModel extends BaseViewModel<MainRepository, ViewResult<User
         });
     }
 
-    public void updateUserInfo(String name, String old_password, String new_password) {
-        getRepository().updateUserInfo(name, old_password, new_password, new IRepository<UserInfo>() {
+    public void updateUserInfo(String name, String oldPassword, String newPassword, boolean isChangePass) {
+        UpdateInfoState state = getUpdateInfoState().getValue();
+        ViewResult<UserInfo> currUser = getResult().getValue();
+        if (state != null && !state.isDataVaild()) return;
+        if (!isChangePass) {
+            if (currUser != null && currUser.getSuccess() != null && isSame(currUser.getSuccess().getName(), name))
+                return;
+            oldPassword = null;
+            newPassword = null;
+        }
+        getRepository().updateUserInfo(name, oldPassword, newPassword, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
-                getResult().setValue(new ViewResult<>(success.getData()));
+                getUserUpdate().setValue(new ViewResult<>(success.getData()));
             }
 
             @Override
             public void onError(Result.Error error) {
-                getResult().setValue(new ViewResult(error.getError().getMessage()));
+                getUserUpdate().setValue(new ViewResult(error.getError().getMessage()));
             }
         });
     }
@@ -73,9 +87,12 @@ public class UserViewModel extends BaseViewModel<MainRepository, ViewResult<User
             } else if (isNewPasswordNotEnough(newPassAgain)) {
                 updateInfo.setNewPasswordAgainError(R.string.invalid_new_password_2);
                 updateInfoState.setValue(updateInfo);
-            } else if (!isNewPasswordSame(newPass, newPassAgain)) {
+            } else if (!isSame(newPass, newPassAgain)) {
                 updateInfo.setNewPasswordError(R.string.invalid_new_password_3);
                 updateInfo.setNewPasswordAgainError(R.string.invalid_new_password_3);
+                updateInfoState.setValue(updateInfo);
+            } else {
+                updateInfo.setDataVaild(true);
                 updateInfoState.setValue(updateInfo);
             }
         }
@@ -97,8 +114,8 @@ public class UserViewModel extends BaseViewModel<MainRepository, ViewResult<User
         return password != null && password.length() < 6;
     }
 
-    private boolean isNewPasswordSame(String password, String passwordAgain) {
-        return password != null && passwordAgain != null && password.equals(passwordAgain);
+    private boolean isSame(String password, String passwordAgain) {
+        return password != null && passwordAgain != null && password.compareTo(passwordAgain) == 0;
     }
 
 }

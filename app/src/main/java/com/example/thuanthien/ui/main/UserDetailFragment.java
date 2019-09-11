@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thuanthien.R;
 import com.example.thuanthien.data.model.UserInfo;
@@ -144,6 +145,22 @@ public class UserDetailFragment extends Fragment {
                 }
             }
         });
+        userViewModel.getUserUpdate().observe(this, new Observer<ViewResult<UserInfo>>() {
+            @Override
+            public void onChanged(ViewResult<UserInfo> userInfoViewResult) {
+                if (userInfoViewResult == null) {
+                    return;
+                }
+                if (userInfoViewResult.getError() != null) {
+                    Toast.makeText(getContext(), userInfoViewResult.getError(), Toast.LENGTH_SHORT).show();
+                }
+                if (userInfoViewResult.getSuccess() != null) {
+                    changePass.setChecked(false);
+                    setDataToView(userInfoViewResult.getSuccess());
+                    Toast.makeText(getContext(), getString(R.string.prompt_update_success), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         userViewModel.getUserInfo();
     }
 
@@ -162,7 +179,13 @@ public class UserDetailFragment extends Fragment {
     }
 
     private void updateUserInfo() {
-        userViewModel.updateUserInfo(name.getText().toString(), oldPass.getText().toString(), newPass.getText().toString());
+        UIHelper.hideSoftKeyboard(null, name);
+        UIHelper.hideSoftKeyboard(null, phone);
+        UIHelper.hideSoftKeyboard(null, address);
+        UIHelper.hideSoftKeyboard(null, oldPass);
+        UIHelper.hideSoftKeyboard(null, newPass);
+        UIHelper.hideSoftKeyboard(null, newPassAgain);
+        userViewModel.updateUserInfo(name.getText().toString(), oldPass.getText().toString(), newPass.getText().toString(), changePass.isChecked());
     }
 
     @Override

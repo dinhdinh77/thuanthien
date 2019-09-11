@@ -11,6 +11,7 @@ public class UpdateInfoState {
     private Integer newPasswordError;
     @Nullable
     private Integer newPasswordAgainError;
+    private boolean isDataVaild;
 
     @Nullable
     public Integer getUsernameError() {
@@ -19,6 +20,7 @@ public class UpdateInfoState {
 
     public void setUsernameError(@Nullable Integer usernameError) {
         this.usernameError = usernameError;
+        this.isDataVaild = false;
     }
 
     @Nullable
@@ -28,6 +30,7 @@ public class UpdateInfoState {
 
     public void setOldPasswordError(@Nullable Integer oldPasswordError) {
         this.oldPasswordError = oldPasswordError;
+        this.isDataVaild = false;
     }
 
     @Nullable
@@ -37,6 +40,7 @@ public class UpdateInfoState {
 
     public void setNewPasswordError(@Nullable Integer newPasswordError) {
         this.newPasswordError = newPasswordError;
+        this.isDataVaild = false;
     }
 
     @Nullable
@@ -46,5 +50,14 @@ public class UpdateInfoState {
 
     public void setNewPasswordAgainError(@Nullable Integer newPasswordAgainError) {
         this.newPasswordAgainError = newPasswordAgainError;
+        this.isDataVaild = false;
+    }
+
+    public boolean isDataVaild() {
+        return isDataVaild;
+    }
+
+    public void setDataVaild(boolean dataVaild) {
+        isDataVaild = dataVaild;
     }
 }
