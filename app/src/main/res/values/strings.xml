@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Thuan Thien</string>
+    <string name="app_name">Farm</string>
     <!-- Strings related to login -->
     <string name="prompt_phone">Số điện thoại*</string>
     <string name="prompt_password">Mật khẩu*</string>
@@ -13,6 +13,7 @@
     <string name="invalid_username">Số điện thoại trống</string>
     <string name="invalid_password">Mật khẩu trống</string>
     <string name="login_failed">Đăng Nhập thất bại</string>
+    <string name="title_message">Thông báo</string>
     <string name="title_question">Câu hỏi</string>
     <string name="title_video">Video</string>
     <string name="title_no_data">Không có dữ liệu</string>
@@ -28,4 +29,5 @@
     <string name="invalid_new_password_2">Không đủ 6 kí tự</string>
     <string name="invalid_new_password_3">Mật khẩu mới không giống nhau</string>
     <string name="prompt_update_success">Cập nhật thông tin thành công</string>
+    <string name="prompt_answer">Vui lòng nhập câu trả lời</string>
 </resources>

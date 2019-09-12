@@ -20,6 +20,30 @@
         android:visibility="visible"/>
 
     <LinearLayout
+        android:id="@+id/ll_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightGray"
+            android:text="@string/title_message"
+            android:textColor="@android:color/black"
+            android:padding="@dimen/title_padding"
+            android:textSize="17sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lv_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/question_item"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_question"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -34,8 +58,7 @@
             android:text="@string/title_question"
             android:textColor="@android:color/black"
             android:padding="@dimen/title_padding"
-            android:textSize="17sp"
-            android:textStyle="bold"/>
+            android:textSize="17sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lv_question"
@@ -60,8 +83,7 @@
             android:text="@string/title_video"
             android:textColor="@android:color/black"
             android:padding="@dimen/title_padding"
-            android:textSize="17sp"
-            android:textStyle="bold"/>
+            android:textSize="17sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lv_video"

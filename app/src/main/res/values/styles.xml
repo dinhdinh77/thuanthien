@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorPrimary2</item>
     </style>
 
+    <style name="SplashscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/bitmap_splash</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>
