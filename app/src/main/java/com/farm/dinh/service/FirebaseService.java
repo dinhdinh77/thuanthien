@@ -1,4 +1,4 @@
-package com.farm.dinh;
+package com.farm.dinh.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import com.farm.dinh.R;
 import com.farm.dinh.ui.main.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -62,9 +63,9 @@ public class FirebaseService extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background))
-                        .setContentTitle(getString(R.string.project_id))
+                        .setSmallIcon(R.drawable.logo)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
+                        .setContentTitle(getString(R.string.app_name))
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
