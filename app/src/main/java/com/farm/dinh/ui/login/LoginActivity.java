@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.farm.dinh.R;
-import com.farm.dinh.ui.UIHelper;
+import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.main.MainActivity;
 import com.farm.dinh.ui.viewmodel.LoginViewModel;
 import com.farm.dinh.ui.viewmodel.ViewModelFactory;

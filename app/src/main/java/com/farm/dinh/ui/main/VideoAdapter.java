@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.Video;
-import com.farm.dinh.ui.UIHelper;
+import com.farm.dinh.helper.UIHelper;
 
 import java.util.ArrayList;
 import java.util.List;
