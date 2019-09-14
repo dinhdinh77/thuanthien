@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.UserInfo;
-import com.farm.dinh.ui.UIHelper;
+import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.login.LoginActivity;
 import com.farm.dinh.ui.viewmodel.UserViewModel;
 import com.farm.dinh.ui.viewmodel.ViewModelFactory;

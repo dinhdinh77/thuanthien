@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Farm</string>
+    <string name="app_name">Thuận Thiên</string>
     <!-- Strings related to login -->
     <string name="prompt_phone">Số điện thoại*</string>
     <string name="prompt_password">Mật khẩu*</string>

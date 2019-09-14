@@ -1,4 +1,4 @@
-package com.farm.dinh.ui;
+package com.farm.dinh.helper;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
