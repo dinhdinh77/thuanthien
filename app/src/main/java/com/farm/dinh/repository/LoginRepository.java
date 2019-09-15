@@ -1,20 +1,18 @@
 package com.farm.dinh.repository;
 
+import android.text.TextUtils;
+import android.util.Pair;
+
 import com.farm.dinh.datasource.LoginDataSource;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
 import com.farm.dinh.local.Pref;
 
-/**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
- */
 public class LoginRepository extends Repository<LoginDataSource> {
     private static volatile LoginRepository instance;
-
-    // If user credentials will be cached in local storage, it is recommended it be encrypted
-    // @see https://developer.android.com/training/articles/keystore
     private UserInfo user = null;
+    private String currPhone;
+    private String currPass;
 
     // private constructor : singleton access
     private LoginRepository(LoginDataSource dataSource) {
@@ -38,19 +36,26 @@ public class LoginRepository extends Repository<LoginDataSource> {
         Pref.getInstance().clearPreferences();
     }
 
-    private void setLoggedInUser(UserInfo user) {
+    private void setLoggedInUser(UserInfo user, String username, String password) {
         this.user = user;
+        this.currPhone = username;
+        this.currPass = password;
         Pref.getInstance().set(Pref.KEY_USER_ID, user.getId());
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
+        Pref.getInstance().set(Pref.KEY_PHONE, username);
+        Pref.getInstance().set(Pref.KEY_PASS, password);
     }
 
-    public void login(String username, String password, final IRepository<UserInfo> listener) {
-        // handle login
+    public Pair<String, String> getPreviousUser() {
+        currPhone = TextUtils.isEmpty(currPhone) ? Pref.getInstance().get(Pref.KEY_PHONE, "") : currPhone;
+        currPass = TextUtils.isEmpty(currPass) ? Pref.getInstance().get(Pref.KEY_PASS, "") : currPass;
+        return new Pair<>(currPhone, currPass);
+    }
+
+    public void login(final String username, final String password, final IRepository<UserInfo> listener) {
         getDataSource().login(username, password, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
-                setLoggedInUser(success.getData());
+                setLoggedInUser(success.getData(), username, password);
                 listener.onSuccess(success);
             }
 
@@ -59,5 +64,20 @@ public class LoginRepository extends Repository<LoginDataSource> {
                 listener.onError(error);
             }
         });
+    }
+
+    public void getUserInfo(IRepository<UserInfo> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().getUserInfo(currUserId, listener);
+    }
+
+    public void updateUserInfo(String name, String oldPassword, String newPassword, boolean isChangePass, IRepository<UserInfo> listener) {
+        if (!isChangePass && isLoggedIn()) {
+            if (this.user.getName().equals(name)) return;
+            oldPassword = null;
+            newPassword = null;
+        }
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().updateUserInfo(currUserId, name, oldPassword, newPassword, listener);
     }
 }

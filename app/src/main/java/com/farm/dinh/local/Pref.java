@@ -7,6 +7,9 @@ import com.farm.dinh.TTApplication;
 
 public class Pref {
     public static final String KEY_USER_ID = "CurrentUserId";
+    public static final String KEY_PHONE = "CurrentPhone";
+    public static final String KEY_PASS = "CurrentPass";
+    public static final String KEY_LOGOUT = "Logout";
     private static String PREF_FILE_NAME = "pref.xml";
 
     private static Pref instance;

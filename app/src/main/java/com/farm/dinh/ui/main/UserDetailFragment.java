@@ -35,6 +35,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import static android.app.Activity.RESULT_OK;
+import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 
 public class UserDetailFragment extends Fragment {
     private EditText name, phone, address, oldPass, newPass, newPassAgain;
@@ -135,29 +136,22 @@ public class UserDetailFragment extends Fragment {
                     return;
                 }
                 if (userInfoViewResult.getError() != null) {
-                    txtNoData.setVisibility(View.VISIBLE);
-                    llDetail.setVisibility(View.GONE);
+                    if (userInfoViewResult.isUpdate()) {
+                        Toast.makeText(getContext(), userInfoViewResult.getError(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        txtNoData.setVisibility(View.VISIBLE);
+                        llDetail.setVisibility(View.GONE);
+                    }
                 }
                 if (userInfoViewResult.getSuccess() != null) {
-                    txtNoData.setVisibility(View.GONE);
-                    llDetail.setVisibility(View.VISIBLE);
+                    if (userInfoViewResult.isUpdate()) {
+                        changePass.setChecked(false);
+                        Toast.makeText(getContext(), getString(R.string.prompt_update_success), Toast.LENGTH_SHORT).show();
+                    } else {
+                        txtNoData.setVisibility(View.GONE);
+                        llDetail.setVisibility(View.VISIBLE);
+                    }
                     setDataToView(userInfoViewResult.getSuccess());
-                }
-            }
-        });
-        userViewModel.getUserUpdate().observe(this, new Observer<ViewResult<UserInfo>>() {
-            @Override
-            public void onChanged(ViewResult<UserInfo> userInfoViewResult) {
-                if (userInfoViewResult == null) {
-                    return;
-                }
-                if (userInfoViewResult.getError() != null) {
-                    Toast.makeText(getContext(), userInfoViewResult.getError(), Toast.LENGTH_SHORT).show();
-                }
-                if (userInfoViewResult.getSuccess() != null) {
-                    changePass.setChecked(false);
-                    setDataToView(userInfoViewResult.getSuccess());
-                    Toast.makeText(getContext(), getString(R.string.prompt_update_success), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -165,11 +159,12 @@ public class UserDetailFragment extends Fragment {
     }
 
     private void logout() {
+        userViewModel.logout();
         getActivity().setResult(RESULT_OK);
-        getActivity().finish();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.putExtra(KEY_LOGOUT, true);
         startActivity(intent);
+        getActivity().finish();
     }
 
     private void setDataToView(UserInfo userInfo) {

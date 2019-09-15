@@ -1,21 +1,23 @@
 package com.farm.dinh.ui.viewmodel;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import android.text.TextUtils;
+import android.util.Pair;
 
-import com.farm.dinh.repository.IRepository;
-import com.farm.dinh.repository.LoginRepository;
+import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
-import com.farm.dinh.R;
+import com.farm.dinh.repository.IRepository;
+import com.farm.dinh.repository.LoginRepository;
 import com.farm.dinh.ui.login.LoggedInUserView;
 import com.farm.dinh.ui.viewmodel.model.LoginFormState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 public class LoginViewModel extends BaseViewModel<LoginRepository, ViewResult<LoggedInUserView>> {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private MutableLiveData<Pair<String, String>> previousUser = new MutableLiveData<>();
 
     public LoginViewModel(LoginRepository repository) {
         super(repository);
@@ -23,6 +25,10 @@ public class LoginViewModel extends BaseViewModel<LoginRepository, ViewResult<Lo
 
     public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
+    }
+
+    public MutableLiveData<Pair<String, String>> getPreviousUser() {
+        return previousUser;
     }
 
     public void login(String username, String password) {
@@ -49,6 +55,10 @@ public class LoginViewModel extends BaseViewModel<LoginRepository, ViewResult<Lo
         } else {
             loginFormState.setValue(new LoginFormState(true));
         }
+    }
+
+    public void getAutoFillUser(){
+        getPreviousUser().setValue(getRepository().getPreviousUser());
     }
 
     // A placeholder username validation check

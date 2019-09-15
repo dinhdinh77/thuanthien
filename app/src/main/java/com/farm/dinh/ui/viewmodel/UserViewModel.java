@@ -6,17 +6,16 @@ import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
 import com.farm.dinh.repository.IRepository;
-import com.farm.dinh.repository.MainRepository;
+import com.farm.dinh.repository.LoginRepository;
 import com.farm.dinh.ui.viewmodel.model.UpdateInfoState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import androidx.lifecycle.MutableLiveData;
 
-public class UserViewModel extends BaseViewModel<MainRepository, ViewResult<UserInfo>> {
+public class UserViewModel extends BaseViewModel<LoginRepository, ViewResult<UserInfo>> {
     private MutableLiveData<UpdateInfoState> updateInfoState = new MutableLiveData<>();
-    private MutableLiveData<ViewResult<UserInfo>> userUpdate = new MutableLiveData<>();
 
-    public UserViewModel(MainRepository repository) {
+    public UserViewModel(LoginRepository repository) {
         super(repository);
     }
 
@@ -24,45 +23,38 @@ public class UserViewModel extends BaseViewModel<MainRepository, ViewResult<User
         return updateInfoState;
     }
 
-    public MutableLiveData<ViewResult<UserInfo>> getUserUpdate() {
-        return userUpdate;
-    }
-
     public void getUserInfo() {
         getRepository().getUserInfo(new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
-                getResult().setValue(new ViewResult<>(success.getData()));
+                getResult().setValue(new ViewResult<>(success.getData(), false));
             }
 
             @Override
             public void onError(Result.Error error) {
-                getResult().setValue(new ViewResult(error.getError().getMessage()));
+                getResult().setValue(new ViewResult(error.getError().getMessage(), false));
             }
         });
     }
 
     public void updateUserInfo(String name, String oldPassword, String newPassword, boolean isChangePass) {
         UpdateInfoState state = getUpdateInfoState().getValue();
-        ViewResult<UserInfo> currUser = getResult().getValue();
         if (state != null && !state.isDataVaild()) return;
-        if (!isChangePass) {
-            if (currUser != null && currUser.getSuccess() != null && isSame(currUser.getSuccess().getName(), name))
-                return;
-            oldPassword = null;
-            newPassword = null;
-        }
-        getRepository().updateUserInfo(name, oldPassword, newPassword, new IRepository<UserInfo>() {
+        getRepository().updateUserInfo(name, oldPassword, newPassword, isChangePass, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
-                getUserUpdate().setValue(new ViewResult<>(success.getData()));
+                getResult().setValue(new ViewResult<>(success.getData(), true));
             }
 
             @Override
             public void onError(Result.Error error) {
-                getUserUpdate().setValue(new ViewResult(error.getError().getMessage()));
+                getResult().setValue(new ViewResult(error.getError().getMessage(), true));
             }
         });
+    }
+
+    public void logout(){
+        getRepository().logout();
     }
 
     public void updateInfoDataChanged(String name, String oldPass, String newPass, String newPassAgain, boolean isChangePass) {

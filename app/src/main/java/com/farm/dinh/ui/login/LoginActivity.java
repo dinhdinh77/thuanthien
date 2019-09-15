@@ -3,7 +3,9 @@ package com.farm.dinh.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,8 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-public class LoginActivity extends AppCompatActivity {
+import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 
+public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
 
     @Override
@@ -42,6 +45,29 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         final TextInputLayout inputPassword = findViewById(R.id.inputPassword);
+        final TextInputLayout inputUsername = findViewById(R.id.inputUsername);
+
+        loginViewModel.getPreviousUser().observe(this, new Observer<Pair<String, String>>() {
+            @Override
+            public void onChanged(Pair<String, String> previousUser) {
+                if (previousUser == null) {
+                    return;
+                }
+
+                if (!TextUtils.isEmpty(previousUser.first)) {
+                    usernameEditText.setText(previousUser.first);
+                }
+                if (!TextUtils.isEmpty(previousUser.second)) {
+                    passwordEditText.setText(previousUser.second);
+                }
+
+                boolean isActionLogout = getIntent().getBooleanExtra(KEY_LOGOUT, false);
+                if (!TextUtils.isEmpty(previousUser.first) && !TextUtils.isEmpty(previousUser.second) && !isActionLogout) {
+                    loadingProgressBar.setVisibility(View.VISIBLE);
+                    loginViewModel.login(previousUser.first, previousUser.second);
+                }
+            }
+        });
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -51,8 +77,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 loginButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                    inputUsername.setError(getString(loginFormState.getUsernameError()));
+                } else {
+                    inputUsername.setError(null);
                 }
+
                 if (loginFormState.getPasswordError() != null) {
                     inputPassword.setError(getString(loginFormState.getPasswordError()));
                 } else {
@@ -76,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,12 +146,13 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+        loginViewModel.getAutoFillUser();
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
         setResult(RESULT_OK);
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
         finish();
     }
