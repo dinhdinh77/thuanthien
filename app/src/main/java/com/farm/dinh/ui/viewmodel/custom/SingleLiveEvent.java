@@ -1,14 +1,14 @@
-package com.farm.dinh.ui.viewmodel;
+package com.farm.dinh.ui.viewmodel.custom;
 
 import android.util.Log;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
 

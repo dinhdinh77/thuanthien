@@ -1,13 +1,10 @@
-package com.farm.dinh;
+package com.farm.dinh.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.farm.dinh.ui.login.LoginActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
     @Override

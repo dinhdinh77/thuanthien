@@ -19,7 +19,23 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.farm.dinh.ui.fragment.SpinnerDialog;
+
+import androidx.fragment.app.FragmentManager;
+
 public class UIHelper {
+    private static SpinnerDialog spinnerDialog;
+
+    public static void showLoading(FragmentManager fragmentManager) {
+        if (spinnerDialog == null)
+            spinnerDialog = new SpinnerDialog();
+        spinnerDialog.show(fragmentManager, null);
+    }
+
+    public static void hideLoading() {
+        if (spinnerDialog != null) spinnerDialog.dismiss();
+    }
+
     public static void hideSoftKeyboard(Window wd, View view) {
         int flag = android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
         if (wd != null) {

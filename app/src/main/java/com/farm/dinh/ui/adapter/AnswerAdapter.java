@@ -1,4 +1,4 @@
-package com.farm.dinh.ui.main;
+package com.farm.dinh.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,14 +6,14 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder> {
     private List<Answer> answerList = new ArrayList<>();

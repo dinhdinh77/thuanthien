@@ -1,4 +1,4 @@
-package com.farm.dinh.ui.login;
+package com.farm.dinh.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.farm.dinh.R;
 import com.farm.dinh.helper.UIHelper;
-import com.farm.dinh.ui.main.MainActivity;
+import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
 import com.farm.dinh.ui.viewmodel.LoginViewModel;
 import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.LoginFormState;

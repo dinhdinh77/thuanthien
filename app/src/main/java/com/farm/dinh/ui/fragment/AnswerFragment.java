@@ -1,4 +1,4 @@
-package com.farm.dinh.ui.main;
+package com.farm.dinh.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.farm.dinh.R;
+import com.farm.dinh.api.APIResponse;
+import com.farm.dinh.data.model.Question;
+import com.farm.dinh.data.model.QuestionType;
+import com.farm.dinh.ui.adapter.AnswerAdapter;
+import com.farm.dinh.ui.viewmodel.MainViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
+import com.farm.dinh.ui.viewmodel.model.ViewResult;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,14 +27,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.farm.dinh.R;
-import com.farm.dinh.api.APIResponse;
-import com.farm.dinh.data.model.Question;
-import com.farm.dinh.data.model.QuestionType;
-import com.farm.dinh.ui.viewmodel.MainViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
-import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 public class AnswerFragment extends Fragment {
     private MainViewModel mainViewModel;

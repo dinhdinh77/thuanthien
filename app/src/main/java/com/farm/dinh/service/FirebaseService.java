@@ -13,7 +13,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.farm.dinh.R;
-import com.farm.dinh.ui.main.MainActivity;
+import com.farm.dinh.ui.activity.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

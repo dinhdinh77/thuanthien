@@ -1,8 +1,13 @@
-package com.farm.dinh.ui.main;
+package com.farm.dinh.ui.activity;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.farm.dinh.R;
+import com.farm.dinh.data.model.Question;
+import com.farm.dinh.ui.viewmodel.MainViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +19,6 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import com.farm.dinh.R;
-import com.farm.dinh.data.model.Question;
-import com.farm.dinh.ui.viewmodel.MainViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;

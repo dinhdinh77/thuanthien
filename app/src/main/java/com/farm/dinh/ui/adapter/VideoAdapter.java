@@ -1,4 +1,4 @@
-package com.farm.dinh.ui.main;
+package com.farm.dinh.ui.adapter;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;

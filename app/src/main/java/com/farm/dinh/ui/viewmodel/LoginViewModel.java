@@ -8,7 +8,7 @@ import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
 import com.farm.dinh.repository.IRepository;
 import com.farm.dinh.repository.LoginRepository;
-import com.farm.dinh.ui.login.LoggedInUserView;
+import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
 import com.farm.dinh.ui.viewmodel.model.LoginFormState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 

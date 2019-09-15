@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.activity.SplashScreenActivity"
             android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +21,10 @@
         </activity>
 
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:label="@string/title_login" />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/title_main" />
         <service android:name=".service.FirebaseService">
             <intent-filter>

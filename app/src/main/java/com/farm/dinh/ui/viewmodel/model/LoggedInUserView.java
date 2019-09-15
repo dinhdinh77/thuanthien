@@ -1,4 +1,4 @@
-package com.farm.dinh.ui.login;
+package com.farm.dinh.ui.viewmodel.model;
 
 /**
  * Class exposing authenticated user details to the UI.

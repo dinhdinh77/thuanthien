@@ -6,4 +6,5 @@
     <color name="colorPrimary2">#139143</color>
     <color name="lightGray">#D5D5D5</color>
     <color name="white">#FFFFFF</color>
+    <color name="loading_transparent">#80000000</color>
 </resources>

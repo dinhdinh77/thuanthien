@@ -30,4 +30,5 @@
     <string name="invalid_new_password_3">Mật khẩu mới không giống nhau</string>
     <string name="prompt_update_success">Cập nhật thông tin thành công</string>
     <string name="prompt_answer">Vui lòng nhập câu trả lời</string>
+    <string name="prompt_loading">Đang tải dữ liệu</string>
 </resources>
