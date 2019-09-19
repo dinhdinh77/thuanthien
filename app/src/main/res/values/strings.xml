@@ -31,4 +31,9 @@
     <string name="prompt_update_success">Cập nhật thông tin thành công</string>
     <string name="prompt_answer">Vui lòng nhập câu trả lời</string>
     <string name="prompt_loading">Đang tải dữ liệu</string>
+    <string name="title_manager">QUẢN LÝ TÀI KHOẢN</string>
+    <string name="action_edit_account">Chỉnh sửa tài khoản</string>
+    <string name="action_create_farmer">Tạo nông dân</string>
+    <string name="action_create_order">Tạo đơn hàng</string>
+    <string name="action_manager_order">Quản lý đơn hàng</string>
 </resources>
