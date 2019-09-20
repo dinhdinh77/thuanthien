@@ -36,7 +36,7 @@ public class LoginViewModel extends BaseViewModel<LoginRepository, ViewResult<Lo
         getRepository().login(username, password, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
-                getResult().setValue(new ViewResult<>(new LoggedInUserView(success.getData().getName())));
+                getResult().setValue(new ViewResult<>(new LoggedInUserView(success.getData().getName(), success.getData().getIsAgency())));
             }
 
             @Override

@@ -16,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -30,16 +32,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         assert getSupportActionBar() != null;   //null check
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavInflater inflater = navController.getNavInflater();
+        NavGraph graph = inflater.inflate(R.navigation.navigation_graph);
+        graph.setStartDestination(getIntent().getIntExtra("isAgency", 0) == 0 ? R.id.questionFragment : R.id.managerFragment);
+
+        navController.setGraph(graph);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-
-            }
-        });
         MainViewModel mainViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(MainViewModel.class);
         mainViewModel.getSelectedQuestion().observe(this, new Observer<Question>() {
             @Override

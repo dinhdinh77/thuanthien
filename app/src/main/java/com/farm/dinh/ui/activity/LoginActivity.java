@@ -153,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser(LoggedInUserView model) {
         setResult(RESULT_OK);
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("isAgency", model.getIsAgency());
         startActivity(intent);
         finish();
     }

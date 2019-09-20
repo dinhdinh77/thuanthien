@@ -5,13 +5,18 @@ package com.farm.dinh.ui.viewmodel.model;
  */
 public class LoggedInUserView {
     private String displayName;
-    //... other data fields that may be accessible to the UI
+    private int isAgency;
 
-    public LoggedInUserView(String displayName) {
+    public LoggedInUserView(String displayName, int isAgency) {
         this.displayName = displayName;
+        this.isAgency = isAgency;
     }
 
     String getDisplayName() {
         return displayName;
+    }
+
+    public int getIsAgency() {
+        return isAgency;
     }
 }
