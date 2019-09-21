@@ -3,8 +3,6 @@ package com.farm.dinh.ui.viewmodel;
 
 import android.text.TextUtils;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.farm.dinh.api.APIResponse;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.Question;
@@ -14,8 +12,10 @@ import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.custom.SingleLiveEvent;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
+import androidx.lifecycle.MutableLiveData;
 
-public class MainViewModel extends BaseViewModel<MainRepository, ViewResult<Questions>> {
+
+public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
 
     public MainViewModel(MainRepository repository) {
         super(repository);

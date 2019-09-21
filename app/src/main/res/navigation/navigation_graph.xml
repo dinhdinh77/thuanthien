@@ -33,5 +33,33 @@
         android:id="@+id/managerFragment"
         android:name="com.farm.dinh.ui.fragment.ManagerFragment"
         android:label="@string/title_manager"
-        tools:layout="@layout/fragment_manager" />
+        tools:layout="@layout/fragment_manager">
+        <action
+            android:id="@+id/action_managerFragment_to_userDetailFragment2"
+            app:destination="@id/userDetailFragment" />
+        <action
+            android:id="@+id/action_managerFragment_to_createFarmerFragment"
+            app:destination="@id/createFarmerFragment" />
+        <action
+            android:id="@+id/action_managerFragment_to_createOrderFragment"
+            app:destination="@id/createOrderFragment" />
+        <action
+            android:id="@+id/action_managerFragment_to_historyOrderFragment"
+            app:destination="@id/historyOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createFarmerFragment"
+        android:name="com.farm.dinh.ui.fragment.CreateFarmerFragment"
+        android:label="@string/title_create_farmer"
+        tools:layout="@layout/fragment_create_farmer" />
+    <fragment
+        android:id="@+id/createOrderFragment"
+        android:name="com.farm.dinh.ui.fragment.CreateOrderFragment"
+        android:label="@string/title_create_order"
+        tools:layout="@layout/fragment_create_order" />
+    <fragment
+        android:id="@+id/historyOrderFragment"
+        android:name="com.farm.dinh.ui.fragment.HistoryOrderFragment"
+        android:label="@string/title_manager_order"
+        tools:layout="@layout/fragment_history_order" />
 </navigation>

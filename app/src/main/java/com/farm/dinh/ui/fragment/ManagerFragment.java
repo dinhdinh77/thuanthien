@@ -5,18 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.farm.dinh.R;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.farm.dinh.R;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 public class ManagerFragment extends Fragment implements View.OnClickListener {
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+    private NavController navController;
 
     @Nullable
     @Override
@@ -28,6 +26,7 @@ public class ManagerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         view.findViewById(R.id.actionEditAccount).setOnClickListener(this);
         view.findViewById(R.id.actionCreateFarmer).setOnClickListener(this);
         view.findViewById(R.id.actionCreateOrder).setOnClickListener(this);
@@ -38,12 +37,16 @@ public class ManagerFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.actionEditAccount:
+                navController.navigate(R.id.action_managerFragment_to_userDetailFragment2);
                 break;
             case R.id.actionCreateFarmer:
+                navController.navigate(R.id.action_managerFragment_to_createFarmerFragment);
                 break;
             case R.id.actionCreateOrder:
+                navController.navigate(R.id.action_managerFragment_to_createOrderFragment);
                 break;
             case R.id.actionManagerOrder:
+                navController.navigate(R.id.action_managerFragment_to_historyOrderFragment);
                 break;
         }
     }

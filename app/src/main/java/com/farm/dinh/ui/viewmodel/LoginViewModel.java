@@ -15,7 +15,7 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class LoginViewModel extends BaseViewModel<LoginRepository, ViewResult<LoggedInUserView>> {
+public class LoginViewModel extends BaseViewModel<LoginRepository, LoggedInUserView> {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<Pair<String, String>> previousUser = new MutableLiveData<>();
 

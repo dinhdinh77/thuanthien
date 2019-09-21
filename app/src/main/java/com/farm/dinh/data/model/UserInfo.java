@@ -6,7 +6,7 @@ import java.util.List;
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
 public class UserInfo {
-    private int id;
+    private int userId;
     private String name;
     private String phone;
     private String birthday;
@@ -15,11 +15,11 @@ public class UserInfo {
     private List<Farmer> farmers;
 
     public int getId() {
-        return id;
+        return userId;
     }
 
     public void setId(int userId) {
-        this.id = userId;
+        this.userId = userId;
     }
 
     public String getName() {

@@ -12,7 +12,7 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import androidx.lifecycle.MutableLiveData;
 
-public class UserViewModel extends BaseViewModel<LoginRepository, ViewResult<UserInfo>> {
+public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
     private MutableLiveData<UpdateInfoState> updateInfoState = new MutableLiveData<>();
 
     public UserViewModel(LoginRepository repository) {

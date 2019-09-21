@@ -6,6 +6,8 @@ import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
 import com.farm.dinh.data.model.UserInfo;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -49,6 +51,6 @@ public interface APIInterface {
 
     @FormUrlEncoded
     @POST("/api/getOrderHistory.php")
-    Call<APIResponse<Order>> getOrderHistory(@Field("userId") int userId);
+    Call<APIResponse<List<Order>>> getOrderHistory(@Field("userId") int userId);
 
 }

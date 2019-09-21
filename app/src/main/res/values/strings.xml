@@ -17,7 +17,7 @@
     <string name="title_question">Câu hỏi</string>
     <string name="title_video">Video</string>
     <string name="title_no_data">Không có dữ liệu</string>
-    <string name="title_user_info">Thông tin cá nhân</string>
+    <string name="title_user_info">THÔNG TIN CÁ NHÂN</string>
     <string name="prompt_name">Họ và tên*</string>
     <string name="prompt_address">Địa chỉ*</string>
     <string name="prompt_old_pass">Mật khẩu cũ*</string>
@@ -36,4 +36,7 @@
     <string name="action_create_farmer">Tạo nông dân</string>
     <string name="action_create_order">Tạo đơn hàng</string>
     <string name="action_manager_order">Quản lý đơn hàng</string>
+    <string name="title_create_farmer">TẠO NÔNG DÂN</string>
+    <string name="title_create_order">TẠO ĐƠN HÀNG</string>
+    <string name="title_manager_order">QUẢN LÝ ĐƠN HÀNG</string>
 </resources>

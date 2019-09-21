@@ -1,9 +1,12 @@
 package com.farm.dinh.repository;
 
 import com.farm.dinh.api.APIResponse;
+import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Questions;
 import com.farm.dinh.datasource.MainDataSource;
 import com.farm.dinh.local.Pref;
+
+import java.util.List;
 
 public class MainRepository extends Repository<MainDataSource> {
     private static volatile MainRepository instance;
@@ -27,5 +30,10 @@ public class MainRepository extends Repository<MainDataSource> {
     public void addAnswer(int questionId, String answer, IRepository<APIResponse> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
         getDataSource().addAnswer(currUserId, questionId, answer, listener);
+    }
+
+    public void getOrderHistory(IRepository<List<Order>> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().getOrderHistory(currUserId, listener);
     }
 }

@@ -1,19 +1,16 @@
 package com.farm.dinh.data.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Farmer {
-    @SerializedName(value = "user_id", alternate = {"id"})
-    private int id;
+    private int userId;
     private String name;
     private String phone;
 
     public int getId() {
-        return id;
+        return userId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.userId = userId;
     }
 
     public String getName() {

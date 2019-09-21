@@ -8,6 +8,7 @@ public class Order {
     private String name;
     private String productName;
     private Date createdDate;
+    private int quantity;
 
     public String getOrderId() {
         return orderId;
@@ -47,5 +48,13 @@ public class Order {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
