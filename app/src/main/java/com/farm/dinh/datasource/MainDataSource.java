@@ -3,6 +3,7 @@ package com.farm.dinh.datasource;
 import com.farm.dinh.api.APIResponse;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.Order;
+import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
 import com.farm.dinh.repository.IRepository;
 
@@ -74,6 +75,28 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<Order>>> call, Throwable t) {
+                listener.onError(new Result.Error(new Exception(t)));
+            }
+        });
+    }
+
+    public void getProductsList(final IRepository<List<Product>> listener) {
+        getApiInterface().getProductsList().enqueue(new Callback<APIResponse<List<Product>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<List<Product>>> call, Response<APIResponse<List<Product>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isStatus()) {
+                        listener.onSuccess(new Result.Success<>(response.body().getData()));
+                    } else {
+                        listener.onError(new Result.Error(new Exception(response.body().getMessage())));
+                    }
+                } else {
+                    listener.onError(new Result.Error(new Exception(response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<List<Product>>> call, Throwable t) {
                 listener.onError(new Result.Error(new Exception(t)));
             }
         });

@@ -39,4 +39,6 @@
     <string name="title_create_farmer">TẠO NÔNG DÂN</string>
     <string name="title_create_order">TẠO ĐƠN HÀNG</string>
     <string name="title_manager_order">QUẢN LÝ ĐƠN HÀNG</string>
+    <string name="prompt_quantity">Số lượng*</string>
+    <string name="prompt_product">Chọn sản phẩm*</string>
 </resources>

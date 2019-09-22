@@ -36,9 +36,8 @@ public interface APIInterface {
     @POST("/api/addAnswer.php")
     Call<APIResponse> addAnswer(@Field("userId") int userId, @Field("questionId") int questionId, @Field("answer") String answer);
 
-    @FormUrlEncoded
     @POST("/api/getProductsList.php")
-    Call<APIResponse<Product>> getProductsList();
+    Call<APIResponse<List<Product>>> getProductsList();
 
     @FormUrlEncoded
     @POST("/api/createUser.php")

@@ -7,4 +7,7 @@
     <color name="lightGray">#D5D5D5</color>
     <color name="white">#FFFFFF</color>
     <color name="loading_transparent">#80000000</color>
+
+    <color name="disabled_color">#44000000</color>
+    <color name="error_color">#E7492E</color>
 </resources>

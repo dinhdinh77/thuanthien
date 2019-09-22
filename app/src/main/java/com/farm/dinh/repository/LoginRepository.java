@@ -14,7 +14,6 @@ public class LoginRepository extends Repository<LoginDataSource> {
     private String currPhone;
     private String currPass;
 
-    // private constructor : singleton access
     private LoginRepository(LoginDataSource dataSource) {
         super(dataSource);
     }
