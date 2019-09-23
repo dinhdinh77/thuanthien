@@ -101,4 +101,26 @@ public class MainDataSource extends DataSource {
             }
         });
     }
+
+    public void createOrder(int agencyId, String phone, String quantity, String productId, final IRepository<String> listener) {
+        getApiInterface().createOrder(agencyId, phone, quantity, productId).enqueue(new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isStatus()) {
+                        listener.onSuccess(new Result.Success<String>(response.body().getMessage()));
+                    } else {
+                        listener.onError(new Result.Error(new Exception(response.body().getMessage())));
+                    }
+                } else {
+                    listener.onError(new Result.Error(new Exception(response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                listener.onError(new Result.Error(new Exception(t)));
+            }
+        });
+    }
 }

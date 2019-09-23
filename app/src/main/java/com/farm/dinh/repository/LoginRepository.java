@@ -7,6 +7,7 @@ import com.farm.dinh.datasource.LoginDataSource;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
 import com.farm.dinh.local.Pref;
+import com.google.gson.Gson;
 
 public class LoginRepository extends Repository<LoginDataSource> {
     private static volatile LoginRepository instance;
@@ -42,6 +43,8 @@ public class LoginRepository extends Repository<LoginDataSource> {
         Pref.getInstance().set(Pref.KEY_USER_ID, user.getId());
         Pref.getInstance().set(Pref.KEY_PHONE, username);
         Pref.getInstance().set(Pref.KEY_PASS, password);
+        String farmers = new Gson().toJson(user.getFarmers());
+        Pref.getInstance().set(Pref.KEY_FARMERS, farmers);
     }
 
     public Pair<String, String> getPreviousUser() {

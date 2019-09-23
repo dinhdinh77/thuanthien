@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/title_padding">
@@ -23,8 +24,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="@dimen/title_padding">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -39,20 +42,28 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
-        android:id="@+id/spinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/title_padding"
-        app:ms_arrowColor="@android:color/darker_gray"
-        app:ms_arrowSize="10dp"
-        app:ms_floatingLabelColor="@android:color/darker_gray"
-        app:ms_floatingLabelText="@string/prompt_product"
-        app:ms_hint="@string/prompt_product"
-        app:ms_alignLabels="false"
-        app:ms_multiline="true" />
+        android:padding="@dimen/title_padding">
+
+        <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ms_arrowColor="@android:color/darker_gray"
+            app:ms_arrowSize="12dp"
+            app:ms_floatingLabelColor="@android:color/darker_gray"
+            app:ms_floatingLabelText="@string/prompt_product"
+            app:ms_hint="@string/prompt_product"
+            app:ms_alignLabels="false"
+            app:ms_multiline="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/title_padding">
@@ -62,7 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/prompt_quantity"
-            android:inputType="numberSigned"
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
             android:text=""
             android:textSize="15sp" />

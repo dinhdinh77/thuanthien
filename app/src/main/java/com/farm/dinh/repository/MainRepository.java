@@ -1,16 +1,20 @@
 package com.farm.dinh.repository;
 
 import com.farm.dinh.api.APIResponse;
+import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
 import com.farm.dinh.datasource.MainDataSource;
 import com.farm.dinh.local.Pref;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
 public class MainRepository extends Repository<MainDataSource> {
     private static volatile MainRepository instance;
+    private List<Farmer> farmerList;
 
     public MainRepository(MainDataSource dataSource) {
         super(dataSource);
@@ -38,7 +42,28 @@ public class MainRepository extends Repository<MainDataSource> {
         getDataSource().getOrderHistory(currUserId, listener);
     }
 
-    public void getProductsList(IRepository<List<Product>> listener){
+    public void getProductsList(IRepository<List<Product>> listener) {
         getDataSource().getProductsList(listener);
+        if (farmerList == null) {
+            String json = Pref.getInstance().get(Pref.KEY_FARMERS, "");
+            farmerList = new Gson().fromJson(json, new TypeToken<List<Farmer>>(){}.getType());
+        }
+    }
+
+    public void createOrder(String phone, String quantity, String productId, IRepository<String> listener){
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().createOrder(currUserId, phone, quantity, productId, listener);
+    }
+
+    public String getFarmerViaPhone(String phone){
+        if(farmerList == null || farmerList.size() == 0) return null;
+        String result = null;
+        for (Farmer farmer : farmerList){
+            if(farmer.getPhone().equalsIgnoreCase(phone)) {
+                result = farmer.getName();
+                break;
+            }
+        }
+        return result;
     }
 }

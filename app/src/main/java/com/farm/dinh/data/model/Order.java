@@ -1,13 +1,12 @@
 package com.farm.dinh.data.model;
 
-import java.util.Date;
 
 public class Order {
     private String orderId;
     private String phone;
     private String name;
     private String productName;
-    private Date createdDate;
+    private String createdDate;
     private int quantity;
 
     public String getOrderId() {
@@ -42,11 +41,11 @@ public class Order {
         this.productName = productName;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 

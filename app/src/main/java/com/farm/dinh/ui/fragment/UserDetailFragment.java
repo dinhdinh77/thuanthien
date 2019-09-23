@@ -146,7 +146,7 @@ public class UserDetailFragment extends Fragment {
                 if (userInfoViewResult.getSuccess() != null) {
                     if (userInfoViewResult.isUpdate()) {
                         changePass.setChecked(false);
-                        Toast.makeText(getContext(), getString(R.string.prompt_update_success), Toast.LENGTH_SHORT).show();
+                        UIHelper.showMessageDialog(getContext(), getString(R.string.prompt_update_success));
                     } else {
                         txtNoData.setVisibility(View.GONE);
                         llDetail.setVisibility(View.VISIBLE);

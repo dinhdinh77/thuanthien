@@ -19,8 +19,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.farm.dinh.R;
 import com.farm.dinh.ui.fragment.SpinnerDialog;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 
 public class UIHelper {
@@ -67,6 +69,14 @@ public class UIHelper {
             return scanForActivity(((ContextWrapper) cont).getBaseContext());
 
         return null;
+    }
+
+    public static void showMessageDialog(Context context, String message){
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.alert_title))
+                .setMessage(message)
+                .setNegativeButton(context.getResources().getString(R.string.alert_cancel), null)
+                .show();
     }
 
     public static class CustomWebViewClient extends WebViewClient {

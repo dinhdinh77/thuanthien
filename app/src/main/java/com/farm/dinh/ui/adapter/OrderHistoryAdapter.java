@@ -44,7 +44,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         private TextView orderId;
         private TextView orderPhone;
         private TextView orderQuantity;
-        private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         public OrderHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,7 +54,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
 
         public void initData(Order order) {
-            orderDate.setText(sdf.format(order.getCreatedDate()));
+            orderDate.setText(order.getCreatedDate());
             orderId.setText(order.getOrderId());
             orderPhone.setText(order.getPhone());
             orderQuantity.setText(String.valueOf(order.getQuantity()));

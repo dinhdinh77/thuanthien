@@ -41,4 +41,8 @@
     <string name="title_manager_order">QUẢN LÝ ĐƠN HÀNG</string>
     <string name="prompt_quantity">Số lượng*</string>
     <string name="prompt_product">Chọn sản phẩm*</string>
+    <string name="invalid_quantity">Số lượng sản phẩm trống</string>
+    <string name="invalid_product">Vui lòng chọn sản phẩm</string>
+    <string name="alert_title">Thông báo</string>
+    <string name="alert_cancel">Tắt thông báo</string>
 </resources>
