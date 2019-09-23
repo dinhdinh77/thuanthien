@@ -1,6 +1,10 @@
 package com.farm.dinh.repository;
 
+import android.text.TextUtils;
+
 import com.farm.dinh.api.APIResponse;
+import com.farm.dinh.data.Result;
+import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
@@ -15,6 +19,7 @@ import java.util.List;
 public class MainRepository extends Repository<MainDataSource> {
     private static volatile MainRepository instance;
     private List<Farmer> farmerList;
+    private List<City> cityList;
 
     public MainRepository(MainDataSource dataSource) {
         super(dataSource);
@@ -46,20 +51,43 @@ public class MainRepository extends Repository<MainDataSource> {
         getDataSource().getProductsList(listener);
         if (farmerList == null) {
             String json = Pref.getInstance().get(Pref.KEY_FARMERS, "");
-            farmerList = new Gson().fromJson(json, new TypeToken<List<Farmer>>(){}.getType());
+            farmerList = new Gson().fromJson(json, new TypeToken<List<Farmer>>() {
+            }.getType());
         }
     }
 
-    public void createOrder(String phone, String quantity, String productId, IRepository<String> listener){
+    public void createOrder(String phone, String quantity, String productId, IRepository<String> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
         getDataSource().createOrder(currUserId, phone, quantity, productId, listener);
     }
 
-    public String getFarmerViaPhone(String phone){
-        if(farmerList == null || farmerList.size() == 0) return null;
+    public void getAddress() {
+        String json = Pref.getInstance().get(Pref.KEY_ADDRESS, "");
+        if (TextUtils.isEmpty(json)) {
+            getDataSource().getAddress(new IRepository<List<City>>() {
+                @Override
+                public void onSuccess(Result.Success<List<City>> success) {
+                    String citys = new Gson().toJson(success.getData());
+                    Pref.getInstance().set(Pref.KEY_ADDRESS, citys);
+                    cityList = success.getData();
+                }
+
+                @Override
+                public void onError(Result.Error error) {
+
+                }
+            });
+        } else {
+            cityList = new Gson().fromJson(json, new TypeToken<List<City>>() {
+            }.getType());
+        }
+    }
+
+    public String getFarmerViaPhone(String phone) {
+        if (farmerList == null || farmerList.size() == 0) return null;
         String result = null;
-        for (Farmer farmer : farmerList){
-            if(farmer.getPhone().equalsIgnoreCase(phone)) {
+        for (Farmer farmer : farmerList) {
+            if (farmer.getPhone().equalsIgnoreCase(phone)) {
                 result = farmer.getName();
                 break;
             }

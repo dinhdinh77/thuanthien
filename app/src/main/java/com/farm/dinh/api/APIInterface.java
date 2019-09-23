@@ -1,5 +1,6 @@
 package com.farm.dinh.api;
 
+import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
@@ -51,5 +52,8 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("/api/getOrderHistory.php")
     Call<APIResponse<List<Order>>> getOrderHistory(@Field("userId") int userId);
+
+    @POST("/api/getAddress.php")
+    Call<APIResponse<List<City>>> getAddress();
 
 }

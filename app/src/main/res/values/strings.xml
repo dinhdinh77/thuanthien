@@ -45,4 +45,7 @@
     <string name="invalid_product">Vui lòng chọn sản phẩm</string>
     <string name="alert_title">Thông báo</string>
     <string name="alert_cancel">Tắt thông báo</string>
+    <string name="prompt_ward">Chọn tên phường*</string>
+    <string name="prompt_district">Chọn tên quận*</string>
+    <string name="prompt_city">Chọn tên thành phố*</string>
 </resources>

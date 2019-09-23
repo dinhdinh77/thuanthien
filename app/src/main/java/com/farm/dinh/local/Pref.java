@@ -10,6 +10,7 @@ public class Pref {
     public static final String KEY_PHONE = "CurrentPhone";
     public static final String KEY_PASS = "CurrentPass";
     public static final String KEY_FARMERS = "CurrentFarmers";
+    public static final String KEY_ADDRESS = "CurrentAddress";
     public static final String KEY_LOGOUT = "Logout";
     private static String PREF_FILE_NAME = "pref.xml";
 

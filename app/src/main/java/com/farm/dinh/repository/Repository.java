@@ -9,7 +9,7 @@ public abstract class Repository<D extends DataSource> {
         this.dataSource = dataSource;
     }
 
-    public D getDataSource() {
+    protected D getDataSource() {
         return dataSource;
     }
 }
