@@ -11,6 +11,6 @@ public class ConfigViewModel extends BaseViewModel<MainRepository, List<City>> {
     }
 
     public void getAddress(){
-        getRepository().getAddress();
+        getRepository().getAddress(null);
     }
 }

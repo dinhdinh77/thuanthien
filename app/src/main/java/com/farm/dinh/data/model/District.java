@@ -42,4 +42,9 @@ public class District {
     public void setWard(List<Ward> ward) {
         this.ward = ward;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

@@ -42,24 +42,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputStreet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/street"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/prompt_address"
-            android:inputType="textPostalAddress"
-            android:selectAllOnFocus="true"
-            android:text=""
-            android:textSize="15sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,6 +98,24 @@
             app:ms_hint="@string/prompt_ward"
             app:ms_alignLabels="false"
             app:ms_multiline="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputStreet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/title_padding">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/street"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/prompt_address"
+            android:inputType="textPostalAddress"
+            android:selectAllOnFocus="true"
+            android:text=""
+            android:textSize="15sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

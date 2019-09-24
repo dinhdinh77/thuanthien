@@ -42,4 +42,9 @@ public class City {
     public void setDistrict(List<District> district) {
         this.district = district;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

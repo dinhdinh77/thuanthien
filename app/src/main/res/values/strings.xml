@@ -45,7 +45,12 @@
     <string name="invalid_product">Vui lòng chọn sản phẩm</string>
     <string name="alert_title">Thông báo</string>
     <string name="alert_cancel">Tắt thông báo</string>
-    <string name="prompt_ward">Chọn tên phường*</string>
-    <string name="prompt_district">Chọn tên quận*</string>
-    <string name="prompt_city">Chọn tên thành phố*</string>
+    <string name="prompt_ward">Xã/Phường/Thị trấn*</string>
+    <string name="prompt_district">Quận/Huyện*</string>
+    <string name="prompt_city">Tỉnh/Thành phố*</string>
+    <string name="invalid_selected_city">Vui lòng chọn Tỉnh/Thành phố</string>
+    <string name="invalid_selected_district">Vui lòng chọn Quận/Huyện</string>
+    <string name="invalid_selected_ward">Vui lòng chọn Xã/Phường/Thị trấn</string>
+    <string name="invalid_street">Địa chỉ trống</string>
+    <string name="create_farmer_success">Tạo nông dân %s thành công.</string>
 </resources>

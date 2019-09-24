@@ -18,12 +18,19 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ListPopupWindow;
+import android.widget.Spinner;
 
 import com.farm.dinh.R;
+import com.farm.dinh.TTApplication;
 import com.farm.dinh.ui.fragment.SpinnerDialog;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
 
 public class UIHelper {
     private static SpinnerDialog spinnerDialog;
@@ -77,6 +84,37 @@ public class UIHelper {
                 .setMessage(message)
                 .setNegativeButton(context.getResources().getString(R.string.alert_cancel), null)
                 .show();
+    }
+
+    public static String loadJSONFromAsset(String fileName) {
+        try {
+            InputStream is = TTApplication.getInstance().getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            return new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void setHeightSpinner(Spinner spinner){
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            // Get private mPopup member variable and try cast to ListPopupWindow
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+
+            // Set popupWindow height to 500px
+            popupWindow.setHeight(500);
+            popupWindow.setWidth(ListPopupWindow.MATCH_PARENT);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
     }
 
     public static class CustomWebViewClient extends WebViewClient {

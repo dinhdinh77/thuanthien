@@ -63,7 +63,7 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
 
     public void createOrder(String phone, String quantity, Product product) {
         CreateOrderState state = liveDataViewState.getValue();
-        if (state != null && !state.isDataVaild()) return;
+        if (state == null || !state.isDataVaild() || product == null) return;
         getRepository().createOrder(phone, quantity, product.getId(), new IRepository<String>() {
             @Override
             public void onSuccess(Result.Success<String> success) {

@@ -57,6 +57,7 @@ public class CreateOrderFragment extends Fragment {
         name = view.findViewById(R.id.name);
         quantity = view.findViewById(R.id.quantity);
         spinnerProduct = view.findViewById(R.id.spinner);
+        UIHelper.setHeightSpinner(spinnerProduct);
         final TextInputLayout inputPhone = view.findViewById(R.id.inputPhone);
         final TextInputLayout inputName = view.findViewById(R.id.inputName);
         final TextInputLayout inputProduct = view.findViewById(R.id.inputProduct);

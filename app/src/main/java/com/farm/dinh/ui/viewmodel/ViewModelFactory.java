@@ -31,6 +31,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new CreateOrderViewModel(MainRepository.getInstance(new MainDataSource()));
         } else if (modelClass.isAssignableFrom(ConfigViewModel.class)) {
             return (T) new ConfigViewModel(MainRepository.getInstance(new MainDataSource()));
+        } else if (modelClass.isAssignableFrom(CreateFarmerViewModel.class)) {
+            return (T) new CreateFarmerViewModel(MainRepository.getInstance(new MainDataSource()));
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

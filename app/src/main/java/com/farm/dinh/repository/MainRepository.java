@@ -6,6 +6,7 @@ import com.farm.dinh.api.APIResponse;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.Farmer;
+import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
@@ -61,7 +62,16 @@ public class MainRepository extends Repository<MainDataSource> {
         getDataSource().createOrder(currUserId, phone, quantity, productId, listener);
     }
 
-    public void getAddress() {
+    public void createUser(String phone, String name, String street, String ward, String district, String city, IRepository<FarmerInfo> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().createUser(currUserId, phone, name, street, ward, district, city, listener);
+    }
+
+    public void getAddress(final IRepository<List<City>> listener) {
+        if (cityList != null) {
+            if (listener != null)
+                listener.onSuccess(new Result.Success(cityList));
+        }
         String json = Pref.getInstance().get(Pref.KEY_ADDRESS, "");
         if (TextUtils.isEmpty(json)) {
             getDataSource().getAddress(new IRepository<List<City>>() {
@@ -70,16 +80,21 @@ public class MainRepository extends Repository<MainDataSource> {
                     String citys = new Gson().toJson(success.getData());
                     Pref.getInstance().set(Pref.KEY_ADDRESS, citys);
                     cityList = success.getData();
+                    if (listener != null)
+                        listener.onSuccess(new Result.Success(cityList));
                 }
 
                 @Override
                 public void onError(Result.Error error) {
-
+                    if (listener != null)
+                        listener.onError(error);
                 }
             });
         } else {
             cityList = new Gson().fromJson(json, new TypeToken<List<City>>() {
             }.getType());
+            if (listener != null)
+                listener.onSuccess(new Result.Success(cityList));
         }
     }
 
