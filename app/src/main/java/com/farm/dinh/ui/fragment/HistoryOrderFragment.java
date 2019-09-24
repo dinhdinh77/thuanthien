@@ -1,5 +1,6 @@
 package com.farm.dinh.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HistoryOrderFragment extends Fragment {
+    private ProgressDialog dialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,20 +50,23 @@ public class HistoryOrderFragment extends Fragment {
             @Override
             public void onChanged(ViewResult<List<Order>> orderViewResult) {
                 if (orderViewResult == null) {
+                    if (dialog != null) dialog.hide();
                     return;
                 }
                 if (orderViewResult.getError() != null) {
                     listOrderHistory.setVisibility(View.GONE);
                     noData.setVisibility(View.VISIBLE);
                     noData.setText(orderViewResult.getError());
-                }
-                if (orderViewResult.getSuccess() != null) {
+                    if (dialog != null) dialog.hide();
+                } else if (orderViewResult.getSuccess() != null) {
                     listOrderHistory.setVisibility(View.VISIBLE);
                     noData.setVisibility(View.GONE);
                     adapter.setOrderList(orderViewResult.getSuccess());
+                    if (dialog != null) dialog.hide();
                 }
             }
         });
         viewModel.getOrderHistory();
+        dialog = ProgressDialog.show(getActivity(), "", getContext().getResources().getString(R.string.message_loading), true);
     }
 }

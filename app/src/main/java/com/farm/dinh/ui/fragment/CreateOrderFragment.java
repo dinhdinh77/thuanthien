@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -154,10 +155,11 @@ public class CreateOrderFragment extends Fragment {
                 }
             }
         });
-        model.getLiveDataResultCreateOrder().observe(this, new Observer<String>() {
+        model.getLiveDataResultCreateOrder().observe(this, new Observer<Pair<Boolean, String>>() {
             @Override
-            public void onChanged(String s) {
-                UIHelper.showMessageDialog(getContext(), s);
+            public void onChanged(Pair<Boolean, String> booleanStringPair) {
+                UIHelper.showMessageDialog(getContext(), booleanStringPair.second, getContext().getResources().getString(booleanStringPair.first ?
+                        R.string.title_success : R.string.title_fail));
             }
         });
         model.getProductsList();

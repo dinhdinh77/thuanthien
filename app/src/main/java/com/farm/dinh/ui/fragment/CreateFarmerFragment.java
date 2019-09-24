@@ -193,10 +193,10 @@ public class CreateFarmerFragment extends Fragment {
                 if (farmerInfoViewResult == null) return;
 
                 if (farmerInfoViewResult.getError() != null) {
-                    UIHelper.showMessageDialog(getContext(), farmerInfoViewResult.getError());
+                    UIHelper.showMessageDialog(getContext(), farmerInfoViewResult.getError(), getContext().getResources().getString(R.string.title_fail));
                 } else if (farmerInfoViewResult.getSuccess() != null) {
-                    UIHelper.showMessageDialog(getContext(), String.format(getContext().getResources().getString(R.string.create_farmer_success),
-                            farmerInfoViewResult.getSuccess().getName()));
+                    UIHelper.showMessageDialog(getContext(), getContext().getResources().getString(R.string.create_farmer_success),
+                            getContext().getResources().getString(R.string.title_success));
                 }
             }
         });

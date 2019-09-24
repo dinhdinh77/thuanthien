@@ -1,6 +1,7 @@
 package com.farm.dinh.ui.viewmodel;
 
 import android.text.TextUtils;
+import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Product>> {
     private MutableLiveData<CreateOrderState> liveDataViewState = new MutableLiveData<>();
-    private MutableLiveData<String> liveDataResultCreateOrder = new MutableLiveData<>();
+    private MutableLiveData<Pair<Boolean,String>> liveDataResultCreateOrder = new MutableLiveData<>();
 
     public CreateOrderViewModel(MainRepository repository) {
         super(repository);
@@ -27,7 +28,7 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         return liveDataViewState;
     }
 
-    public MutableLiveData<String> getLiveDataResultCreateOrder() {
+    public MutableLiveData<Pair<Boolean,String>> getLiveDataResultCreateOrder() {
         return liveDataResultCreateOrder;
     }
 
@@ -67,12 +68,12 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         getRepository().createOrder(phone, quantity, product.getId(), new IRepository<String>() {
             @Override
             public void onSuccess(Result.Success<String> success) {
-                liveDataResultCreateOrder.setValue(success.getData());
+                liveDataResultCreateOrder.setValue(new Pair<>(true, success.getData()));
             }
 
             @Override
             public void onError(Result.Error error) {
-                liveDataResultCreateOrder.setValue(error.getError().getMessage());
+                liveDataResultCreateOrder.setValue(new Pair<>(false, error.getError().getMessage()));
             }
         });
     }

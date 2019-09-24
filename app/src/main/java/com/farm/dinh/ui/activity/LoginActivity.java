@@ -159,6 +159,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showLoginFailed(String errorString) {
-        UIHelper.showMessageDialog(this, errorString);
+        UIHelper.showMessageDialog(this, errorString, getResources().getString(R.string.title_fail));
     }
 }

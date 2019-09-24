@@ -1,122 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputPhone"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/prompt_phone"
-            android:inputType="phone"
-            android:selectAllOnFocus="true"
-            android:text=""
-            android:textSize="15sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/prompt_name"
-            android:inputType="textPersonName"
-            android:selectAllOnFocus="true"
-            android:text=""
-            android:textSize="15sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputCity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
-
-        <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
-            android:id="@+id/city"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ms_arrowColor="@android:color/darker_gray"
-            app:ms_arrowSize="12dp"
-            app:ms_floatingLabelColor="@android:color/darker_gray"
-            app:ms_floatingLabelText="@string/prompt_city"
-            app:ms_hint="@string/prompt_city"
-            app:ms_alignLabels="false"
-            app:ms_multiline="true" />
+            android:padding="@dimen/title_padding">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/prompt_phone"
+                android:inputType="phone"
+                android:selectAllOnFocus="true"
+                android:text=""
+                android:textSize="15sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputDistrict"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
-            android:id="@+id/district"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ms_arrowColor="@android:color/darker_gray"
-            app:ms_arrowSize="12dp"
-            app:ms_floatingLabelColor="@android:color/darker_gray"
-            app:ms_floatingLabelText="@string/prompt_district"
-            app:ms_hint="@string/prompt_district"
-            app:ms_alignLabels="false"
-            app:ms_multiline="true" />
+            android:padding="@dimen/title_padding">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/prompt_name"
+                android:inputType="textPersonName"
+                android:selectAllOnFocus="true"
+                android:text=""
+                android:textSize="15sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputWard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
-            android:id="@+id/ward"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ms_arrowColor="@android:color/darker_gray"
-            app:ms_arrowSize="12dp"
-            app:ms_floatingLabelColor="@android:color/darker_gray"
-            app:ms_floatingLabelText="@string/prompt_ward"
-            app:ms_hint="@string/prompt_ward"
-            app:ms_alignLabels="false"
-            app:ms_multiline="true" />
+            android:padding="@dimen/title_padding">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@android:color/darker_gray"
+                app:ms_arrowSize="12dp"
+                app:ms_floatingLabelColor="@android:color/darker_gray"
+                app:ms_floatingLabelText="@string/prompt_city"
+                app:ms_hint="@string/prompt_city"
+                app:ms_alignLabels="false"
+                app:ms_multiline="true" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputStreet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/street"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputDistrict"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/prompt_address"
-            android:inputType="textPostalAddress"
-            android:selectAllOnFocus="true"
-            android:text=""
-            android:textSize="15sp" />
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+                android:id="@+id/district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@android:color/darker_gray"
+                app:ms_arrowSize="12dp"
+                app:ms_floatingLabelColor="@android:color/darker_gray"
+                app:ms_floatingLabelText="@string/prompt_district"
+                app:ms_hint="@string/prompt_district"
+                app:ms_alignLabels="false"
+                app:ms_multiline="true" />
 
-</LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputWard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding">
+
+            <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+                android:id="@+id/ward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@android:color/darker_gray"
+                app:ms_arrowSize="12dp"
+                app:ms_floatingLabelColor="@android:color/darker_gray"
+                app:ms_floatingLabelText="@string/prompt_ward"
+                app:ms_hint="@string/prompt_ward"
+                app:ms_alignLabels="false"
+                app:ms_multiline="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputStreet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/street"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/prompt_address"
+                android:inputType="textPostalAddress"
+                android:selectAllOnFocus="true"
+                android:text=""
+                android:textSize="15sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</ScrollView>

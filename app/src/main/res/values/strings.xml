@@ -52,5 +52,8 @@
     <string name="invalid_selected_district">Vui lòng chọn Quận/Huyện</string>
     <string name="invalid_selected_ward">Vui lòng chọn Xã/Phường/Thị trấn</string>
     <string name="invalid_street">Địa chỉ trống</string>
-    <string name="create_farmer_success">Tạo nông dân %s thành công.</string>
+    <string name="create_farmer_success">Nông dân này vừa được thêm mới vào hệ thống.</string>
+    <string name="title_success">Thành Công</string>
+    <string name="title_fail">Thất bại</string>
+    <string name="message_loading">Đang xử lý.Vui lòng chờ...</string>
 </resources>

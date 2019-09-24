@@ -137,7 +137,7 @@ public class UserDetailFragment extends Fragment {
                 }
                 if (userInfoViewResult.getError() != null) {
                     if (userInfoViewResult.isUpdate()) {
-                        Toast.makeText(getContext(), userInfoViewResult.getError(), Toast.LENGTH_SHORT).show();
+                        UIHelper.showMessageDialog(getContext(), userInfoViewResult.getError(), getResources().getString(R.string.title_fail));
                     } else {
                         txtNoData.setVisibility(View.VISIBLE);
                         llDetail.setVisibility(View.GONE);
@@ -146,7 +146,7 @@ public class UserDetailFragment extends Fragment {
                 if (userInfoViewResult.getSuccess() != null) {
                     if (userInfoViewResult.isUpdate()) {
                         changePass.setChecked(false);
-                        UIHelper.showMessageDialog(getContext(), getString(R.string.prompt_update_success));
+                        UIHelper.showMessageDialog(getContext(), getString(R.string.prompt_update_success), getResources().getString(R.string.title_success));
                     } else {
                         txtNoData.setVisibility(View.GONE);
                         llDetail.setVisibility(View.VISIBLE);

@@ -23,7 +23,6 @@ import android.widget.Spinner;
 
 import com.farm.dinh.R;
 import com.farm.dinh.TTApplication;
-import com.farm.dinh.ui.fragment.SpinnerDialog;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
@@ -33,17 +32,6 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 
 public class UIHelper {
-    private static SpinnerDialog spinnerDialog;
-
-    public static void showLoading(FragmentManager fragmentManager) {
-        if (spinnerDialog == null)
-            spinnerDialog = new SpinnerDialog();
-        spinnerDialog.show(fragmentManager, null);
-    }
-
-    public static void hideLoading() {
-        if (spinnerDialog != null) spinnerDialog.dismiss();
-    }
 
     public static void hideSoftKeyboard(Window wd, View view) {
         int flag = android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
@@ -78,9 +66,9 @@ public class UIHelper {
         return null;
     }
 
-    public static void showMessageDialog(Context context, String message){
+    public static void showMessageDialog(Context context, String message, String title){
         new AlertDialog.Builder(context)
-                .setTitle(context.getResources().getString(R.string.alert_title))
+                .setTitle(title)
                 .setMessage(message)
                 .setNegativeButton(context.getResources().getString(R.string.alert_cancel), null)
                 .show();
