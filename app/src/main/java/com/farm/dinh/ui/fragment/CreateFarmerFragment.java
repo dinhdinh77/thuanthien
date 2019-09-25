@@ -1,5 +1,6 @@
 package com.farm.dinh.ui.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +41,7 @@ public class CreateFarmerFragment extends Fragment {
     private CreateFarmerViewModel viewModel;
     private TextInputEditText phone, name, street;
     private MaterialSpinner spinnerCity, spinnerDistrict, spinnerWard;
+    private TextInputLayout inputCity, inputDistrict, inputWard, inputPhone, inputName, inputStreet;
 
     @Nullable
     @Override
@@ -59,12 +61,13 @@ public class CreateFarmerFragment extends Fragment {
         spinnerDistrict = view.findViewById(R.id.district);
         spinnerWard = view.findViewById(R.id.ward);
         setupSpinner();
-        final TextInputLayout inputCity = view.findViewById(R.id.inputCity);
-        final TextInputLayout inputDistrict = view.findViewById(R.id.inputDistrict);
-        final TextInputLayout inputWard = view.findViewById(R.id.inputWard);
-        final TextInputLayout inputPhone = view.findViewById(R.id.inputPhone);
-        final TextInputLayout inputName = view.findViewById(R.id.inputName);
-        final TextInputLayout inputStreet = view.findViewById(R.id.inputStreet);
+        inputCity = view.findViewById(R.id.inputCity);
+        inputDistrict = view.findViewById(R.id.inputDistrict);
+        inputWard = view.findViewById(R.id.inputWard);
+        inputPhone = view.findViewById(R.id.inputPhone);
+        inputName = view.findViewById(R.id.inputName);
+        inputStreet = view.findViewById(R.id.inputStreet);
+
         viewModel.getListAddress().observe(this, new Observer<List<City>>() {
             @Override
             public void onChanged(List<City> cities) {
@@ -74,7 +77,9 @@ public class CreateFarmerFragment extends Fragment {
                 spinnerCity.setAdapter(adapter);
                 inputCity.setVisibility(View.VISIBLE);
                 inputDistrict.setVisibility(View.GONE);
+                inputDistrict.setError(null);
                 inputWard.setVisibility(View.GONE);
+                inputWard.setError(null);
             }
         });
         spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -85,12 +90,16 @@ public class CreateFarmerFragment extends Fragment {
                     ArrayAdapter<District> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, city.getDistrict());
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerDistrict.setAdapter(adapter);
-                    inputCity.setVisibility(View.VISIBLE);
                     inputDistrict.setVisibility(View.VISIBLE);
                     inputWard.setVisibility(View.GONE);
-                    viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
-                            ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()));
+                } else {
+                    inputDistrict.setVisibility(View.GONE);
+                    inputDistrict.setError(null);
+                    inputWard.setVisibility(View.GONE);
+                    inputWard.setError(null);
                 }
+                viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+                        ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()));
             }
 
             @Override
@@ -106,12 +115,13 @@ public class CreateFarmerFragment extends Fragment {
                     ArrayAdapter<Ward> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, district.getWard());
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerWard.setAdapter(adapter);
-                    inputCity.setVisibility(View.VISIBLE);
-                    inputDistrict.setVisibility(View.VISIBLE);
                     inputWard.setVisibility(View.VISIBLE);
-                    viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
-                            ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()));
+                } else {
+                    inputWard.setVisibility(View.GONE);
+                    inputWard.setError(null);
                 }
+                viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+                        ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()));
             }
 
             @Override
@@ -155,35 +165,29 @@ public class CreateFarmerFragment extends Fragment {
             @Override
             public void onChanged(CreateFarmerState createFarmerState) {
                 if (createFarmerState == null) return;
+                inputPhone.setError(null);
+                inputName.setError(null);
+                inputCity.setError(null);
+                inputDistrict.setError(null);
+                inputWard.setError(null);
+                inputStreet.setError(null);
                 if (createFarmerState.getPhoneError() != null) {
                     inputPhone.setError(getString(createFarmerState.getPhoneError()));
-                } else {
-                    inputPhone.setError(null);
                 }
                 if (createFarmerState.getNameError() != null) {
                     inputName.setError(getString(createFarmerState.getNameError()));
-                } else {
-                    inputName.setError(null);
                 }
                 if (createFarmerState.getCityError() != null) {
                     inputCity.setError(getString(createFarmerState.getCityError()));
-                } else {
-                    inputCity.setError(null);
                 }
                 if (createFarmerState.getDistrictError() != null) {
                     inputDistrict.setError(getString(createFarmerState.getDistrictError()));
-                } else {
-                    inputDistrict.setError(null);
                 }
                 if (createFarmerState.getWardError() != null) {
                     inputWard.setError(getString(createFarmerState.getWardError()));
-                } else {
-                    inputWard.setError(null);
                 }
                 if (createFarmerState.getStreetError() != null) {
                     inputStreet.setError(getString(createFarmerState.getStreetError()));
-                } else {
-                    inputStreet.setError(null);
                 }
             }
         });
