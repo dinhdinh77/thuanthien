@@ -56,4 +56,5 @@
     <string name="title_success">Thành Công</string>
     <string name="title_fail">Thất bại</string>
     <string name="message_loading">Đang xử lý.Vui lòng chờ...</string>
+    <string name="title_user">Tài Khoản</string>
 </resources>

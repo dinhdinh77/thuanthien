@@ -1,141 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:background="@android:color/white">
 
-    <RelativeLayout
-        android:id="@+id/actionEditAccount"
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageGo"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/title_padding"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:tint="@android:color/black"
-            app:srcCompat="@drawable/ic_arrow" />
+        <LinearLayout
+            android:id="@+id/actionEditAccount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/title_padding">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/imageGo"
-            android:padding="@dimen/title_padding"
-            android:text="@string/action_edit_account"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/ic_user" />
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_user"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
 
-    <View
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actionCreateFarmer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/title_padding">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/ic_add_user" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_create_farmer"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGray" />
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/actionCreateFarmer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/actionCreateOrder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/title_padding">
 
-        <ImageView
-            android:id="@+id/imageGo1"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/title_padding"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:tint="@android:color/black"
-            app:srcCompat="@drawable/ic_arrow" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/ic_add_order" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/imageGo1"
-            android:padding="@dimen/title_padding"
-            android:text="@string/action_create_farmer"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_create_order"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
 
-    </RelativeLayout>
+        </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGray" />
+        <LinearLayout
+            android:id="@+id/actionManagerOrder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/title_padding">
 
-    <RelativeLayout
-        android:id="@+id/actionCreateOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/ic_manage_order" />
 
-        <ImageView
-            android:id="@+id/imageGo2"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/title_padding"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:tint="@android:color/black"
-            app:srcCompat="@drawable/ic_arrow" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_manager_order"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/imageGo2"
-            android:padding="@dimen/title_padding"
-            android:text="@string/action_create_order"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+        </LinearLayout>
 
-    </RelativeLayout>
+    </TableRow>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGray" />
-
-    <RelativeLayout
-        android:id="@+id/actionManagerOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageGo3"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/title_padding"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:tint="@android:color/black"
-            app:srcCompat="@drawable/ic_arrow" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/imageGo3"
-            android:padding="@dimen/title_padding"
-            android:text="@string/action_manager_order"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGray" />
-
-</LinearLayout>
+</TableLayout>
