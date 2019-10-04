@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "988028840877",
+    "firebase_url": "https://farm-89f9e.firebaseio.com",
+    "project_id": "farm-89f9e",
+    "storage_bucket": "farm-89f9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988028840877:android:22dfd88f12e35a45b84f24",
+        "android_client_info": {
+          "package_name": "com.farm.dinh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988028840877-99q337e1216upov9vjh7tqmkp6od5a32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4v8qiIIEgRU10ToIw41COv0bBcWU08LU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988028840877-99q337e1216upov9vjh7tqmkp6od5a32.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "988028840877-d1s962totbab2f70a7qiial1vp07eucf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.farm.dinh"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
