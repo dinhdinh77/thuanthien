@@ -1,8 +1,11 @@
 package com.farm.dinh.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -17,8 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.farm.dinh.R;
+import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.helper.UIHelper;
+import com.farm.dinh.ui.adapter.ProductAdapter;
+import com.farm.dinh.ui.iinterface.OnItemClick;
 import com.farm.dinh.ui.viewmodel.CreateOrderViewModel;
 import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.custom.MaterialSpinner;
@@ -27,21 +33,26 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CreateOrderFragment extends Fragment {
     private TextInputEditText phone;
     private TextInputEditText name;
-    private TextInputEditText quantity;
-    private MaterialSpinner spinnerProduct;
+    private RecyclerView lvProduct;
+    private ProductAdapter productAdapter;
     private CreateOrderViewModel model;
-    private boolean firstSetListProduct;
+    private ProgressDialog dialog;
 
     @Nullable
     @Override
@@ -53,42 +64,23 @@ public class CreateOrderFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final Order order = (Order) getArguments().getSerializable("Order");
         model = ViewModelProviders.of(this, new ViewModelFactory()).get(CreateOrderViewModel.class);
         phone = view.findViewById(R.id.phone);
         name = view.findViewById(R.id.name);
-        quantity = view.findViewById(R.id.quantity);
-        spinnerProduct = view.findViewById(R.id.spinner);
-        UIHelper.setHeightSpinner(spinnerProduct);
+        lvProduct = view.findViewById(R.id.lv_product);
+        lvProduct.setLayoutManager(new LinearLayoutManager(getContext()));
+        lvProduct.setHasFixedSize(true);
         final TextInputLayout inputPhone = view.findViewById(R.id.inputPhone);
         final TextInputLayout inputName = view.findViewById(R.id.inputName);
-        final TextInputLayout inputProduct = view.findViewById(R.id.inputProduct);
-        final TextInputLayout inputQuantity = view.findViewById(R.id.inputQuantity);
-        firstSetListProduct = true;
-
-        spinnerProduct.setPaddingSafe(0, 0, 0, 0);
-        spinnerProduct.setOnTouchListener(new View.OnTouchListener() {
-
+        productAdapter = new ProductAdapter();
+        productAdapter.setProductOnItemClick(new OnItemClick<Product>() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(Product data) {
                 hideSoftKeyboard();
-                return false;
             }
         });
-        spinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (firstSetListProduct) {
-                    firstSetListProduct = false;
-                    return;
-                }
-                model.createOrderDataChange(phone.getText().toString(), quantity.getText().toString(), ((Product) spinnerProduct.getSelectedItem()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        lvProduct.setAdapter(productAdapter);
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -103,77 +95,103 @@ public class CreateOrderFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.createOrderDataChange(phone.getText().toString(), quantity.getText().toString(), ((Product) spinnerProduct.getSelectedItem()));
+                if (s == phone.getEditableText()) {
+                    if (TextUtils.isEmpty(s.toString())) {
+                        inputPhone.setError(getString(R.string.invalid_username));
+                    } else {
+                        inputPhone.setError(null);
+                    }
+                } else if (s == name.getEditableText()) {
+                    if (TextUtils.isEmpty(s.toString())) {
+                        inputName.setError(getString(R.string.invalid_name));
+                    } else {
+                        inputName.setError(null);
+                    }
+                }
             }
         };
+
+        phone.addTextChangedListener(afterTextChangedListener);
+        name.addTextChangedListener(afterTextChangedListener);
 
         model.getResult().observe(this, new Observer<ViewResult<List<Product>>>() {
             @Override
             public void onChanged(ViewResult<List<Product>> viewResult) {
+                if (dialog != null) dialog.hide();
                 if (viewResult == null) {
                     return;
                 }
+                model.setOrderData(order);
                 if (viewResult.getError() != null) {
                     Toast.makeText(getContext(), viewResult.getError(), Toast.LENGTH_SHORT).show();
                 }
                 if (viewResult.getSuccess() != null) {
                     ArrayAdapter<Product> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, viewResult.getSuccess());
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerProduct.setAdapter(adapter);
+                    productAdapter.setArrayAdapter(adapter);
                 }
             }
         });
+        model.getOrderMutableLiveData().observe(this, new Observer<Order>() {
+            @Override
+            public void onChanged(Order order) {
+                if (order == null) return;
+                if (TextUtils.isEmpty(order.getPhone())) {
+                    inputPhone.setError(getString(R.string.invalid_username));
+                } else {
+                    phone.setText(order.getPhone());
+                    inputPhone.setError(null);
+                }
+                if (TextUtils.isEmpty(order.getName())) {
+                    inputName.setError(getString(R.string.invalid_name));
+                } else {
+                    name.setText(order.getName());
+                    inputName.setError(null);
+                }
 
-        name.setKeyListener(null);
-        phone.addTextChangedListener(afterTextChangedListener);
-        quantity.addTextChangedListener(afterTextChangedListener);
+                productAdapter.setProductList(order.getProducts());
+            }
+        });
         model.getLiveDataViewState().observe(this, new Observer<CreateOrderState>() {
             @Override
             public void onChanged(CreateOrderState createOrderState) {
                 if (createOrderState == null) return;
                 if (createOrderState.getPhoneError() != null) {
                     inputPhone.setError(getString(createOrderState.getPhoneError()));
-                } else {
-                    inputPhone.setError(null);
                 }
-                if (createOrderState.getName() != null) {
-                    inputName.setVisibility(View.VISIBLE);
-                    inputName.setError(null);
-                    name.setText(createOrderState.getName());
-                } else {
-                    inputName.setVisibility(View.GONE);
+                if (createOrderState.getNameError() != null) {
+                    inputName.setError(getString(R.string.invalid_name));
                 }
-                if (createOrderState.getProductError() != null) {
-                    inputProduct.setError(getString(createOrderState.getProductError()));
-                } else {
-                    inputProduct.setError(null);
-                }
-                if (createOrderState.getQuantityError() != null) {
-                    inputQuantity.setError(getString(createOrderState.getQuantityError()));
-                } else {
-                    inputQuantity.setError(null);
+                if (createOrderState.getQuantityIndexError() != null) {
+                    productAdapter.notifyItemChanged(createOrderState.getQuantityIndexError());
                 }
             }
         });
         model.getLiveDataResultCreateOrder().observe(this, new Observer<Pair<Boolean, String>>() {
             @Override
-            public void onChanged(Pair<Boolean, String> booleanStringPair) {
+            public void onChanged(final Pair<Boolean, String> booleanStringPair) {
                 UIHelper.showMessageDialog(getContext(), booleanStringPair.second, getContext().getResources().getString(booleanStringPair.first ?
-                        R.string.title_success : R.string.title_fail));
+                        R.string.title_success : R.string.title_fail), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (booleanStringPair.first)
+                            requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                    }
+                });
             }
         });
+        dialog = ProgressDialog.show(getActivity(), "", getContext().getResources().getString(R.string.message_loading), true);
         model.getProductsList();
     }
 
     private void hideSoftKeyboard() {
         UIHelper.hideSoftKeyboard(null, phone);
         UIHelper.hideSoftKeyboard(null, name);
-        UIHelper.hideSoftKeyboard(null, quantity);
     }
 
-    private void createOrder() {
+    private void processOrder() {
         hideSoftKeyboard();
-        model.createOrder(phone.getText().toString(), quantity.getText().toString(), ((Product) spinnerProduct.getSelectedItem()));
+        model.processOrder(phone.getText().toString(), name.getText().toString(), productAdapter.getProductList());
     }
 
     @Override
@@ -191,8 +209,9 @@ public class CreateOrderFragment extends Fragment {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.saveInfo) {
-            createOrder();
+            processOrder();
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

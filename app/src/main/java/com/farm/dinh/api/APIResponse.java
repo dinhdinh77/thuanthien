@@ -3,6 +3,7 @@ package com.farm.dinh.api;
 public class APIResponse<T> {
     private boolean status;
     private String message;
+    private int totalPage;
     private T data;
 
     public boolean isStatus() {
@@ -19,6 +20,14 @@ public class APIResponse<T> {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
     }
 
     public T getData() {

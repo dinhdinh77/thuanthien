@@ -1,13 +1,18 @@
 package com.farm.dinh.data.model;
 
 
-public class Order {
+import java.io.Serializable;
+import java.util.List;
+
+public class Order implements Serializable {
     private String orderId;
+    private String orderCode;
     private String phone;
     private String name;
-    private String productName;
+    private String address;
+    private List<Product> products;
     private String createdDate;
-    private int quantity;
+    private int agencyId;
 
     public String getOrderId() {
         return orderId;
@@ -33,12 +38,12 @@ public class Order {
         this.name = name;
     }
 
-    public String getProductName() {
-        return productName;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public String getCreatedDate() {
@@ -49,11 +54,27 @@ public class Order {
         this.createdDate = createdDate;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getOrderCode() {
+        return orderCode;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getAgencyId() {
+        return agencyId;
+    }
+
+    public void setAgencyId(int agencyId) {
+        this.agencyId = agencyId;
     }
 }

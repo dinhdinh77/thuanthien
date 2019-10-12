@@ -7,16 +7,16 @@ public class ViewResult<D> {
     private D success;
     @Nullable
     private String errorMsg;
-    private boolean isUpdate;
+    private boolean isFlag;
 
-    public ViewResult(@Nullable D success, boolean isUpdate) {
+    public ViewResult(@Nullable D success, boolean isFlag) {
         this.success = success;
-        this.isUpdate = isUpdate;
+        this.isFlag = isFlag;
     }
 
-    public ViewResult(@Nullable String errorMsg, boolean isUpdate) {
+    public ViewResult(@Nullable String errorMsg, boolean isFlag) {
         this.errorMsg = errorMsg;
-        this.isUpdate = isUpdate;
+        this.isFlag = isFlag;
     }
 
     public ViewResult(@Nullable D success) {
@@ -38,6 +38,14 @@ public class ViewResult<D> {
     }
 
     public boolean isUpdate() {
-        return isUpdate;
+        return isFlag;
+    }
+
+    public boolean isLoadMore() {
+        return isFlag;
+    }
+
+    public boolean isSuccess(){
+        return isFlag;
     }
 }

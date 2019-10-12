@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="title_padding">10dp</dimen>
 
-    <dimen name="underline_top_spacing">8dp</dimen>
-    <dimen name="underline_bottom_spacing">4dp</dimen>
+    <dimen name="underline_top_spacing">5dp</dimen>
+    <dimen name="underline_bottom_spacing">0dp</dimen>
     <dimen name="error_label_spacing">12dp</dimen>
 
     <dimen name="floating_label_top_spacing">4dp</dimen>

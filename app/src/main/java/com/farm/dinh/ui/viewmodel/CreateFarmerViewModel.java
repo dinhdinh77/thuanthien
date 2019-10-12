@@ -12,19 +12,21 @@ import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Ward;
 import com.farm.dinh.repository.IRepository;
+import com.farm.dinh.repository.LoginRepository;
 import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.model.CreateFarmerState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class CreateFarmerViewModel extends BaseViewModel<MainRepository, FarmerInfo> {
-    public CreateFarmerViewModel(MainRepository repository) {
+public class CreateFarmerViewModel extends BaseViewModel<LoginRepository, FarmerInfo> {
+    public CreateFarmerViewModel(LoginRepository repository) {
         super(repository);
     }
 
     private MutableLiveData<List<City>> listAddress = new MutableLiveData<>();
     private MutableLiveData<CreateFarmerState> stateLiveData = new MutableLiveData<>();
+    private MutableLiveData<FarmerInfo> farmerInfoLiveData = new MutableLiveData<>();
 
     public MutableLiveData<List<City>> getListAddress() {
         return listAddress;
@@ -34,7 +36,11 @@ public class CreateFarmerViewModel extends BaseViewModel<MainRepository, FarmerI
         return stateLiveData;
     }
 
-    public void checkDataChange(String phone, String name, String street, City city, District district, Ward ward) {
+    public MutableLiveData<FarmerInfo> getFarmerInfoLiveData() {
+        return farmerInfoLiveData;
+    }
+
+    public void checkDataChange(String phone, String name, String street, City city, District district, Ward ward, String area) {
         CreateFarmerState state = new CreateFarmerState();
         if (TextUtils.isEmpty(phone)) {
             state.setPhoneError(R.string.invalid_username);
@@ -48,25 +54,34 @@ public class CreateFarmerViewModel extends BaseViewModel<MainRepository, FarmerI
             state.setWardError(R.string.invalid_selected_ward);
         } else if (TextUtils.isEmpty(street)) {
             state.setStreetError(R.string.invalid_street);
+        } else if (TextUtils.isEmpty(area)) {
+            state.setAreaError(R.string.invalid_area);
         }
         stateLiveData.setValue(state);
     }
 
-    public void createFarmer(String phone, String name, String street, City city, District district, Ward ward) {
-        CreateFarmerState state = stateLiveData.getValue();
+    public void processFarmer(String phone, String name, String street, City city, District district, Ward ward, String area) {
+        final FarmerInfo farmerInfo = getFarmerInfoLiveData().getValue();
+        CreateFarmerState state = getStateLiveData().getValue();
         if (state == null || !state.isDataVaild()) return;
-        getRepository().createUser(phone, name, street, ward == null ? null : ward.getName(), district == null ?
-                null : district.getName(), city == null ? null : city.getName(), new IRepository<FarmerInfo>() {
+        IRepository<FarmerInfo> listener = new IRepository<FarmerInfo>() {
             @Override
             public void onSuccess(Result.Success<FarmerInfo> success) {
-                getResult().setValue(new ViewResult<>(success.getData()));
+                getResult().setValue(new ViewResult<>(farmerInfo == null ? success.getData() : farmerInfo, farmerInfo != null));//for api editUser
             }
 
             @Override
             public void onError(Result.Error error) {
                 getResult().setValue(new ViewResult(error.getError().getMessage()));
             }
-        });
+        };
+        if (farmerInfo == null) {
+            getRepository().createUser(phone, name, street, ward == null ? null : ward.getName(), district == null ?
+                    null : district.getName(), city == null ? null : city.getName(), area, listener);
+        } else {
+            getRepository().editUser(farmerInfo.getId(), phone, name, street, ward == null ? null : ward.getName(),
+                    district == null ? null : district.getName(), city == null ? null : city.getName(), area, listener);
+        }
     }
 
     public void getAddress() {

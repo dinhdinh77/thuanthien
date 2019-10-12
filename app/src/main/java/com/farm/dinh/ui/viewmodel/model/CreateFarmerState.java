@@ -15,6 +15,8 @@ public class CreateFarmerState {
     private Integer districtError;
     @Nullable
     private Integer wardError;
+    @Nullable
+    private Integer areaError;
 
     @Nullable
     public Integer getPhoneError() {
@@ -70,8 +72,17 @@ public class CreateFarmerState {
         this.wardError = wardError;
     }
 
+    @Nullable
+    public Integer getAreaError() {
+        return areaError;
+    }
+
+    public void setAreaError(@Nullable Integer areaError) {
+        this.areaError = areaError;
+    }
+
     public boolean isDataVaild(){
         return phoneError == null && nameError == null && cityError == null
-                && districtError == null && wardError == null && streetError == null;
+                && districtError == null && wardError == null && streetError == null && areaError == null;
     }
 }

@@ -6,10 +6,9 @@ public class CreateOrderState {
     @Nullable
     private Integer phoneError;
     @Nullable
-    private Integer productError;
+    private Integer nameError;
     @Nullable
-    private Integer quantityError;
-    private String name;
+    private Integer quantityIndexError;
 
     @Nullable
     public Integer getPhoneError() {
@@ -21,32 +20,24 @@ public class CreateOrderState {
     }
 
     @Nullable
-    public Integer getProductError() {
-        return productError;
+    public Integer getNameError() {
+        return nameError;
     }
 
-    public void setProductError(@Nullable Integer productError) {
-        this.productError = productError;
+    public void setNameError(@Nullable Integer nameError) {
+        this.nameError = nameError;
     }
 
     @Nullable
-    public Integer getQuantityError() {
-        return quantityError;
+    public Integer getQuantityIndexError() {
+        return quantityIndexError;
     }
 
-    public void setQuantityError(@Nullable Integer quantityError) {
-        this.quantityError = quantityError;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setQuantityIndexError(@Nullable Integer quantityIndexError) {
+        this.quantityIndexError = quantityIndexError;
     }
 
     public boolean isDataVaild() {
-        return phoneError == null && productError == null && quantityError == null;
+        return phoneError == null && nameError == null && quantityIndexError == null;
     }
 }

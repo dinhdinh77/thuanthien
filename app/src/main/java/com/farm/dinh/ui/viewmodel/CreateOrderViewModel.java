@@ -8,17 +8,20 @@ import androidx.lifecycle.MutableLiveData;
 import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.Farmer;
+import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.repository.IRepository;
 import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.model.CreateOrderState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Product>> {
     private MutableLiveData<CreateOrderState> liveDataViewState = new MutableLiveData<>();
-    private MutableLiveData<Pair<Boolean,String>> liveDataResultCreateOrder = new MutableLiveData<>();
+    private MutableLiveData<Order> orderMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Pair<Boolean, String>> liveDataResultCreateOrder = new MutableLiveData<>();
 
     public CreateOrderViewModel(MainRepository repository) {
         super(repository);
@@ -28,8 +31,20 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         return liveDataViewState;
     }
 
-    public MutableLiveData<Pair<Boolean,String>> getLiveDataResultCreateOrder() {
+
+    public MutableLiveData<Order> getOrderMutableLiveData() {
+        return orderMutableLiveData;
+    }
+
+    public MutableLiveData<Pair<Boolean, String>> getLiveDataResultCreateOrder() {
         return liveDataResultCreateOrder;
+    }
+
+    public void setOrderData(Order orderData) {
+        if (orderData == null) orderData = new Order();
+        if (!TextUtils.isEmpty(orderData.getPhone()) && !TextUtils.isEmpty(orderData.getName()))
+            orderData.setName(getRepository().getFarmerViaPhone(orderData.getPhone()));
+        this.orderMutableLiveData.setValue(orderData);
     }
 
     public void getProductsList() {
@@ -46,35 +61,47 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         });
     }
 
-    public void createOrderDataChange(String phone, String quantity, Product product) {
+    public void processOrder(String phone, String name, List<Product> products) {
         CreateOrderState state = new CreateOrderState();
         if (TextUtils.isEmpty(phone)) {
             state.setPhoneError(R.string.invalid_username);
+        }
+        if (TextUtils.isEmpty(name)) {
+            state.setPhoneError(R.string.invalid_name);
+        }
+
+        for (int idx = 0; idx < products.size(); idx++) {
+            Product product = products.get(idx);
+            if (product.getQuantity() < 1) {
+                state.setQuantityIndexError(idx);
+                break;
+            }
+        }
+
+        if (!state.isDataVaild()) {
+            liveDataViewState.setValue(state);
+            return;
         } else {
-            state.setName(getRepository().getFarmerViaPhone(phone));
-        }
-        if (TextUtils.isEmpty(quantity)) {
-            state.setQuantityError(R.string.invalid_quantity);
-        }
-        if (product == null) {
-            state.setProductError(R.string.invalid_product);
-        }
-        liveDataViewState.setValue(state);
-    }
+            Order order = orderMutableLiveData.getValue();
+            order.setName(name);
+            order.setPhone(phone);
+            order.setProducts(products);
+            IRepository<String> listener = new IRepository<String>() {
+                @Override
+                public void onSuccess(Result.Success<String> success) {
+                    liveDataResultCreateOrder.setValue(new Pair<>(true, success.getData()));
+                }
 
-    public void createOrder(String phone, String quantity, Product product) {
-        CreateOrderState state = liveDataViewState.getValue();
-        if (state == null || !state.isDataVaild() || product == null) return;
-        getRepository().createOrder(phone, quantity, product.getId(), new IRepository<String>() {
-            @Override
-            public void onSuccess(Result.Success<String> success) {
-                liveDataResultCreateOrder.setValue(new Pair<>(true, success.getData()));
+                @Override
+                public void onError(Result.Error error) {
+                    liveDataResultCreateOrder.setValue(new Pair<>(false, error.getError().getMessage()));
+                }
+            };
+            if (Integer.valueOf(order.getOrderId()) > 0) {
+                getRepository().editOrder(order, listener);
+            } else {
+                getRepository().createOrder(order, listener);
             }
-
-            @Override
-            public void onError(Result.Error error) {
-                liveDataResultCreateOrder.setValue(new Pair<>(false, error.getError().getMessage()));
-            }
-        });
+        }
     }
 }

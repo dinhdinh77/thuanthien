@@ -10,6 +10,8 @@ import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
+import com.farm.dinh.data.model.Tree;
+import com.farm.dinh.data.model.TreeInfo;
 import com.farm.dinh.datasource.MainDataSource;
 import com.farm.dinh.local.Pref;
 import com.google.gson.Gson;
@@ -20,7 +22,7 @@ import java.util.List;
 public class MainRepository extends Repository<MainDataSource> {
     private static volatile MainRepository instance;
     private List<Farmer> farmerList;
-    private List<City> cityList;
+    private List<Tree> treeList;
 
     public MainRepository(MainDataSource dataSource) {
         super(dataSource);
@@ -43,9 +45,24 @@ public class MainRepository extends Repository<MainDataSource> {
         getDataSource().addAnswer(currUserId, questionId, answer, listener);
     }
 
-    public void getOrderHistory(IRepository<List<Order>> listener) {
+    public void getOrderHistory(int page, IPagingRepository<List<Order>> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().getOrderHistory(currUserId, listener);
+        getDataSource().getOrderHistory(currUserId, page, listener);
+    }
+
+    public void searchOrders(String searchKey, int page, IPagingRepository<List<Order>> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().searchOrders(currUserId, searchKey, page, listener);
+    }
+
+    public void getFarmersList(int page, IPagingRepository<List<FarmerInfo>> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().getFarmersList(currUserId, page, listener);
+    }
+
+    public void searchFarmers(String searchKey, int page, IPagingRepository<List<FarmerInfo>> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().searchFarmers(currUserId, searchKey, page, listener);
     }
 
     public void getProductsList(IRepository<List<Product>> listener) {
@@ -57,45 +74,35 @@ public class MainRepository extends Repository<MainDataSource> {
         }
     }
 
-    public void createOrder(String phone, String quantity, String productId, IRepository<String> listener) {
+    public void createOrder(Order order, IRepository<String> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().createOrder(currUserId, phone, quantity, productId, listener);
+        order.setAgencyId(currUserId);
+        getDataSource().createOrder(order, listener);
     }
 
-    public void createUser(String phone, String name, String street, String ward, String district, String city, IRepository<FarmerInfo> listener) {
+    public void editOrder(Order order, IRepository<String> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().createUser(currUserId, phone, name, street, ward, district, city, listener);
+        order.setAgencyId(currUserId);
+        getDataSource().editOrder(order, listener);
     }
 
-    public void getAddress(final IRepository<List<City>> listener) {
-        if (cityList != null) {
-            if (listener != null)
-                listener.onSuccess(new Result.Success(cityList));
-        }
-        String json = Pref.getInstance().get(Pref.KEY_ADDRESS, "");
-        if (TextUtils.isEmpty(json)) {
-            getDataSource().getAddress(new IRepository<List<City>>() {
-                @Override
-                public void onSuccess(Result.Success<List<City>> success) {
-                    String citys = new Gson().toJson(success.getData());
-                    Pref.getInstance().set(Pref.KEY_ADDRESS, citys);
-                    cityList = success.getData();
-                    if (listener != null)
-                        listener.onSuccess(new Result.Success(cityList));
-                }
+    public void getTreesByFarmer(int farmerId, IRepository<List<TreeInfo>> listener) {
+        getDataSource().getTreesByFarmer(farmerId, listener);
+    }
 
-                @Override
-                public void onError(Result.Error error) {
-                    if (listener != null)
-                        listener.onError(error);
-                }
-            });
-        } else {
-            cityList = new Gson().fromJson(json, new TypeToken<List<City>>() {
-            }.getType());
-            if (listener != null)
-                listener.onSuccess(new Result.Success(cityList));
+    public void getTreesList(IRepository<List<Tree>> listener) {
+        if (treeList != null) listener.onSuccess(new Result.Success<>(treeList));
+        else {
+            getDataSource().getTreesList(listener);
         }
+    }
+
+    public void addTree(int farmerId, int treeId, String age, int amount, IRepository<String> listener) {
+        getDataSource().addTree(farmerId, treeId, age, amount, listener);
+    }
+
+    public void editTree(int id, int treeId, String age, int amount, IRepository<String> listener) {
+        getDataSource().editTree(id, treeId, age, amount, listener);
     }
 
     public String getFarmerViaPhone(String phone) {

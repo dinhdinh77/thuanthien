@@ -30,6 +30,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/title_padding">
@@ -64,21 +65,83 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/title_padding">
+
+                <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_arrowColor="@android:color/darker_gray"
+                    app:ms_arrowSize="12dp"
+                    app:ms_floatingLabelColor="@android:color/darker_gray"
+                    app:ms_floatingLabelText="@string/prompt_city"
+                    app:ms_hint="@string/prompt_city"
+                    app:ms_alignLabels="false"
+                    app:ms_multiline="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/title_padding">
+
+                <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+                    android:id="@+id/district"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_arrowColor="@android:color/darker_gray"
+                    app:ms_arrowSize="12dp"
+                    app:ms_floatingLabelColor="@android:color/darker_gray"
+                    app:ms_floatingLabelText="@string/prompt_district"
+                    app:ms_hint="@string/prompt_district"
+                    app:ms_alignLabels="false"
+                    app:ms_multiline="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputWard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/title_padding">
+
+                <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+                    android:id="@+id/ward"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_arrowColor="@android:color/darker_gray"
+                    app:ms_arrowSize="12dp"
+                    app:ms_floatingLabelColor="@android:color/darker_gray"
+                    app:ms_floatingLabelText="@string/prompt_ward"
+                    app:ms_hint="@string/prompt_ward"
+                    app:ms_alignLabels="false"
+                    app:ms_multiline="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputStreet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/title_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/address"
+                    android:id="@+id/street"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/prompt_address"
-                    android:inputType="text"
+                    android:inputType="textPostalAddress"
                     android:selectAllOnFocus="true"
-                    android:textSize="15sp"
-                    android:text="" />
+                    android:text=""
+                    android:textSize="15sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <CheckBox
                 android:id="@+id/changePass"

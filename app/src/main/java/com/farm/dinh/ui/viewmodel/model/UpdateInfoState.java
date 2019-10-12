@@ -11,7 +11,15 @@ public class UpdateInfoState {
     private Integer newPasswordError;
     @Nullable
     private Integer newPasswordAgainError;
-    private boolean isDataVaild;
+    @Nullable
+    private Integer streetError;
+    @Nullable
+    private Integer cityError;
+    @Nullable
+    private Integer districtError;
+    @Nullable
+    private Integer wardError;
+    private boolean isChangePass;
 
     @Nullable
     public Integer getUsernameError() {
@@ -20,7 +28,6 @@ public class UpdateInfoState {
 
     public void setUsernameError(@Nullable Integer usernameError) {
         this.usernameError = usernameError;
-        this.isDataVaild = false;
     }
 
     @Nullable
@@ -30,7 +37,6 @@ public class UpdateInfoState {
 
     public void setOldPasswordError(@Nullable Integer oldPasswordError) {
         this.oldPasswordError = oldPasswordError;
-        this.isDataVaild = false;
     }
 
     @Nullable
@@ -40,7 +46,6 @@ public class UpdateInfoState {
 
     public void setNewPasswordError(@Nullable Integer newPasswordError) {
         this.newPasswordError = newPasswordError;
-        this.isDataVaild = false;
     }
 
     @Nullable
@@ -50,14 +55,49 @@ public class UpdateInfoState {
 
     public void setNewPasswordAgainError(@Nullable Integer newPasswordAgainError) {
         this.newPasswordAgainError = newPasswordAgainError;
-        this.isDataVaild = false;
+    }
+
+    @Nullable
+    public Integer getStreetError() {
+        return streetError;
+    }
+
+    public void setStreetError(@Nullable Integer streetError) {
+        this.streetError = streetError;
+    }
+
+    @Nullable
+    public Integer getCityError() {
+        return cityError;
+    }
+
+    public void setCityError(@Nullable Integer cityError) {
+        this.cityError = cityError;
+    }
+
+    @Nullable
+    public Integer getDistrictError() {
+        return districtError;
+    }
+
+    public void setDistrictError(@Nullable Integer districtError) {
+        this.districtError = districtError;
+    }
+
+    @Nullable
+    public Integer getWardError() {
+        return wardError;
+    }
+
+    public void setWardError(@Nullable Integer wardError) {
+        this.wardError = wardError;
+    }
+
+    public void setChangePass(boolean changePass) {
+        isChangePass = changePass;
     }
 
     public boolean isDataVaild() {
-        return isDataVaild;
-    }
-
-    public void setDataVaild(boolean dataVaild) {
-        isDataVaild = dataVaild;
+        return usernameError == null && isChangePass ? oldPasswordError == null && newPasswordError == null && newPasswordAgainError == null : true;
     }
 }

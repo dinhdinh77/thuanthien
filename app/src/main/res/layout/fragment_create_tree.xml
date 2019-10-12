@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputTree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputName"
+        android:padding="@dimen/title_padding">
+
+        <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
+            android:id="@+id/tree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ms_arrowColor="@android:color/darker_gray"
+            app:ms_arrowSize="12dp"
+            app:ms_floatingLabelColor="@android:color/darker_gray"
+            app:ms_floatingLabelText="@string/prompt_tree"
+            app:ms_hint="@string/prompt_tree"
+            app:ms_alignLabels="false"
+            app:ms_multiline="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputTreeAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputWard"
+        android:padding="@dimen/title_padding">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/prompt_tree_age"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text=""
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputStreet"
+        android:padding="@dimen/title_padding">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/quantity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/prompt_quantity"
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:text=""
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

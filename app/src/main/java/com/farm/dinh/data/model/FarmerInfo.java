@@ -1,10 +1,13 @@
 package com.farm.dinh.data.model;
 
+import android.text.TextUtils;
+
 public class FarmerInfo extends Farmer {
     private String street;
     private String ward;
     private String district;
     private String city;
+    private int area;
 
     public String getStreet() {
         return street;
@@ -36,5 +39,17 @@ public class FarmerInfo extends Farmer {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    public String getAddress() {
+        return getStreet() + (TextUtils.isEmpty(getStreet()) ? "" : ", ") + getWard() + (TextUtils.isEmpty(getWard()) ? "" : ", ") + getDistrict() + (TextUtils.isEmpty(getDistrict()) ? "" : ", ") + getCity();
     }
 }

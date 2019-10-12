@@ -10,9 +10,13 @@ public class UserInfo {
     private String name;
     private String phone;
     private String birthday;
-    private String address;
+    private String street;
+    private String ward;
+    private String district;
+    private String city;
+    private int area;
     private int isAgency;
-    private List<Farmer> farmers;
+    private List<FarmerInfo> farmers;
 
     public int getId() {
         return userId;
@@ -46,12 +50,44 @@ public class UserInfo {
         this.birthday = birthday;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getWard() {
+        return ward;
+    }
+
+    public void setWard(String ward) {
+        this.ward = ward;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
     }
 
     public int getIsAgency() {
@@ -62,11 +98,11 @@ public class UserInfo {
         this.isAgency = isAgency;
     }
 
-    public List<Farmer> getFarmers() {
+    public List<FarmerInfo> getFarmers() {
         return farmers;
     }
 
-    public void setFarmers(List<Farmer> farmers) {
+    public void setFarmers(List<FarmerInfo> farmers) {
         this.farmers = farmers;
     }
 }

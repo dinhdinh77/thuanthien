@@ -38,28 +38,67 @@
             android:id="@+id/action_managerFragment_to_userDetailFragment2"
             app:destination="@id/userDetailFragment" />
         <action
-            android:id="@+id/action_managerFragment_to_createFarmerFragment"
-            app:destination="@id/createFarmerFragment" />
+            android:id="@+id/action_managerFragment_to_orderManagerFragment"
+            app:destination="@id/orderManagerFragment" />
         <action
-            android:id="@+id/action_managerFragment_to_createOrderFragment"
-            app:destination="@id/createOrderFragment" />
-        <action
-            android:id="@+id/action_managerFragment_to_historyOrderFragment"
-            app:destination="@id/historyOrderFragment" />
+            android:id="@+id/action_managerFragment_to_farmerManagerFragment"
+            app:destination="@id/farmerManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/createFarmerFragment"
         android:name="com.farm.dinh.ui.fragment.CreateFarmerFragment"
-        android:label="@string/title_create_farmer"
-        tools:layout="@layout/fragment_create_farmer" />
+        android:label="{Title}"
+        tools:layout="@layout/fragment_create_farmer">
+        <argument
+            android:name="Title"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_createFarmerFragment_to_treeManagerFragment"
+            app:destination="@id/treeManagerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createOrderFragment"
         android:name="com.farm.dinh.ui.fragment.CreateOrderFragment"
-        android:label="@string/title_create_order"
-        tools:layout="@layout/fragment_create_order" />
+        android:label="{Title}"
+        tools:layout="@layout/fragment_create_order">
+        <argument
+            android:name="Title"
+            app:argType="string" />
+    </fragment>
     <fragment
-        android:id="@+id/historyOrderFragment"
-        android:name="com.farm.dinh.ui.fragment.HistoryOrderFragment"
+        android:id="@+id/orderManagerFragment"
+        android:name="com.farm.dinh.ui.fragment.OrderManagerFragment"
         android:label="@string/title_manager_order"
-        tools:layout="@layout/fragment_history_order" />
+        tools:layout="@layout/fragment_manager_order">
+        <action
+            android:id="@+id/action_orderManagerFragment_to_createOrderFragment"
+            app:destination="@id/createOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/farmerManagerFragment"
+        android:name="com.farm.dinh.ui.fragment.FarmerManagerFragment"
+        android:label="@string/title_manager_farmer"
+        tools:layout="@layout/fragment_manager_farmer">
+        <action
+            android:id="@+id/action_farmerManagerFragment_to_createFarmerFragment"
+            app:destination="@id/createFarmerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/treeManagerFragment"
+        android:name="com.farm.dinh.ui.fragment.TreeManagerFragment"
+        android:label="@string/title_manager_tree"
+        tools:layout="@layout/fragment_manager_tree">
+        <action
+            android:id="@+id/action_treeManagerFragment_to_createTreeFragment"
+            app:destination="@id/createTreeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTreeFragment"
+        android:name="com.farm.dinh.ui.fragment.CreateTreeFragment"
+        android:label="{Title}"
+        tools:layout="@layout/fragment_create_tree">
+        <argument
+            android:name="Title"
+            app:argType="string" />
+    </fragment>
 </navigation>

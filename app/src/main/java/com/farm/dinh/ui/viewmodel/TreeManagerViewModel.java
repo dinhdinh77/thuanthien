@@ -1,23 +1,23 @@
 package com.farm.dinh.ui.viewmodel;
 
 import com.farm.dinh.data.Result;
-import com.farm.dinh.data.model.Order;
+import com.farm.dinh.data.model.TreeInfo;
 import com.farm.dinh.repository.IRepository;
 import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class OrderHistoryViewModel extends BaseViewModel<MainRepository, List<Order>> {
-    public OrderHistoryViewModel(MainRepository repository) {
+public class TreeManagerViewModel extends BaseViewModel<MainRepository, List<TreeInfo>> {
+    public TreeManagerViewModel(MainRepository repository) {
         super(repository);
     }
 
-    public void getOrderHistory(){
-        getRepository().getOrderHistory(new IRepository<List<Order>>() {
+    public void getTreesByFarmer(int farmerId){
+        getRepository().getTreesByFarmer(farmerId, new IRepository<List<TreeInfo>>() {
             @Override
-            public void onSuccess(Result.Success<List<Order>> success) {
-                getResult().setValue(new ViewResult<>(success.getData()));
+            public void onSuccess(Result.Success<List<TreeInfo>> success) {
+                getResult().setValue(new ViewResult(success.getData()));
             }
 
             @Override

@@ -1,6 +1,8 @@
 package com.farm.dinh.data.model;
 
-public class Farmer {
+import java.io.Serializable;
+
+public class Farmer implements Serializable {
     private int userId;
     private String name;
     private String phone;

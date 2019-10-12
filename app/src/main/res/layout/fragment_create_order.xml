@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -27,7 +27,6 @@
         android:id="@+id/inputName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:padding="@dimen/title_padding">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -42,42 +41,11 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputProduct"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lv_product"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/product_item"/>
 
-        <com.farm.dinh.ui.viewmodel.custom.MaterialSpinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ms_arrowColor="@android:color/darker_gray"
-            app:ms_arrowSize="12dp"
-            app:ms_floatingLabelColor="@android:color/darker_gray"
-            app:ms_floatingLabelText="@string/prompt_product"
-            app:ms_hint="@string/prompt_product"
-            app:ms_alignLabels="false"
-            app:ms_multiline="true" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputQuantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/title_padding">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/quantity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/prompt_quantity"
-            android:digits="0123456789"
-            android:inputType="numberDecimal"
-            android:selectAllOnFocus="true"
-            android:text=""
-            android:textSize="15sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

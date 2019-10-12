@@ -1,5 +1,7 @@
 package com.farm.dinh.data.model;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -10,6 +12,10 @@ public class District {
     private String name;
     private String type;
     private List<Ward> ward;
+
+    public District(String name) {
+        this.name = name;
+    }
 
     public String getDistrictCode() {
         return districtCode;
@@ -46,5 +52,9 @@ public class District {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public boolean equals(@Nullable Object obj) {
+        return (obj != null && obj instanceof District && ((District) obj).getName().equals(this.getName()));
     }
 }

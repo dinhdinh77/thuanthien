@@ -25,14 +25,22 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MainViewModel(MainRepository.getInstance(new MainDataSource()));
         } else if (modelClass.isAssignableFrom(UserViewModel.class)) {
             return (T) new UserViewModel(LoginRepository.getInstance(new LoginDataSource()));
-        } else if (modelClass.isAssignableFrom(OrderHistoryViewModel.class)) {
-            return (T) new OrderHistoryViewModel(MainRepository.getInstance(new MainDataSource()));
+        } else if (modelClass.isAssignableFrom(OrderManagerViewModel.class)) {
+            return (T) new OrderManagerViewModel(MainRepository.getInstance(new MainDataSource()));
         } else if (modelClass.isAssignableFrom(CreateOrderViewModel.class)) {
             return (T) new CreateOrderViewModel(MainRepository.getInstance(new MainDataSource()));
         } else if (modelClass.isAssignableFrom(ConfigViewModel.class)) {
-            return (T) new ConfigViewModel(MainRepository.getInstance(new MainDataSource()));
+            return (T) new ConfigViewModel(LoginRepository.getInstance(new LoginDataSource()));
         } else if (modelClass.isAssignableFrom(CreateFarmerViewModel.class)) {
-            return (T) new CreateFarmerViewModel(MainRepository.getInstance(new MainDataSource()));
+            return (T) new CreateFarmerViewModel(LoginRepository.getInstance(new LoginDataSource()));
+        } else if (modelClass.isAssignableFrom(ManagerViewModel.class)) {
+            return (T) new ManagerViewModel(LoginRepository.getInstance(new LoginDataSource()));
+        } else if (modelClass.isAssignableFrom(FarmerManagerViewModel.class)) {
+            return (T) new FarmerManagerViewModel(MainRepository.getInstance(new MainDataSource()));
+        } else if (modelClass.isAssignableFrom(TreeManagerViewModel.class)) {
+            return (T) new TreeManagerViewModel(MainRepository.getInstance(new MainDataSource()));
+        } else if (modelClass.isAssignableFrom(CreateTreeViewModel.class)) {
+            return (T) new CreateTreeViewModel(MainRepository.getInstance(new MainDataSource()));
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

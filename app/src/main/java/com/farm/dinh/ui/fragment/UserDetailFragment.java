@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -19,11 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.farm.dinh.R;
+import com.farm.dinh.data.model.City;
+import com.farm.dinh.data.model.District;
 import com.farm.dinh.data.model.UserInfo;
+import com.farm.dinh.data.model.Ward;
 import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.activity.LoginActivity;
 import com.farm.dinh.ui.viewmodel.UserViewModel;
 import com.farm.dinh.ui.viewmodel.ViewModelFactory;
+import com.farm.dinh.ui.viewmodel.custom.MaterialSpinner;
 import com.farm.dinh.ui.viewmodel.model.UpdateInfoState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import com.google.android.material.textfield.TextInputLayout;
@@ -34,13 +41,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.List;
+
 import static android.app.Activity.RESULT_OK;
 import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 
 public class UserDetailFragment extends Fragment {
-    private EditText name, phone, address, oldPass, newPass, newPassAgain;
+    private EditText name, phone, street, oldPass, newPass, newPassAgain;
     private CheckBox changePass;
     private UserViewModel userViewModel;
+    private MaterialSpinner spinnerCity, spinnerDistrict, spinnerWard;
+    private TextInputLayout inputCity, inputDistrict, inputWard, inputName, inputStreet;
+
+    private TextWatcher afterTextChangedListener;
+    private ArrayAdapter<City> adapterCity;
+    private ArrayAdapter<District> adapterDistrict;
+    private ArrayAdapter<Ward> adapterWard;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -53,17 +69,40 @@ public class UserDetailFragment extends Fragment {
         userViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(UserViewModel.class);
         name = view.findViewById(R.id.name);
         phone = view.findViewById(R.id.phone);
-        address = view.findViewById(R.id.address);
+        street = view.findViewById(R.id.street);
+        spinnerCity = view.findViewById(R.id.city);
+        spinnerDistrict = view.findViewById(R.id.district);
+        spinnerWard = view.findViewById(R.id.ward);
+        setupSpinner();
+        inputCity = view.findViewById(R.id.inputCity);
+        inputDistrict = view.findViewById(R.id.inputDistrict);
+        inputWard = view.findViewById(R.id.inputWard);
+        inputName = view.findViewById(R.id.inputName);
+        inputStreet = view.findViewById(R.id.inputStreet);
+
         oldPass = view.findViewById(R.id.oldPass);
         newPass = view.findViewById(R.id.newPass);
         newPassAgain = view.findViewById(R.id.newPassAgain);
         final TextInputLayout inputOldPass = view.findViewById(R.id.inputOldPass);
         final TextInputLayout inputNewPass = view.findViewById(R.id.inputNewPass);
         final TextInputLayout inputNewPassAgain = view.findViewById(R.id.inputNewPassAgain);
+        userViewModel.getListAddress().observe(this, new Observer<List<City>>() {
+            @Override
+            public void onChanged(List<City> cities) {
+                if (cities == null) return;
+                userViewModel.getUserInfo();
+                adapterCity = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, cities);
+                adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCity.setAdapter(adapterCity);
+                inputCity.setVisibility(View.VISIBLE);
+                inputDistrict.setVisibility(View.GONE);
+                inputDistrict.setError(null);
+                inputWard.setVisibility(View.GONE);
+                inputWard.setError(null);
+            }
+        });
         UIHelper.hideSoftKeyboard(null, phone);
         phone.setKeyListener(null);
-        UIHelper.hideSoftKeyboard(null, address);
-        address.setKeyListener(null);
         changePass = view.findViewById(R.id.changePass);
         final LinearLayout llChangePass = view.findViewById(R.id.llChangePass);
         final TextView txtNoData = view.findViewById(R.id.txt_NoData);
@@ -75,6 +114,7 @@ public class UserDetailFragment extends Fragment {
             }
         });
         Button btnLogout = view.findViewById(R.id.logout);
+        btnLogout.setVisibility(userViewModel.isAgency() ? View.GONE : View.VISIBLE);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,27 +122,23 @@ public class UserDetailFragment extends Fragment {
             }
         });
 
-        TextWatcher afterTextChangedListener = new TextWatcher() {
+        afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                userViewModel.updateInfoDataChanged(name.getText().toString(), oldPass.getText().toString(),
-                        newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
+                userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                        (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
             }
         };
-        name.addTextChangedListener(afterTextChangedListener);
-        oldPass.addTextChangedListener(afterTextChangedListener);
-        newPass.addTextChangedListener(afterTextChangedListener);
-        newPassAgain.addTextChangedListener(afterTextChangedListener);
+
         userViewModel.getUpdateInfoState().observe(this, new Observer<UpdateInfoState>() {
             @Override
             public void onChanged(UpdateInfoState updateInfoState) {
@@ -110,7 +146,9 @@ public class UserDetailFragment extends Fragment {
                     return;
                 }
                 if (updateInfoState.getUsernameError() != null) {
-                    name.setError(getString(updateInfoState.getUsernameError()));
+                    inputName.setError(getString(updateInfoState.getUsernameError()));
+                } else {
+                    inputName.setError(null);
                 }
                 if (updateInfoState.getOldPasswordError() != null) {
                     inputOldPass.setError(getString(updateInfoState.getOldPasswordError()));
@@ -126,6 +164,24 @@ public class UserDetailFragment extends Fragment {
                     inputNewPassAgain.setError(getString(updateInfoState.getNewPasswordAgainError()));
                 } else {
                     inputNewPassAgain.setError(null);
+                }
+
+                inputCity.setError(null);
+                inputDistrict.setError(null);
+                inputWard.setError(null);
+                if (updateInfoState.getCityError() != null) {
+                    inputCity.setError(getString(updateInfoState.getCityError()));
+                }
+                if (updateInfoState.getDistrictError() != null) {
+                    inputDistrict.setError(getString(updateInfoState.getDistrictError()));
+                }
+                if (updateInfoState.getWardError() != null) {
+                    inputWard.setError(getString(updateInfoState.getWardError()));
+                }
+                if (updateInfoState.getStreetError() != null) {
+                    inputStreet.setError(getString(updateInfoState.getStreetError()));
+                } else {
+                    inputStreet.setError(null);
                 }
             }
         });
@@ -155,7 +211,31 @@ public class UserDetailFragment extends Fragment {
                 }
             }
         });
-        userViewModel.getUserInfo();
+        userViewModel.getAddress();
+    }
+
+    private void setupSpinner() {
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                UIHelper.hideSoftKeyboard(null, phone);
+                UIHelper.hideSoftKeyboard(null, name);
+                UIHelper.hideSoftKeyboard(null, street);
+                UIHelper.hideSoftKeyboard(null, oldPass);
+                UIHelper.hideSoftKeyboard(null, newPass);
+                UIHelper.hideSoftKeyboard(null, newPassAgain);
+                return false;
+            }
+        };
+        spinnerCity.setPaddingSafe(0, 0, 0, 0);
+        spinnerDistrict.setPaddingSafe(0, 0, 0, 0);
+        spinnerWard.setPaddingSafe(0, 0, 0, 0);
+        UIHelper.setHeightSpinner(spinnerCity);
+        UIHelper.setHeightSpinner(spinnerDistrict);
+        UIHelper.setHeightSpinner(spinnerWard);
+        spinnerCity.setOnTouchListener(touchListener);
+        spinnerDistrict.setOnTouchListener(touchListener);
+        spinnerWard.setOnTouchListener(touchListener);
     }
 
     private void logout() {
@@ -167,20 +247,97 @@ public class UserDetailFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void setDataToView(UserInfo userInfo) {
+    private void setDataToView(final UserInfo userInfo) {
+        name.removeTextChangedListener(afterTextChangedListener);
+        street.removeTextChangedListener(afterTextChangedListener);
+        oldPass.removeTextChangedListener(afterTextChangedListener);
+        newPass.removeTextChangedListener(afterTextChangedListener);
+        newPassAgain.removeTextChangedListener(afterTextChangedListener);
         name.setText(userInfo.getName());
         phone.setText(userInfo.getPhone());
-        address.setText(userInfo.getAddress());
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                City city = (City) spinnerCity.getSelectedItem();
+                if (city != null) {
+                    adapterDistrict = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, city.getDistrict());
+                    adapterDistrict.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerDistrict.setAdapter(adapterDistrict);
+                    spinnerDistrict.setSelection(getAdapterPosition(adapterDistrict, new District(userInfo.getDistrict())));
+                    inputDistrict.setVisibility(View.VISIBLE);
+                    inputWard.setVisibility(View.GONE);
+                } else {
+                    inputDistrict.setVisibility(View.GONE);
+                    inputDistrict.setError(null);
+                    inputWard.setVisibility(View.GONE);
+                    inputWard.setError(null);
+                    userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                            (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                District district = (District) spinnerDistrict.getSelectedItem();
+                if (district != null) {
+                    adapterWard = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, district.getWard());
+                    adapterWard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerWard.setAdapter(adapterWard);
+                    spinnerWard.setSelection(getAdapterPosition(adapterWard, new Ward(userInfo.getWard())));
+                    inputWard.setVisibility(View.VISIBLE);
+                } else {
+                    inputWard.setVisibility(View.GONE);
+                    inputWard.setError(null);
+                    userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                            (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                        (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerCity.setSelection(getAdapterPosition(adapterCity, new City(userInfo.getCity())));
+        street.setText(userInfo.getStreet());
+        name.addTextChangedListener(afterTextChangedListener);
+        street.addTextChangedListener(afterTextChangedListener);
+        oldPass.addTextChangedListener(afterTextChangedListener);
+        newPass.addTextChangedListener(afterTextChangedListener);
+        newPassAgain.addTextChangedListener(afterTextChangedListener);
+    }
+
+    private <T> int getAdapterPosition(ArrayAdapter<T> arrayAdapter, T data) {
+        return arrayAdapter.getPosition(data) + 1;
     }
 
     private void updateUserInfo() {
         UIHelper.hideSoftKeyboard(null, name);
         UIHelper.hideSoftKeyboard(null, phone);
-        UIHelper.hideSoftKeyboard(null, address);
         UIHelper.hideSoftKeyboard(null, oldPass);
         UIHelper.hideSoftKeyboard(null, newPass);
         UIHelper.hideSoftKeyboard(null, newPassAgain);
-        userViewModel.updateUserInfo(name.getText().toString(), oldPass.getText().toString(), newPass.getText().toString(), changePass.isChecked());
+        userViewModel.updateUserInfo(name.getText().toString(), ((District) spinnerDistrict.getSelectedItem()).getName(),
+                street.getText().toString(), ((Ward) spinnerWard.getSelectedItem()).getName(), ((City) spinnerCity.getSelectedItem()).getName(), null,
+                oldPass.getText().toString(), newPass.getText().toString(), changePass.isChecked());
     }
 
     @Override

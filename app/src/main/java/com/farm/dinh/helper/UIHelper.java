@@ -2,8 +2,10 @@ package com.farm.dinh.helper;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -71,6 +73,15 @@ public class UIHelper {
                 .setTitle(title)
                 .setMessage(message)
                 .setNegativeButton(context.getResources().getString(R.string.alert_cancel), null)
+                .show();
+    }
+
+    public static void showMessageDialog(Context context, String message, String title, DialogInterface.OnClickListener onClickListener){
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setNegativeButton(context.getResources().getString(R.string.alert_cancel), onClickListener)
+                .setCancelable(false)
                 .show();
     }
 

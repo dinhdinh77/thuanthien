@@ -3,17 +3,23 @@ package com.farm.dinh.repository;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.farm.dinh.data.model.City;
+import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.datasource.LoginDataSource;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
 import com.farm.dinh.local.Pref;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 public class LoginRepository extends Repository<LoginDataSource> {
     private static volatile LoginRepository instance;
     private UserInfo user = null;
     private String currPhone;
     private String currPass;
+    private List<City> cityList;
 
     private LoginRepository(LoginDataSource dataSource) {
         super(dataSource);
@@ -73,13 +79,60 @@ public class LoginRepository extends Repository<LoginDataSource> {
         getDataSource().getUserInfo(currUserId, listener);
     }
 
-    public void updateUserInfo(String name, String oldPassword, String newPassword, boolean isChangePass, IRepository<UserInfo> listener) {
+    public void updateUserInfo(String name, String district, String street, String ward, String city,
+                               String area, String oldPassword, String newPassword, boolean isChangePass, IRepository<UserInfo> listener) {
         if (!isChangePass && isLoggedIn()) {
-            if (this.user.getName().equals(name)) return;
+            if (this.user.getName().equals(name) && this.user.getCity().equals(city) && this.user.getDistrict().equals(district)
+                    && this.user.getWard().equals(ward) && this.user.getStreet().equals(street)) return;
             oldPassword = null;
             newPassword = null;
         }
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().updateUserInfo(currUserId, name, oldPassword, newPassword, listener);
+        getDataSource().updateUserInfo(currUserId, name, district, street, ward, city, area, oldPassword, newPassword, listener);
+    }
+
+    public boolean isAgency(){
+        return this.user == null || this.user.getIsAgency() == 0 ? false : true;
+    }
+
+    public void getAddress(final IRepository<List<City>> listener) {
+        if (cityList != null) {
+            if (listener != null)
+                listener.onSuccess(new Result.Success(cityList));
+        }
+        String json = Pref.getInstance().get(Pref.KEY_ADDRESS, "");
+        if (TextUtils.isEmpty(json)) {
+            getDataSource().getAddress(new IRepository<List<City>>() {
+                @Override
+                public void onSuccess(Result.Success<List<City>> success) {
+                    String citys = new Gson().toJson(success.getData());
+                    Pref.getInstance().set(Pref.KEY_ADDRESS, citys);
+                    cityList = success.getData();
+                    if (listener != null)
+                        listener.onSuccess(new Result.Success(cityList));
+                }
+
+                @Override
+                public void onError(Result.Error error) {
+                    if (listener != null)
+                        listener.onError(error);
+                }
+            });
+        } else {
+            cityList = new Gson().fromJson(json, new TypeToken<List<City>>() {
+            }.getType());
+            if (listener != null)
+                listener.onSuccess(new Result.Success(cityList));
+        }
+    }
+
+    public void createUser(String phone, String name, String street, String ward, String district, String city, String area, IRepository<FarmerInfo> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().createUser(currUserId, phone, name, street, ward, district, city, area, listener);
+    }
+
+    public void editUser(int farmerId, String phone, String name, String street, String ward, String district, String city, String area, IRepository<FarmerInfo> listener) {
+        int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
+        getDataSource().editUser(currUserId, farmerId, phone, name, street, ward, district, city, area, listener);
     }
 }
