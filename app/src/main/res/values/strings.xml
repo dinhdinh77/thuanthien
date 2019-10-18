@@ -19,7 +19,7 @@
     <string name="title_no_data">Không có dữ liệu</string>
     <string name="title_user_info">THÔNG TIN CÁ NHÂN</string>
     <string name="prompt_name">Họ tên*</string>
-    <string name="prompt_address">Địa chỉ*</string>
+    <string name="prompt_address">Địa chỉ</string>
     <string name="prompt_old_pass">Mật khẩu cũ*</string>
     <string name="prompt_new_pass">Mật khẩu mới*</string>
     <string name="prompt_new_pass_again">Nhập lại mật khẩu mới*</string>
@@ -72,7 +72,7 @@
     <string name="title_user">Tài Khoản</string>
     <string name="search_hint_manager_order">Tìm số điện thoại hoặc mã đơn hàng...</string>
     <string name="search_hint_manager_farmer">Tìm số điện thoại hoặc tên...</string>
-    <string name="prompt_area">Diện tích (ha)*</string>
+    <string name="prompt_area">Diện tích (công, sào)*</string>
     <string name="prompt_tree">Cây trồng*</string>
     <string name="prompt_tree_age">Tuổi cây*</string>
 </resources>

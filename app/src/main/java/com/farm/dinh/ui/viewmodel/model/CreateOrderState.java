@@ -6,8 +6,6 @@ public class CreateOrderState {
     @Nullable
     private Integer phoneError;
     @Nullable
-    private Integer nameError;
-    @Nullable
     private Integer quantityIndexError;
 
     @Nullable
@@ -20,15 +18,6 @@ public class CreateOrderState {
     }
 
     @Nullable
-    public Integer getNameError() {
-        return nameError;
-    }
-
-    public void setNameError(@Nullable Integer nameError) {
-        this.nameError = nameError;
-    }
-
-    @Nullable
     public Integer getQuantityIndexError() {
         return quantityIndexError;
     }
@@ -38,6 +27,6 @@ public class CreateOrderState {
     }
 
     public boolean isDataVaild() {
-        return phoneError == null && nameError == null && quantityIndexError == null;
+        return phoneError == null && quantityIndexError == null;
     }
 }

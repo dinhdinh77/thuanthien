@@ -97,8 +97,6 @@ public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
             updateInfo.setDistrictError(R.string.invalid_selected_district);
         } else if (ward == null) {
             updateInfo.setWardError(R.string.invalid_selected_ward);
-        } else if (TextUtils.isEmpty(street)) {
-            updateInfo.setStreetError(R.string.invalid_street);
         }
         if (isChangePass) {
             if (isPasswordError(oldPass)) {

@@ -52,8 +52,6 @@ public class CreateFarmerViewModel extends BaseViewModel<LoginRepository, Farmer
             state.setDistrictError(R.string.invalid_selected_district);
         } else if (ward == null) {
             state.setWardError(R.string.invalid_selected_ward);
-        } else if (TextUtils.isEmpty(street)) {
-            state.setStreetError(R.string.invalid_street);
         } else if (TextUtils.isEmpty(area)) {
             state.setAreaError(R.string.invalid_area);
         }

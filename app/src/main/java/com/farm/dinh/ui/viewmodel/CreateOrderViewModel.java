@@ -40,12 +40,17 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         return liveDataResultCreateOrder;
     }
 
+    public String getFarmerViaPhone(String phone){
+        return getRepository().getFarmerViaPhone(phone);
+    }
+
     public void setOrderData(Order orderData) {
         if (orderData == null) orderData = new Order();
         if (!TextUtils.isEmpty(orderData.getPhone()) && !TextUtils.isEmpty(orderData.getName()))
             orderData.setName(getRepository().getFarmerViaPhone(orderData.getPhone()));
         this.orderMutableLiveData.setValue(orderData);
     }
+
 
     public void getProductsList() {
         getRepository().getProductsList(new IRepository<List<Product>>() {
@@ -65,9 +70,6 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         CreateOrderState state = new CreateOrderState();
         if (TextUtils.isEmpty(phone)) {
             state.setPhoneError(R.string.invalid_username);
-        }
-        if (TextUtils.isEmpty(name)) {
-            state.setPhoneError(R.string.invalid_name);
         }
 
         for (int idx = 0; idx < products.size(); idx++) {
@@ -97,7 +99,7 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
                     liveDataResultCreateOrder.setValue(new Pair<>(false, error.getError().getMessage()));
                 }
             };
-            if (Integer.valueOf(order.getOrderId()) > 0) {
+            if (!TextUtils.isEmpty(order.getOrderId())) {
                 getRepository().editOrder(order, listener);
             } else {
                 getRepository().createOrder(order, listener);

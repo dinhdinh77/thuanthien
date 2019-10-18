@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
+import com.farm.dinh.helper.TextChangeDelayAdapter;
 import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.adapter.ProductAdapter;
 import com.farm.dinh.ui.iinterface.OnItemClick;
@@ -82,37 +83,36 @@ public class CreateOrderFragment extends Fragment {
         });
         lvProduct.setAdapter(productAdapter);
 
-        TextWatcher afterTextChangedListener = new TextWatcher() {
+        name.setKeyListener(null);
+        phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s == phone.getEditableText()) {
-                    if (TextUtils.isEmpty(s.toString())) {
-                        inputPhone.setError(getString(R.string.invalid_username));
+                String phone = s.toString();
+                if (TextUtils.isEmpty(phone)) {
+                    inputPhone.setError(getString(R.string.invalid_username));
+                } else {
+                    inputPhone.setError(null);
+                    String nameFarmer = model.getFarmerViaPhone(phone);
+                    if (TextUtils.isEmpty(nameFarmer)) {
+                        inputName.setVisibility(View.GONE);
                     } else {
-                        inputPhone.setError(null);
+                        inputName.setVisibility(View.VISIBLE);
+                        name.setText(nameFarmer);
                     }
-                } else if (s == name.getEditableText()) {
-                    if (TextUtils.isEmpty(s.toString())) {
-                        inputName.setError(getString(R.string.invalid_name));
-                    } else {
-                        inputName.setError(null);
-                    }
+
                 }
             }
-        };
-
-        phone.addTextChangedListener(afterTextChangedListener);
-        name.addTextChangedListener(afterTextChangedListener);
+        });
 
         model.getResult().observe(this, new Observer<ViewResult<List<Product>>>() {
             @Override
@@ -143,10 +143,10 @@ public class CreateOrderFragment extends Fragment {
                     inputPhone.setError(null);
                 }
                 if (TextUtils.isEmpty(order.getName())) {
-                    inputName.setError(getString(R.string.invalid_name));
+                    inputName.setVisibility(View.GONE);
                 } else {
+                    inputName.setVisibility(View.VISIBLE);
                     name.setText(order.getName());
-                    inputName.setError(null);
                 }
 
                 productAdapter.setProductList(order.getProducts());
@@ -158,9 +158,6 @@ public class CreateOrderFragment extends Fragment {
                 if (createOrderState == null) return;
                 if (createOrderState.getPhoneError() != null) {
                     inputPhone.setError(getString(createOrderState.getPhoneError()));
-                }
-                if (createOrderState.getNameError() != null) {
-                    inputName.setError(getString(R.string.invalid_name));
                 }
                 if (createOrderState.getQuantityIndexError() != null) {
                     productAdapter.notifyItemChanged(createOrderState.getQuantityIndexError());

@@ -103,6 +103,11 @@ public class CreateFarmerFragment extends Fragment {
             }
         };
 
+        phone.addTextChangedListener(afterTextChangedListener);
+        name.addTextChangedListener(afterTextChangedListener);
+        street.addTextChangedListener(afterTextChangedListener);
+        area.addTextChangedListener(afterTextChangedListener);
+
         viewModel.getListAddress().observe(this, new Observer<List<City>>() {
             @Override
             public void onChanged(List<City> cities) {
@@ -249,11 +254,11 @@ public class CreateFarmerFragment extends Fragment {
                 name.removeTextChangedListener(afterTextChangedListener);
                 street.removeTextChangedListener(afterTextChangedListener);
                 area.removeTextChangedListener(afterTextChangedListener);
-                phone.setText(farmerInfo.getPhone());
-                name.setText(farmerInfo.getName());
-                street.setText(farmerInfo.getStreet());
-                area.setText(String.valueOf(farmerInfo.getArea()));
-                spinnerCity.setSelection(getAdapterPosition(adapterCity, new City(farmerInfo.getCity())));
+                phone.setText(info.getPhone());
+                name.setText(info.getName());
+                street.setText(info.getStreet());
+                area.setText(String.valueOf(info.getArea()));
+                spinnerCity.setSelection(getAdapterPosition(adapterCity, new City(info.getCity())));
                 phone.addTextChangedListener(afterTextChangedListener);
                 name.addTextChangedListener(afterTextChangedListener);
                 street.addTextChangedListener(afterTextChangedListener);
