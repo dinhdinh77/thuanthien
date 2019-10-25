@@ -16,14 +16,14 @@
         android:textSize="17sp"
         android:gravity="center"
         android:textStyle="bold"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lvTree"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:listitem="@layout/tree_item"/>
+        tools:listitem="@layout/tree_item" />
 
     <Button
         android:id="@+id/createTree"

@@ -6,17 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.farm.dinh.R;
-import com.farm.dinh.ui.activity.LoginActivity;
-import com.farm.dinh.ui.viewmodel.ManagerViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.farm.dinh.R;
+import com.farm.dinh.ui.activity.LoginActivity;
+import com.farm.dinh.ui.viewmodel.ManagerViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 
 import static android.app.Activity.RESULT_OK;
 import static com.farm.dinh.local.Pref.KEY_LOGOUT;

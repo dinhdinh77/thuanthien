@@ -1,13 +1,13 @@
 package com.farm.dinh.ui.viewmodel;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.farm.dinh.datasource.LoginDataSource;
 import com.farm.dinh.datasource.MainDataSource;
 import com.farm.dinh.repository.LoginRepository;
 import com.farm.dinh.repository.MainRepository;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

@@ -13,21 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.farm.dinh.R;
-import com.farm.dinh.helper.UIHelper;
-import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
-import com.farm.dinh.ui.viewmodel.LoginViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
-import com.farm.dinh.ui.viewmodel.model.LoginFormState;
-import com.farm.dinh.ui.viewmodel.model.ViewResult;
-import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.farm.dinh.R;
+import com.farm.dinh.helper.UIHelper;
+import com.farm.dinh.ui.viewmodel.LoginViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
+import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
+import com.farm.dinh.ui.viewmodel.model.LoginFormState;
+import com.farm.dinh.ui.viewmodel.model.ViewResult;
+import com.google.android.material.textfield.TextInputLayout;
 
 import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 

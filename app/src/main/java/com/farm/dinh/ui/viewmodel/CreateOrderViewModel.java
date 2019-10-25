@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
-import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.repository.IRepository;
@@ -15,7 +14,6 @@ import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.model.CreateOrderState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Product>> {
@@ -40,7 +38,7 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
         return liveDataResultCreateOrder;
     }
 
-    public String getFarmerViaPhone(String phone){
+    public String getFarmerViaPhone(String phone) {
         return getRepository().getFarmerViaPhone(phone);
     }
 

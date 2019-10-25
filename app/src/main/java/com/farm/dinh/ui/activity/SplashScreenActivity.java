@@ -3,12 +3,12 @@ package com.farm.dinh.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.farm.dinh.ui.viewmodel.ConfigViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.farm.dinh.ui.viewmodel.ConfigViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 
 public class SplashScreenActivity extends AppCompatActivity {
     @Override

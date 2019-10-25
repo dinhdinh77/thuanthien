@@ -13,7 +13,6 @@ import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.model.CreateTreeState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CreateTreeViewModel extends BaseViewModel<MainRepository, List<Tree>> {

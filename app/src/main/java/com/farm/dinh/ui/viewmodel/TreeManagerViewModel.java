@@ -13,7 +13,7 @@ public class TreeManagerViewModel extends BaseViewModel<MainRepository, List<Tre
         super(repository);
     }
 
-    public void getTreesByFarmer(int farmerId){
+    public void getTreesByFarmer(int farmerId) {
         getRepository().getTreesByFarmer(farmerId, new IRepository<List<TreeInfo>>() {
             @Override
             public void onSuccess(Result.Success<List<TreeInfo>> success) {

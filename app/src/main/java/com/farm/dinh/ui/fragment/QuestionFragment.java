@@ -11,16 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.farm.dinh.R;
-import com.farm.dinh.data.model.Question;
-import com.farm.dinh.data.model.Questions;
-import com.farm.dinh.ui.adapter.MessageAdapter;
-import com.farm.dinh.ui.adapter.QuestionAdapter;
-import com.farm.dinh.ui.adapter.VideoAdapter;
-import com.farm.dinh.ui.viewmodel.MainViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
-import com.farm.dinh.ui.viewmodel.model.ViewResult;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,6 +21,16 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.farm.dinh.R;
+import com.farm.dinh.data.model.Question;
+import com.farm.dinh.data.model.Questions;
+import com.farm.dinh.ui.adapter.MessageAdapter;
+import com.farm.dinh.ui.adapter.QuestionAdapter;
+import com.farm.dinh.ui.adapter.VideoAdapter;
+import com.farm.dinh.ui.viewmodel.MainViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
+import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 public class QuestionFragment extends Fragment {
     private QuestionAdapter adapterQuestion;

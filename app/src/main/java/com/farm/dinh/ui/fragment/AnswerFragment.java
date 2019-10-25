@@ -11,15 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.farm.dinh.R;
-import com.farm.dinh.api.APIResponse;
-import com.farm.dinh.data.model.Question;
-import com.farm.dinh.data.model.QuestionType;
-import com.farm.dinh.ui.adapter.AnswerAdapter;
-import com.farm.dinh.ui.viewmodel.MainViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
-import com.farm.dinh.ui.viewmodel.model.ViewResult;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,6 +18,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.farm.dinh.R;
+import com.farm.dinh.data.model.Question;
+import com.farm.dinh.data.model.QuestionType;
+import com.farm.dinh.ui.adapter.AnswerAdapter;
+import com.farm.dinh.ui.viewmodel.MainViewModel;
+import com.farm.dinh.ui.viewmodel.ViewModelFactory;
+import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 public class AnswerFragment extends Fragment {
     private MainViewModel mainViewModel;
@@ -62,17 +61,15 @@ public class AnswerFragment extends Fragment {
             adapter.setAnswerList(question.getAnswer());
         }
         mainViewModel.resetAnswerResult();
-        mainViewModel.getAnswerResult().observe(this, new Observer<ViewResult<APIResponse>>() {
+        mainViewModel.getAnswerResult().observe(this, new Observer<ViewResult<String>>() {
             @Override
-            public void onChanged(ViewResult<APIResponse> response) {
-                if (response == null) {
+            public void onChanged(ViewResult<String> viewResult) {
+                if (viewResult == null) {
                     return;
                 }
-                if (response.getError() != null) {
-                    Toast.makeText(getContext(), response.getError(), Toast.LENGTH_SHORT).show();
-                }
-
-                if (response.getSuccess() != null) {
+                if (!viewResult.isSuccess()) {
+                    Toast.makeText(getContext(), viewResult.getError(), Toast.LENGTH_SHORT).show();
+                } else {
                     getActivity().onBackPressed();
                 }
             }

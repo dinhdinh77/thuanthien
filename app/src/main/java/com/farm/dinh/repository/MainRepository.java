@@ -1,10 +1,5 @@
 package com.farm.dinh.repository;
 
-import android.text.TextUtils;
-
-import com.farm.dinh.api.APIResponse;
-import com.farm.dinh.data.Result;
-import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Order;
@@ -22,7 +17,6 @@ import java.util.List;
 public class MainRepository extends Repository<MainDataSource> {
     private static volatile MainRepository instance;
     private List<Farmer> farmerList;
-    private List<Tree> treeList;
 
     public MainRepository(MainDataSource dataSource) {
         super(dataSource);
@@ -40,7 +34,7 @@ public class MainRepository extends Repository<MainDataSource> {
         getDataSource().getQuestionsList(currUserId, listener);
     }
 
-    public void addAnswer(int questionId, String answer, IRepository<APIResponse> listener) {
+    public void addAnswer(int questionId, String answer, IRepository<String> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
         getDataSource().addAnswer(currUserId, questionId, answer, listener);
     }
@@ -91,10 +85,7 @@ public class MainRepository extends Repository<MainDataSource> {
     }
 
     public void getTreesList(IRepository<List<Tree>> listener) {
-        if (treeList != null) listener.onSuccess(new Result.Success<>(treeList));
-        else {
-            getDataSource().getTreesList(listener);
-        }
+        getDataSource().getTreesList(listener);
     }
 
     public void addTree(int farmerId, int treeId, String age, int amount, IRepository<String> listener) {

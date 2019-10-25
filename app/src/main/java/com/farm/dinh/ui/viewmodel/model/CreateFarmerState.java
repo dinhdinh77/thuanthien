@@ -81,7 +81,7 @@ public class CreateFarmerState {
         this.areaError = areaError;
     }
 
-    public boolean isDataVaild(){
+    public boolean isDataVaild() {
         return phoneError == null && nameError == null && cityError == null
                 && districtError == null && wardError == null && streetError == null && areaError == null;
     }

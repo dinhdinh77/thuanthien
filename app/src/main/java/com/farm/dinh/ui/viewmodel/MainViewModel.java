@@ -3,7 +3,8 @@ package com.farm.dinh.ui.viewmodel;
 
 import android.text.TextUtils;
 
-import com.farm.dinh.api.APIResponse;
+import androidx.lifecycle.MutableLiveData;
+
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.Question;
 import com.farm.dinh.data.model.Questions;
@@ -11,8 +12,6 @@ import com.farm.dinh.repository.IRepository;
 import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.custom.SingleLiveEvent;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
-
-import androidx.lifecycle.MutableLiveData;
 
 
 public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
@@ -23,13 +22,13 @@ public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
 
     private SingleLiveEvent<Question> selectedQuestion = new SingleLiveEvent<>();
 
-    private MutableLiveData<ViewResult<APIResponse>> answerResult = new MutableLiveData<>();
+    private MutableLiveData<ViewResult<String>> answerResult = new MutableLiveData<>();
 
     public SingleLiveEvent<Question> getSelectedQuestion() {
         return selectedQuestion;
     }
 
-    public MutableLiveData<ViewResult<APIResponse>> getAnswerResult() {
+    public MutableLiveData<ViewResult<String>> getAnswerResult() {
         return answerResult;
     }
 
@@ -54,19 +53,20 @@ public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
     public void addAnswer(String answer, String error) {
         if (getSelectedQuestion().getValue() == null) return;
         if (TextUtils.isEmpty(answer)) {
-            getAnswerResult().setValue(new ViewResult(error));
+            getAnswerResult().setValue(new ViewResult(error, false));
             return;
         }
-        getRepository().addAnswer(getSelectedQuestion().getValue().getQuestionID(), answer, new IRepository<APIResponse>() {
+        getRepository().addAnswer(getSelectedQuestion().getValue().getQuestionID(), answer, new IRepository<String>() {
 
             @Override
-            public void onSuccess(Result.Success<APIResponse> success) {
-                getAnswerResult().setValue(new ViewResult<>(success.getData()));
+            public void onSuccess(Result.Success<String> success) {
+
+                getAnswerResult().setValue(new ViewResult(success.getData(), true));
             }
 
             @Override
             public void onError(Result.Error error) {
-                getAnswerResult().setValue(new ViewResult(error.getError().getMessage()));
+                getAnswerResult().setValue(new ViewResult(error.getError().getMessage(), false));
             }
         });
     }

@@ -45,7 +45,7 @@ public class ViewResult<D> {
         return isFlag;
     }
 
-    public boolean isSuccess(){
+    public boolean isSuccess() {
         return isFlag;
     }
 }

@@ -8,12 +8,10 @@ import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.District;
-import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Ward;
 import com.farm.dinh.repository.IRepository;
 import com.farm.dinh.repository.LoginRepository;
-import com.farm.dinh.repository.MainRepository;
 import com.farm.dinh.ui.viewmodel.model.CreateFarmerState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 

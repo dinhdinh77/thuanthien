@@ -1,14 +1,89 @@
 package com.farm.dinh.datasource;
 
-import com.farm.dinh.api.APIClient;
-import com.farm.dinh.api.APIInterface;
+import com.farm.dinh.data.Result;
+import com.farm.dinh.remote.PagingResponse;
+import com.farm.dinh.remote.RemoteService;
+import com.farm.dinh.remote.SimpleResponse;
+import com.farm.dinh.remote.StandardResponse;
+import com.farm.dinh.repository.IPagingRepository;
+import com.farm.dinh.repository.IRepository;
 
-public class DataSource {
-    private static APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    public APIInterface getApiInterface() {
-        if (apiInterface == null)
-            apiInterface = APIClient.getClient().create(APIInterface.class);
-        return apiInterface;
+public abstract class DataSource<S> {
+
+    public abstract Class<S> getServiceType();
+
+    public final S getRemoteService() {
+        return RemoteService.getService().create(getServiceType());
     }
+
+    public <T> Callback<StandardResponse<T>> getStandardCallBack(final IRepository<T> listener) {
+        return new Callback<StandardResponse<T>>() {
+            @Override
+            public void onResponse(Call<StandardResponse<T>> call, Response<StandardResponse<T>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isStatus()) {
+                        listener.onSuccess(new Result.Success<>(response.body().getData()));
+                    } else {
+                        listener.onError(new Result.Error(new Exception(response.body().getMessage())));
+                    }
+                } else {
+                    listener.onError(new Result.Error(new Exception(response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StandardResponse<T>> call, Throwable t) {
+                listener.onError(new Result.Error(new Exception(t)));
+            }
+        };
+    }
+
+    public <T> Callback<PagingResponse<T>> getPagingCallBack(final IPagingRepository<T> listener) {
+        return new Callback<PagingResponse<T>>() {
+            @Override
+            public void onResponse(Call<PagingResponse<T>> call, Response<PagingResponse<T>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isStatus()) {
+                        listener.onSuccess(new Result.Success<>(response.body().getData()), response.body().getTotalPage());
+                    } else {
+                        listener.onError(new Result.Error(new Exception(response.body().getMessage())));
+                    }
+                } else {
+                    listener.onError(new Result.Error(new Exception(response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PagingResponse<T>> call, Throwable t) {
+                listener.onError(new Result.Error(new Exception(t)));
+            }
+        };
+    }
+
+    public Callback<SimpleResponse> getSimpleCallBack(final IRepository<String> listener) {
+        return new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isStatus()) {
+                        listener.onSuccess(new Result.Success<String>(response.body().getMessage()));
+                    } else {
+                        listener.onError(new Result.Error(new Exception(response.body().getMessage())));
+                    }
+                } else {
+                    listener.onError(new Result.Error(new Exception(response.message())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                listener.onError(new Result.Error(new Exception(t)));
+            }
+        };
+    }
+
 }

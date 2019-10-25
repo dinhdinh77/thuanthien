@@ -7,7 +7,7 @@ public class ManagerViewModel extends BaseViewModel<LoginRepository, Boolean> {
         super(repository);
     }
 
-    public void logout(){
+    public void logout() {
         getRepository().logout();
     }
 }

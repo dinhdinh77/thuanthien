@@ -2,8 +2,6 @@ package com.farm.dinh.ui.activity;
 
 import android.os.Bundle;
 
-import com.farm.dinh.R;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -12,6 +10,8 @@ import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.farm.dinh.R;
 
 public class MainActivity extends AppCompatActivity {
     private NavController navController;

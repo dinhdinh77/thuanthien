@@ -3,6 +3,9 @@ package com.farm.dinh.ui.viewmodel;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
@@ -11,9 +14,6 @@ import com.farm.dinh.repository.LoginRepository;
 import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
 import com.farm.dinh.ui.viewmodel.model.LoginFormState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class LoginViewModel extends BaseViewModel<LoginRepository, LoggedInUserView> {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
@@ -57,7 +57,7 @@ public class LoginViewModel extends BaseViewModel<LoginRepository, LoggedInUserV
         }
     }
 
-    public void getAutoFillUser(){
+    public void getAutoFillUser() {
         getPreviousUser().setValue(getRepository().getPreviousUser());
     }
 

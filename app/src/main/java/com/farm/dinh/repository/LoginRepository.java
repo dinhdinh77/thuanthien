@@ -3,11 +3,11 @@ package com.farm.dinh.repository;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.FarmerInfo;
-import com.farm.dinh.datasource.LoginDataSource;
-import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.UserInfo;
+import com.farm.dinh.datasource.LoginDataSource;
 import com.farm.dinh.local.Pref;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -83,7 +83,8 @@ public class LoginRepository extends Repository<LoginDataSource> {
                                String area, String oldPassword, String newPassword, boolean isChangePass, IRepository<UserInfo> listener) {
         if (!isChangePass && isLoggedIn()) {
             if (this.user.getName().equals(name) && this.user.getCity().equals(city) && this.user.getDistrict().equals(district)
-                    && this.user.getWard().equals(ward) && this.user.getStreet().equals(street)) return;
+                    && this.user.getWard().equals(ward) && this.user.getStreet().equals(street))
+                return;
             oldPassword = null;
             newPassword = null;
         }
@@ -91,7 +92,7 @@ public class LoginRepository extends Repository<LoginDataSource> {
         getDataSource().updateUserInfo(currUserId, name, district, street, ward, city, area, oldPassword, newPassword, listener);
     }
 
-    public boolean isAgency(){
+    public boolean isAgency() {
         return this.user == null || this.user.getIsAgency() == 0 ? false : true;
     }
 

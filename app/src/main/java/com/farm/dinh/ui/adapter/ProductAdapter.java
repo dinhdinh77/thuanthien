@@ -3,7 +3,6 @@ package com.farm.dinh.ui.adapter;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;

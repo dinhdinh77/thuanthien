@@ -16,7 +16,7 @@
         android:textSize="17sp"
         android:gravity="center"
         android:textStyle="bold"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/ll_message"
@@ -39,7 +39,7 @@
             android:id="@+id/lv_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/question_item"/>
+            tools:listitem="@layout/question_item" />
 
     </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:id="@+id/lv_question"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/question_item"/>
+            tools:listitem="@layout/question_item" />
 
     </LinearLayout>
 
@@ -89,7 +89,7 @@
             android:id="@+id/lv_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/video_item"/>
+            tools:listitem="@layout/video_item" />
 
     </LinearLayout>
 

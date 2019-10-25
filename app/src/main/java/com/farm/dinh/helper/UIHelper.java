@@ -2,7 +2,6 @@ package com.farm.dinh.helper;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -23,11 +22,10 @@ import android.webkit.WebViewClient;
 import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.farm.dinh.R;
 import com.farm.dinh.TTApplication;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,7 +66,7 @@ public class UIHelper {
         return null;
     }
 
-    public static void showMessageDialog(Context context, String message, String title){
+    public static void showMessageDialog(Context context, String message, String title) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
@@ -76,7 +74,7 @@ public class UIHelper {
                 .show();
     }
 
-    public static void showMessageDialog(Context context, String message, String title, DialogInterface.OnClickListener onClickListener){
+    public static void showMessageDialog(Context context, String message, String title, DialogInterface.OnClickListener onClickListener) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
@@ -99,7 +97,7 @@ public class UIHelper {
         }
     }
 
-    public static void setHeightSpinner(Spinner spinner){
+    public static void setHeightSpinner(Spinner spinner) {
         try {
             Field popup = Spinner.class.getDeclaredField("mPopup");
             popup.setAccessible(true);
@@ -110,8 +108,7 @@ public class UIHelper {
             // Set popupWindow height to 500px
             popupWindow.setHeight(500);
             popupWindow.setWidth(ListPopupWindow.MATCH_PARENT);
-        }
-        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+        } catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
             // silently fail...
         }
     }

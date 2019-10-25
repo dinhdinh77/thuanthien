@@ -16,7 +16,7 @@
         android:textSize="17sp"
         android:gravity="center"
         android:textStyle="bold"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ScrollView
         android:id="@+id/llDetail"
@@ -151,7 +151,7 @@
                 android:padding="@dimen/title_padding"
                 android:text="@string/prompt_change_pass"
                 android:checked="false"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:id="@+id/llChangePass"
@@ -232,5 +232,5 @@
         android:textColor="@color/colorPrimary2"
         android:layout_gravity="bottom"
         android:padding="@dimen/title_padding"
-        android:layout_margin="30dp"/>
+        android:layout_margin="30dp" />
 </LinearLayout>

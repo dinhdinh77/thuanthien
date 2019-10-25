@@ -1,10 +1,10 @@
 package com.farm.dinh.ui.viewmodel;
 
-import com.farm.dinh.repository.Repository;
-import com.farm.dinh.ui.viewmodel.model.ViewResult;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.farm.dinh.repository.Repository;
+import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 public class BaseViewModel<R extends Repository, D> extends ViewModel {
     private R repository;

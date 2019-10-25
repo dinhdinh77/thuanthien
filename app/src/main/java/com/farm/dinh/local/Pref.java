@@ -46,6 +46,7 @@ public class Pref {
         return false;
         // System.out.println("Put " + key + "value: " + value);
     }
+
     @SuppressWarnings("unchecked")
     public <T> T get(String key, T defaultValue) {
         SharedPreferences pref = getPref();
@@ -75,7 +76,7 @@ public class Pref {
         return defaultValue;
     }
 
-    public void clearPreferences(){
+    public void clearPreferences() {
         SharedPreferences pref = getPref();
         pref.edit().clear().commit();
     }

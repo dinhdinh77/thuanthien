@@ -2,6 +2,8 @@ package com.farm.dinh.ui.viewmodel;
 
 import android.text.TextUtils;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.farm.dinh.R;
 import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.City;
@@ -12,8 +14,6 @@ import com.farm.dinh.repository.IRepository;
 import com.farm.dinh.repository.LoginRepository;
 import com.farm.dinh.ui.viewmodel.model.UpdateInfoState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
-
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 

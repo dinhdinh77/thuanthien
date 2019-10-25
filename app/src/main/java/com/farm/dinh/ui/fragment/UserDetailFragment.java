@@ -19,7 +19,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.City;
@@ -34,12 +39,6 @@ import com.farm.dinh.ui.viewmodel.custom.MaterialSpinner;
 import com.farm.dinh.ui.viewmodel.model.UpdateInfoState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import com.google.android.material.textfield.TextInputLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
 

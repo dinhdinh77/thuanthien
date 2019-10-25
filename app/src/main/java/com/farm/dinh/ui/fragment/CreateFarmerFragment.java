@@ -15,10 +15,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.District;
-import com.farm.dinh.data.model.Farmer;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Ward;
 import com.farm.dinh.helper.UIHelper;
@@ -29,14 +36,6 @@ import com.farm.dinh.ui.viewmodel.model.CreateFarmerState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import java.util.List;
 

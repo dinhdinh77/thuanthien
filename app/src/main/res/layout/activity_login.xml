@@ -86,7 +86,7 @@
             android:layout_height="match_parent"
             android:hint="@string/prompt_phone"
             android:inputType="phone"
-            android:selectAllOnFocus="true"/>
+            android:selectAllOnFocus="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

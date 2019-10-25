@@ -26,9 +26,9 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.farm.dinh.R;
-
 import androidx.appcompat.widget.AppCompatSpinner;
+
+import com.farm.dinh.R;
 
 public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.AnimatorUpdateListener {
 
@@ -242,7 +242,7 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
     }
 
     public Object getSelectedItem() {
-        return super.getItemAtPosition(getSelectedItemPosition()-1);
+        return super.getItemAtPosition(getSelectedItemPosition() - 1);
     }
 
     private void initPadding() {
@@ -633,11 +633,11 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
         return hint;
     }
 
-    public void setHintView(Integer resId){
+    public void setHintView(Integer resId) {
         this.mHintView = resId;
     }
 
-    public void setDripDownHintView(Integer resId){
+    public void setDripDownHintView(Integer resId) {
         this.mDropDownHintView = resId;
     }
 
@@ -819,7 +819,7 @@ public class MaterialSpinner extends AppCompatSpinner implements ValueAnimator.A
 
     @Override
     public void setAdapter(SpinnerAdapter adapter) {
-        if(adapter instanceof HintAdapter) {
+        if (adapter instanceof HintAdapter) {
             super.setAdapter(adapter);
         } else {
             hintAdapter = new HintAdapter(adapter, getContext());

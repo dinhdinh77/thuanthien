@@ -13,14 +13,14 @@
         android:textColor="@android:color/black"
         android:padding="@dimen/title_padding"
         android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lv_answer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/answer_item"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/input_answer"
@@ -32,6 +32,6 @@
         android:inputType="text"
         android:gravity="top"
         android:padding="@dimen/title_padding"
-        android:selectAllOnFocus="true"/>
+        android:selectAllOnFocus="true" />
 
 </LinearLayout>
