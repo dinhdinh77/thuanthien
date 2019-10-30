@@ -1,6 +1,5 @@
 package com.farm.dinh.remote;
 
-import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Order;
 import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
@@ -25,9 +24,6 @@ public interface IMainService {
     @POST("/api/addAnswer.php")
     Call<SimpleResponse> addAnswer(@Field("userId") int userId, @Field("questionId") int questionId, @Field("answer") String answer);
 
-    @POST("/api/getProductsList.php")
-    Call<StandardResponse<List<Product>>> getProductsList();
-
     @Headers("Content-Type: application/json")
     @POST("/api/createOrder.php")
     Call<SimpleResponse> createOrder(@Body Order inputOrder);
@@ -45,12 +41,12 @@ public interface IMainService {
     Call<PagingResponse<List<Order>>> searchOrders(@Field("userId") int userId, @Field("searchKey") String searchKey, @Field("page") int page);
 
     @FormUrlEncoded
-    @POST("/api/getFarmersList.php")
-    Call<PagingResponse<List<FarmerInfo>>> getFarmersList(@Field("userId") int userId, @Field("page") int page);
+    @POST("/api/addTree.php")
+    Call<SimpleResponse> addTree(@Field("userId") int userId, @Field("treeId") int treeId, @Field("age") String age, @Field("amount") int amount);
 
     @FormUrlEncoded
-    @POST("/api/searchOrders.php")
-    Call<PagingResponse<List<FarmerInfo>>> searchFarmers(@Field("userId") int userId, @Field("searchKey") String searchKey, @Field("page") int page);
+    @POST("/api/editTree.php")
+    Call<SimpleResponse> editTree(@Field("id") int id, @Field("treeId") int treeId, @Field("age") String age, @Field("amount") int amount);
 
     @FormUrlEncoded
     @POST("/api/getTreesByFarmer.php")
@@ -59,12 +55,6 @@ public interface IMainService {
     @POST("/api/getTreesList.php")
     Call<StandardResponse<List<Tree>>> getTreesList();
 
-    @FormUrlEncoded
-    @POST("/api/addTree.php")
-    Call<SimpleResponse> addTree(@Field("userId") int userId, @Field("treeId") int treeId, @Field("age") String age, @Field("amount") int amount);
-
-
-    @FormUrlEncoded
-    @POST("/api/editTree.php")
-    Call<SimpleResponse> editTree(@Field("id") int id, @Field("treeId") int treeId, @Field("age") String age, @Field("amount") int amount);
+    @POST("/api/getProductsList.php")
+    Call<StandardResponse<List<Product>>> getProductsList();
 }

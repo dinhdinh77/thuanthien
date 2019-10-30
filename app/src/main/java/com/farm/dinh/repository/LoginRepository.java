@@ -7,27 +7,24 @@ import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.UserInfo;
-import com.farm.dinh.datasource.LoginDataSource;
+import com.farm.dinh.datasource.UserDataSource;
+import com.farm.dinh.datasource.AuthenticationDataSource;
 import com.farm.dinh.local.Pref;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-public class LoginRepository extends Repository<LoginDataSource> {
+public class LoginRepository extends Repository{
     private static volatile LoginRepository instance;
     private UserInfo user = null;
     private String currPhone;
     private String currPass;
     private List<City> cityList;
 
-    private LoginRepository(LoginDataSource dataSource) {
-        super(dataSource);
-    }
-
-    public static LoginRepository getInstance(LoginDataSource dataSource) {
+    public static LoginRepository getInstance() {
         if (instance == null) {
-            instance = new LoginRepository(dataSource);
+            instance = new LoginRepository();
         }
         return instance;
     }
@@ -38,7 +35,7 @@ public class LoginRepository extends Repository<LoginDataSource> {
 
     public void logout() {
         user = null;
-        getDataSource().logout();
+        getDataSource(AuthenticationDataSource.class).logout();
         Pref.getInstance().clearPreferences();
     }
 
@@ -60,7 +57,7 @@ public class LoginRepository extends Repository<LoginDataSource> {
     }
 
     public void login(final String username, final String password, final IRepository<UserInfo> listener) {
-        getDataSource().login(username, password, new IRepository<UserInfo>() {
+        getDataSource(AuthenticationDataSource.class).login(username, password, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
                 setLoggedInUser(success.getData(), username, password);
@@ -76,7 +73,7 @@ public class LoginRepository extends Repository<LoginDataSource> {
 
     public void getUserInfo(IRepository<UserInfo> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().getUserInfo(currUserId, listener);
+        getDataSource(UserDataSource.class).getUserInfo(currUserId, listener);
     }
 
     public void updateUserInfo(String name, String district, String street, String ward, String city,
@@ -89,7 +86,7 @@ public class LoginRepository extends Repository<LoginDataSource> {
             newPassword = null;
         }
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().updateUserInfo(currUserId, name, district, street, ward, city, area, oldPassword, newPassword, listener);
+        getDataSource(UserDataSource.class).updateUserInfo(currUserId, name, district, street, ward, city, area, oldPassword, newPassword, listener);
     }
 
     public boolean isAgency() {
@@ -103,7 +100,7 @@ public class LoginRepository extends Repository<LoginDataSource> {
         }
         String json = Pref.getInstance().get(Pref.KEY_ADDRESS, "");
         if (TextUtils.isEmpty(json)) {
-            getDataSource().getAddress(new IRepository<List<City>>() {
+            getDataSource(UserDataSource.class).getAddress(new IRepository<List<City>>() {
                 @Override
                 public void onSuccess(Result.Success<List<City>> success) {
                     String citys = new Gson().toJson(success.getData());
@@ -129,11 +126,11 @@ public class LoginRepository extends Repository<LoginDataSource> {
 
     public void createUser(String phone, String name, String street, String ward, String district, String city, String area, IRepository<FarmerInfo> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().createUser(currUserId, phone, name, street, ward, district, city, area, listener);
+        getDataSource(UserDataSource.class).createUser(currUserId, phone, name, street, ward, district, city, area, listener);
     }
 
     public void editUser(int farmerId, String phone, String name, String street, String ward, String district, String city, String area, IRepository<FarmerInfo> listener) {
         int currUserId = Pref.getInstance().get(Pref.KEY_USER_ID, 0);
-        getDataSource().editUser(currUserId, farmerId, phone, name, street, ward, district, city, area, listener);
+        getDataSource(UserDataSource.class).editUser(currUserId, farmerId, phone, name, street, ward, district, city, area, listener);
     }
 }

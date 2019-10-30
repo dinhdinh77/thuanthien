@@ -1,19 +1,22 @@
 package com.farm.dinh.datasource;
 
-
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.UserInfo;
-import com.farm.dinh.remote.ILoginService;
+import com.farm.dinh.remote.IUserService;
+import com.farm.dinh.repository.IPagingRepository;
 import com.farm.dinh.repository.IRepository;
 
 import java.util.List;
 
+public class UserDataSource extends DataSource<IUserService>{
+    @Override
+    public Class<IUserService> getServiceType() {
+        return IUserService.class;
+    }
 
-public class LoginDataSource extends DataSource<ILoginService> {
-
-    public void login(String phone, String password, final IRepository<UserInfo> listener) {
-        getRemoteService().login(phone, password).enqueue(getStandardCallBack(listener));
+    public void getAddress(final IRepository<List<City>> listener) {
+        getRemoteService().getAddress().enqueue(getStandardCallBack(listener));
     }
 
     public void getUserInfo(int userId, final IRepository<UserInfo> listener) {
@@ -24,10 +27,6 @@ public class LoginDataSource extends DataSource<ILoginService> {
         getRemoteService().updateUserInfo(userId, name, district, street, ward, city, area, old_password, new_password).enqueue(getStandardCallBack(listener));
     }
 
-    public void getAddress(final IRepository<List<City>> listener) {
-        getRemoteService().getAddress().enqueue(getStandardCallBack(listener));
-    }
-
     public void createUser(int userId, String phone, String name, String street, String ward, String district, String city, String area, final IRepository<FarmerInfo> listener) {
         getRemoteService().createUser(userId, phone, name, street, ward, district, city, area).enqueue(getStandardCallBack(listener));
     }
@@ -36,12 +35,11 @@ public class LoginDataSource extends DataSource<ILoginService> {
         getRemoteService().editUser(userId, farmerId, phone, name, street, ward, district, city, area).enqueue(getStandardCallBack(listener));
     }
 
-    public void logout() {
-        // TODO: revoke authentication
+    public void getFarmersList(int userId, int page, final IPagingRepository<List<FarmerInfo>> listener) {
+        getRemoteService().getFarmersList(userId, page).enqueue(getPagingCallBack(listener));
     }
 
-    @Override
-    public Class<ILoginService> getServiceType() {
-        return ILoginService.class;
+    public void searchFarmers(int userId, String searchKey, int page, final IPagingRepository<List<FarmerInfo>> listener) {
+        getRemoteService().searchFarmers(userId, searchKey, page).enqueue(getPagingCallBack(listener));
     }
 }

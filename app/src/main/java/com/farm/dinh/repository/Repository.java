@@ -1,15 +1,22 @@
 package com.farm.dinh.repository;
 
+import androidx.collection.SimpleArrayMap;
+
+import com.farm.dinh.datasource.UserDataSource;
 import com.farm.dinh.datasource.DataSource;
+import com.farm.dinh.datasource.AuthenticationDataSource;
+import com.farm.dinh.datasource.MainDataSource;
 
-public abstract class Repository<D extends DataSource> {
-    private D dataSource;
+public class Repository {
+    private static SimpleArrayMap<Class, DataSource> mapDataSource = new SimpleArrayMap<>();
 
-    public Repository(D dataSource) {
-        this.dataSource = dataSource;
+    static {
+        mapDataSource.put(MainDataSource.class, new MainDataSource());
+        mapDataSource.put(AuthenticationDataSource.class, new AuthenticationDataSource());
+        mapDataSource.put(UserDataSource.class, new UserDataSource());
     }
 
-    protected D getDataSource() {
-        return dataSource;
+    protected final static <D extends DataSource> D getDataSource(Class<D> clazz) {
+        return (D) mapDataSource.get(clazz);
     }
 }
