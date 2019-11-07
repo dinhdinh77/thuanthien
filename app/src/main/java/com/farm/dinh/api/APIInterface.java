@@ -75,7 +75,7 @@ public interface APIInterface {
     Call<APIResponse<List<FarmerInfo>>> getFarmersList(@Field("userId") int userId, @Field("page") int page);
 
     @FormUrlEncoded
-    @POST("/api/searchOrders.php")
+    @POST("/api/searchFarmers.php")
     Call<APIResponse<List<FarmerInfo>>> searchFarmers(@Field("userId") int userId, @Field("searchKey") String searchKey, @Field("page") int page);
 
     @POST("/api/getAddress.php")
