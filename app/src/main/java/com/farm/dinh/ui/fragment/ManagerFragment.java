@@ -8,22 +8,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.farm.dinh.R;
 import com.farm.dinh.ui.activity.LoginActivity;
 import com.farm.dinh.ui.viewmodel.ManagerViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 
 import static android.app.Activity.RESULT_OK;
 import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 
-public class ManagerFragment extends Fragment implements View.OnClickListener {
+public class ManagerFragment extends BaseFragment<ManagerViewModel> implements View.OnClickListener {
     private NavController navController;
-    private ManagerViewModel model;
 
     @Nullable
     @Override
@@ -35,7 +31,6 @@ public class ManagerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        model = ViewModelProviders.of(this, new ViewModelFactory()).get(ManagerViewModel.class);
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         view.findViewById(R.id.actionEditAccount).setOnClickListener(this);
         view.findViewById(R.id.actionManagerFarmer).setOnClickListener(this);
@@ -62,11 +57,16 @@ public class ManagerFragment extends Fragment implements View.OnClickListener {
     }
 
     private void logout() {
-        model.logout();
+        getViewModel().logout();
         getActivity().setResult(RESULT_OK);
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.putExtra(KEY_LOGOUT, true);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    @Override
+    public Class<ManagerViewModel> getViewModelType() {
+        return ManagerViewModel.class;
     }
 }

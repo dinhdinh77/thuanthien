@@ -18,9 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +29,6 @@ import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.adapter.ProductAdapter;
 import com.farm.dinh.ui.iinterface.OnItemClick;
 import com.farm.dinh.ui.viewmodel.CreateOrderViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.CreateOrderState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import com.google.android.material.textfield.TextInputEditText;
@@ -39,12 +36,11 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-public class CreateOrderFragment extends Fragment {
+public class CreateOrderFragment extends BaseFragment<CreateOrderViewModel> {
     private TextInputEditText phone;
     private TextInputEditText name;
     private RecyclerView lvProduct;
     private ProductAdapter productAdapter;
-    private CreateOrderViewModel model;
     private ProgressDialog dialog;
 
     @Nullable
@@ -58,7 +54,6 @@ public class CreateOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final Order order = (Order) getArguments().getSerializable("Order");
-        model = ViewModelProviders.of(this, new ViewModelFactory()).get(CreateOrderViewModel.class);
         phone = view.findViewById(R.id.phone);
         name = view.findViewById(R.id.name);
         lvProduct = view.findViewById(R.id.lv_product);
@@ -94,7 +89,7 @@ public class CreateOrderFragment extends Fragment {
                     inputPhone.setError(getString(R.string.invalid_username));
                 } else {
                     inputPhone.setError(null);
-                    String nameFarmer = model.getFarmerViaPhone(phone);
+                    String nameFarmer = getViewModel().getFarmerViaPhone(phone);
                     if (TextUtils.isEmpty(nameFarmer)) {
                         inputName.setVisibility(View.GONE);
                     } else {
@@ -106,14 +101,14 @@ public class CreateOrderFragment extends Fragment {
             }
         });
 
-        model.getResult().observe(this, new Observer<ViewResult<List<Product>>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<List<Product>>>() {
             @Override
             public void onChanged(ViewResult<List<Product>> viewResult) {
                 if (dialog != null) dialog.hide();
                 if (viewResult == null) {
                     return;
                 }
-                model.setOrderData(order);
+                getViewModel().setOrderData(order);
                 if (viewResult.getError() != null) {
                     Toast.makeText(getContext(), viewResult.getError(), Toast.LENGTH_SHORT).show();
                 }
@@ -124,7 +119,7 @@ public class CreateOrderFragment extends Fragment {
                 }
             }
         });
-        model.getOrderMutableLiveData().observe(this, new Observer<Order>() {
+        getViewModel().getOrderMutableLiveData().observe(this, new Observer<Order>() {
             @Override
             public void onChanged(Order order) {
                 if (order == null) return;
@@ -144,7 +139,7 @@ public class CreateOrderFragment extends Fragment {
                 productAdapter.setProductList(order.getProducts());
             }
         });
-        model.getLiveDataViewState().observe(this, new Observer<CreateOrderState>() {
+        getViewModel().getLiveDataViewState().observe(this, new Observer<CreateOrderState>() {
             @Override
             public void onChanged(CreateOrderState createOrderState) {
                 if (createOrderState == null) return;
@@ -156,7 +151,7 @@ public class CreateOrderFragment extends Fragment {
                 }
             }
         });
-        model.getLiveDataResultCreateOrder().observe(this, new Observer<Pair<Boolean, String>>() {
+        getViewModel().getLiveDataResultCreateOrder().observe(this, new Observer<Pair<Boolean, String>>() {
             @Override
             public void onChanged(final Pair<Boolean, String> booleanStringPair) {
                 UIHelper.showMessageDialog(getContext(), booleanStringPair.second, getContext().getResources().getString(booleanStringPair.first ?
@@ -170,7 +165,7 @@ public class CreateOrderFragment extends Fragment {
             }
         });
         dialog = ProgressDialog.show(getActivity(), "", getContext().getResources().getString(R.string.message_loading), true);
-        model.getProductsList();
+        getViewModel().getProductsList();
     }
 
     private void hideSoftKeyboard() {
@@ -180,7 +175,7 @@ public class CreateOrderFragment extends Fragment {
 
     private void processOrder() {
         hideSoftKeyboard();
-        model.processOrder(phone.getText().toString(), name.getText().toString(), productAdapter.getProductList());
+        getViewModel().processOrder(phone.getText().toString(), name.getText().toString(), productAdapter.getProductList());
     }
 
     @Override
@@ -203,4 +198,8 @@ public class CreateOrderFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Class<CreateOrderViewModel> getViewModelType() {
+        return CreateOrderViewModel.class;
+    }
 }

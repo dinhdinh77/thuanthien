@@ -9,7 +9,7 @@ import com.farm.dinh.repository.IRepository;
 
 import java.util.List;
 
-public class UserDataSource extends DataSource<IUserService>{
+public class UserDataSource extends DataSource<IUserService> {
     @Override
     public Class<IUserService> getServiceType() {
         return IUserService.class;

@@ -4,20 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.farm.dinh.ui.viewmodel.ConfigViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends BaseActivity<ConfigViewModel> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ConfigViewModel configViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(ConfigViewModel.class);
-        configViewModel.getAddress();
+        getViewModel().getAddress();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public Class<ConfigViewModel> getViewModelType() {
+        return ConfigViewModel.class;
     }
 }

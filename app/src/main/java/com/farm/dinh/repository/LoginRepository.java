@@ -7,15 +7,15 @@ import com.farm.dinh.data.Result;
 import com.farm.dinh.data.model.City;
 import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.UserInfo;
-import com.farm.dinh.datasource.UserDataSource;
 import com.farm.dinh.datasource.AuthenticationDataSource;
+import com.farm.dinh.datasource.UserDataSource;
 import com.farm.dinh.local.Pref;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-public class LoginRepository extends Repository{
+public class LoginRepository extends Repository {
     private static volatile LoginRepository instance;
     private UserInfo user = null;
     private String currPhone;

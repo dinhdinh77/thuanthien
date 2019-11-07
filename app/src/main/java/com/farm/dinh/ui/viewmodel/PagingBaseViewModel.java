@@ -9,13 +9,12 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public abstract class PagingBaseViewModel<D, R extends Repository> extends BaseViewModel<R, List<D>> {
+public abstract class PagingBaseViewModel<D> extends BaseViewModel<List<D>> {
     private int currPage;
     private int totalPage;
     private String currKeyword;
 
-    public PagingBaseViewModel(R repository) {
-        super(repository);
+    public PagingBaseViewModel() {
         resetData();
     }
 

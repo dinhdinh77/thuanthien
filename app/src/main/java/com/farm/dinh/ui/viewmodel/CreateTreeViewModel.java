@@ -15,11 +15,7 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class CreateTreeViewModel extends BaseViewModel<MainRepository, List<Tree>> {
-    public CreateTreeViewModel(MainRepository repository) {
-        super(repository);
-    }
-
+public class CreateTreeViewModel extends BaseViewModel<List<Tree>> {
     private int farmerId;
     private MutableLiveData<TreeInfo> treeInfoLiveData = new MutableLiveData<>();
     private MutableLiveData<CreateTreeState> createTreeState = new MutableLiveData<>();
@@ -57,7 +53,7 @@ public class CreateTreeViewModel extends BaseViewModel<MainRepository, List<Tree
     }
 
     public void getTreesList() {
-        getRepository().getTreesList(new IRepository<List<Tree>>() {
+        getRepository(MainRepository.class).getTreesList(new IRepository<List<Tree>>() {
             @Override
             public void onSuccess(Result.Success<List<Tree>> success) {
                 getResult().setValue(new ViewResult<>(success.getData()));
@@ -85,9 +81,9 @@ public class CreateTreeViewModel extends BaseViewModel<MainRepository, List<Tree
             }
         };
         if (getTreeInfoLiveData().getValue() == null) {
-            getRepository().addTree(this.farmerId, tree.getId(), age, Integer.valueOf(quantity), listener);
+            getRepository(MainRepository.class).addTree(this.farmerId, tree.getId(), age, Integer.valueOf(quantity), listener);
         } else {
-            getRepository().editTree(getTreeInfoLiveData().getValue().getId(), tree.getId(), age, Integer.valueOf(quantity), listener);
+            getRepository(MainRepository.class).editTree(getTreeInfoLiveData().getValue().getId(), tree.getId(), age, Integer.valueOf(quantity), listener);
         }
     }
 }

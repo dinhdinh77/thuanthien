@@ -7,15 +7,15 @@ import com.farm.dinh.data.model.Product;
 import com.farm.dinh.data.model.Questions;
 import com.farm.dinh.data.model.Tree;
 import com.farm.dinh.data.model.TreeInfo;
-import com.farm.dinh.datasource.UserDataSource;
 import com.farm.dinh.datasource.MainDataSource;
+import com.farm.dinh.datasource.UserDataSource;
 import com.farm.dinh.local.Pref;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-public class MainRepository extends Repository{
+public class MainRepository extends Repository {
     private static volatile MainRepository instance;
     private List<Farmer> farmerList;
 

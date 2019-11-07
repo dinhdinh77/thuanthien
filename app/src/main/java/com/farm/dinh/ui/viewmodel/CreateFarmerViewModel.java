@@ -17,11 +17,7 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class CreateFarmerViewModel extends BaseViewModel<LoginRepository, FarmerInfo> {
-    public CreateFarmerViewModel(LoginRepository repository) {
-        super(repository);
-    }
-
+public class CreateFarmerViewModel extends BaseViewModel<FarmerInfo> {
     private MutableLiveData<List<City>> listAddress = new MutableLiveData<>();
     private MutableLiveData<CreateFarmerState> stateLiveData = new MutableLiveData<>();
     private MutableLiveData<FarmerInfo> farmerInfoLiveData = new MutableLiveData<>();
@@ -72,16 +68,16 @@ public class CreateFarmerViewModel extends BaseViewModel<LoginRepository, Farmer
             }
         };
         if (farmerInfo == null) {
-            getRepository().createUser(phone, name, street, ward == null ? null : ward.getName(), district == null ?
+            getRepository(LoginRepository.class).createUser(phone, name, street, ward == null ? null : ward.getName(), district == null ?
                     null : district.getName(), city == null ? null : city.getName(), area, listener);
         } else {
-            getRepository().editUser(farmerInfo.getId(), phone, name, street, ward == null ? null : ward.getName(),
+            getRepository(LoginRepository.class).editUser(farmerInfo.getId(), phone, name, street, ward == null ? null : ward.getName(),
                     district == null ? null : district.getName(), city == null ? null : city.getName(), area, listener);
         }
     }
 
     public void getAddress() {
-        getRepository().getAddress(new IRepository<List<City>>() {
+        getRepository(LoginRepository.class).getAddress(new IRepository<List<City>>() {
             @Override
             public void onSuccess(Result.Success<List<City>> success) {
                 listAddress.setValue(success.getData());

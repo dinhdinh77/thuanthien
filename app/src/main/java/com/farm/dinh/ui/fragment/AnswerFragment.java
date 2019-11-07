@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,11 +22,9 @@ import com.farm.dinh.data.model.Question;
 import com.farm.dinh.data.model.QuestionType;
 import com.farm.dinh.ui.adapter.AnswerAdapter;
 import com.farm.dinh.ui.viewmodel.MainViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
-public class AnswerFragment extends Fragment {
-    private MainViewModel mainViewModel;
+public class AnswerFragment extends BaseFragment<MainViewModel> {
     private EditText inputAnswer;
     private AnswerAdapter adapter;
     private QuestionType type;
@@ -41,8 +37,7 @@ public class AnswerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mainViewModel = ViewModelProviders.of(getActivity(), new ViewModelFactory()).get(MainViewModel.class);
-        Question question = mainViewModel.getSelectedQuestion().getValue();
+        Question question = getViewModel(getActivity()).getSelectedQuestion().getValue();
         TextView txtQuestion = view.findViewById(R.id.txtQuestion);
         txtQuestion.setText(question.getQuestion());
         RecyclerView lvAnswer = view.findViewById(R.id.lv_answer);
@@ -60,8 +55,8 @@ public class AnswerFragment extends Fragment {
             lvAnswer.setAdapter(adapter);
             adapter.setAnswerList(question.getAnswer());
         }
-        mainViewModel.resetAnswerResult();
-        mainViewModel.getAnswerResult().observe(this, new Observer<ViewResult<String>>() {
+        getViewModel(getActivity()).resetAnswerResult();
+        getViewModel(getActivity()).getAnswerResult().observe(this, new Observer<ViewResult<String>>() {
             @Override
             public void onChanged(ViewResult<String> viewResult) {
                 if (viewResult == null) {
@@ -83,7 +78,7 @@ public class AnswerFragment extends Fragment {
         } else {
             answer = adapter.getSelectedAnswer();
         }
-        mainViewModel.addAnswer(answer, getString(R.string.prompt_answer));
+        getViewModel(getActivity()).addAnswer(answer, getString(R.string.prompt_answer));
     }
 
     @Override
@@ -104,5 +99,10 @@ public class AnswerFragment extends Fragment {
             answerQuestion();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Class<MainViewModel> getViewModelType() {
+        return MainViewModel.class;
     }
 }

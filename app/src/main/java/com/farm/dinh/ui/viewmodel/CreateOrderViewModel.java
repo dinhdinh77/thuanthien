@@ -16,20 +16,13 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Product>> {
+public class CreateOrderViewModel extends BaseViewModel<List<Product>> {
     private MutableLiveData<CreateOrderState> liveDataViewState = new MutableLiveData<>();
     private MutableLiveData<Order> orderMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Pair<Boolean, String>> liveDataResultCreateOrder = new MutableLiveData<>();
-
-    public CreateOrderViewModel(MainRepository repository) {
-        super(repository);
-    }
-
     public MutableLiveData<CreateOrderState> getLiveDataViewState() {
         return liveDataViewState;
     }
-
-
     public MutableLiveData<Order> getOrderMutableLiveData() {
         return orderMutableLiveData;
     }
@@ -39,19 +32,19 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
     }
 
     public String getFarmerViaPhone(String phone) {
-        return getRepository().getFarmerViaPhone(phone);
+        return getRepository(MainRepository.class).getFarmerViaPhone(phone);
     }
 
     public void setOrderData(Order orderData) {
         if (orderData == null) orderData = new Order();
         if (!TextUtils.isEmpty(orderData.getPhone()) && !TextUtils.isEmpty(orderData.getName()))
-            orderData.setName(getRepository().getFarmerViaPhone(orderData.getPhone()));
+            orderData.setName(getRepository(MainRepository.class).getFarmerViaPhone(orderData.getPhone()));
         this.orderMutableLiveData.setValue(orderData);
     }
 
 
     public void getProductsList() {
-        getRepository().getProductsList(new IRepository<List<Product>>() {
+        getRepository(MainRepository.class).getProductsList(new IRepository<List<Product>>() {
             @Override
             public void onSuccess(Result.Success<List<Product>> success) {
                 getResult().setValue(new ViewResult(success.getData()));
@@ -98,9 +91,9 @@ public class CreateOrderViewModel extends BaseViewModel<MainRepository, List<Pro
                 }
             };
             if (!TextUtils.isEmpty(order.getOrderId())) {
-                getRepository().editOrder(order, listener);
+                getRepository(MainRepository.class).editOrder(order, listener);
             } else {
-                getRepository().createOrder(order, listener);
+                getRepository(MainRepository.class).createOrder(order, listener);
             }
         }
     }

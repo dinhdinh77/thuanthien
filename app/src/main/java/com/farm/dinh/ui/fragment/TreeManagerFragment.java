@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -24,12 +22,11 @@ import com.farm.dinh.data.model.TreeInfo;
 import com.farm.dinh.ui.adapter.TreeAdapter;
 import com.farm.dinh.ui.iinterface.OnItemClick;
 import com.farm.dinh.ui.viewmodel.TreeManagerViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class TreeManagerFragment extends Fragment {
+public class TreeManagerFragment extends BaseFragment<TreeManagerViewModel> {
     private ProgressDialog dialog;
     private NavController navController;
 
@@ -44,7 +41,6 @@ public class TreeManagerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-        TreeManagerViewModel viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(TreeManagerViewModel.class);
         final int farmerId = getArguments().getInt("FarmerId");
         Button createTree = view.findViewById(R.id.createTree);
         final TextView noData = view.findViewById(R.id.txt_NoData);
@@ -66,7 +62,7 @@ public class TreeManagerFragment extends Fragment {
                 onClickTree(null, farmerId);
             }
         });
-        viewModel.getResult().observe(this, new Observer<ViewResult<List<TreeInfo>>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<List<TreeInfo>>>() {
             @Override
             public void onChanged(ViewResult<List<TreeInfo>> orderViewResult) {
                 if (dialog != null) dialog.hide();
@@ -88,7 +84,7 @@ public class TreeManagerFragment extends Fragment {
                 }
             }
         });
-        viewModel.getTreesByFarmer(farmerId);
+        getViewModel().getTreesByFarmer(farmerId);
         dialog = ProgressDialog.show(getActivity(), "", getContext().getResources().getString(R.string.message_loading), true);
     }
 
@@ -98,5 +94,10 @@ public class TreeManagerFragment extends Fragment {
         bundle.putInt("FarmerId", farmerId);
         bundle.putString("Title", treeInfo == null ? getString(R.string.title_create_tree) : getString(R.string.title_edit_tree));
         navController.navigate(R.id.action_treeManagerFragment_to_createTreeFragment, bundle);
+    }
+
+    @Override
+    public Class<TreeManagerViewModel> getViewModelType() {
+        return TreeManagerViewModel.class;
     }
 }

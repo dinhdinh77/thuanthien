@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,16 +24,14 @@ import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.adapter.FarmerAdapter;
 import com.farm.dinh.ui.iinterface.OnItemClick;
 import com.farm.dinh.ui.viewmodel.FarmerManagerViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
-public class FarmerManagerFragment extends Fragment {
+public class FarmerManagerFragment extends BaseFragment<FarmerManagerViewModel> {
     private ProgressDialog dialog;
     private NavController navController;
-    private FarmerManagerViewModel viewModel;
     private TextChangeDelayAdapter textChangeDelayAdapter;
     private TextInputEditText searchView;
     private FarmerAdapter adapter;
@@ -50,7 +46,6 @@ public class FarmerManagerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(FarmerManagerViewModel.class);
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         view.findViewById(R.id.createFarmer).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +99,7 @@ public class FarmerManagerFragment extends Fragment {
             }
         });
 
-        viewModel.getResult().observe(this, new Observer<ViewResult<List<FarmerInfo>>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<List<FarmerInfo>>>() {
             @Override
             public void onChanged(ViewResult<List<FarmerInfo>> orderViewResult) {
                 if (dialog != null) dialog.hide();
@@ -140,15 +135,20 @@ public class FarmerManagerFragment extends Fragment {
     private void getListFarmer(String keyword) {
         searchView.removeTextChangedListener(textChangeDelayAdapter);
         dialog = ProgressDialog.show(getActivity(), "", getContext().getResources().getString(R.string.message_loading), true);
-        viewModel.getListPaging(keyword);
+        getViewModel().getListPaging(keyword);
     }
 
     private void onClickFarmer(FarmerInfo farmerInfo) {
         UIHelper.hideSoftKeyboard(null, searchView);
-        viewModel.resetData();
+        getViewModel().resetData();
         Bundle bundle = new Bundle();
         bundle.putSerializable("FarmerInfo", farmerInfo);
         bundle.putString("Title", farmerInfo == null ? getString(R.string.title_create_farmer) : getString(R.string.title_edit_farmer));
         navController.navigate(R.id.action_farmerManagerFragment_to_createFarmerFragment, bundle);
+    }
+
+    @Override
+    public Class<FarmerManagerViewModel> getViewModelType() {
+        return FarmerManagerViewModel.class;
     }
 }

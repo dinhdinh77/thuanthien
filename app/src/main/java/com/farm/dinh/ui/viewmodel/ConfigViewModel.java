@@ -5,12 +5,8 @@ import com.farm.dinh.repository.LoginRepository;
 
 import java.util.List;
 
-public class ConfigViewModel extends BaseViewModel<LoginRepository, List<City>> {
-    public ConfigViewModel(LoginRepository repository) {
-        super(repository);
-    }
-
+public class ConfigViewModel extends BaseViewModel<List<City>> {
     public void getAddress() {
-        getRepository().getAddress(null);
+        getRepository(LoginRepository.class).getAddress(null);
     }
 }

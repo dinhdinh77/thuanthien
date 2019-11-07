@@ -15,14 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.farm.dinh.R;
 import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.viewmodel.LoginViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
 import com.farm.dinh.ui.viewmodel.model.LoginFormState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
@@ -30,14 +27,12 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 
-public class LoginActivity extends AppCompatActivity {
-    private LoginViewModel loginViewModel;
+public class LoginActivity extends BaseActivity<LoginViewModel> {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(LoginViewModel.class);
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -46,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         final TextInputLayout inputPassword = findViewById(R.id.inputPassword);
         final TextInputLayout inputUsername = findViewById(R.id.inputUsername);
 
-        loginViewModel.getPreviousUser().observe(this, new Observer<Pair<String, String>>() {
+        getViewModel().getPreviousUser().observe(this, new Observer<Pair<String, String>>() {
             @Override
             public void onChanged(Pair<String, String> previousUser) {
                 if (previousUser == null) {
@@ -63,12 +58,12 @@ public class LoginActivity extends AppCompatActivity {
                 boolean isActionLogout = getIntent().getBooleanExtra(KEY_LOGOUT, false);
                 if (!TextUtils.isEmpty(previousUser.first) && !TextUtils.isEmpty(previousUser.second) && !isActionLogout) {
                     loadingProgressBar.setVisibility(View.VISIBLE);
-                    loginViewModel.login(previousUser.first, previousUser.second);
+                    getViewModel().login(previousUser.first, previousUser.second);
                 }
             }
         });
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        getViewModel().getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
                 if (loginFormState == null) {
@@ -89,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getResult().observe(this, new Observer<ViewResult<LoggedInUserView>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<LoggedInUserView>>() {
             @Override
             public void onChanged(@Nullable ViewResult<LoggedInUserView> loginResult) {
                 if (loginResult == null) {
@@ -117,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
+                getViewModel().loginDataChanged(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
@@ -128,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
+                    getViewModel().login(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
@@ -141,12 +136,12 @@ public class LoginActivity extends AppCompatActivity {
                 UIHelper.hideSoftKeyboard(null, usernameEditText);
                 UIHelper.hideSoftKeyboard(null, passwordEditText);
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+                getViewModel().login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
 
-        loginViewModel.getAutoFillUser();
+        getViewModel().getAutoFillUser();
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
@@ -159,5 +154,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(String errorString) {
         UIHelper.showMessageDialog(this, errorString, getResources().getString(R.string.title_fail));
+    }
+
+    @Override
+    public Class<LoginViewModel> getViewModelType() {
+        return LoginViewModel.class;
     }
 }

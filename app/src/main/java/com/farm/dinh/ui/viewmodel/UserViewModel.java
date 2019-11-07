@@ -17,13 +17,9 @@ import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 import java.util.List;
 
-public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
+public class UserViewModel extends BaseViewModel<UserInfo> {
     private MutableLiveData<UpdateInfoState> updateInfoState = new MutableLiveData<>();
     private MutableLiveData<List<City>> listAddress = new MutableLiveData<>();
-
-    public UserViewModel(LoginRepository repository) {
-        super(repository);
-    }
 
     public MutableLiveData<UpdateInfoState> getUpdateInfoState() {
         return updateInfoState;
@@ -34,7 +30,7 @@ public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
     }
 
     public void getAddress() {
-        getRepository().getAddress(new IRepository<List<City>>() {
+        getRepository(LoginRepository.class).getAddress(new IRepository<List<City>>() {
             @Override
             public void onSuccess(Result.Success<List<City>> success) {
                 listAddress.setValue(success.getData());
@@ -48,7 +44,7 @@ public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
     }
 
     public void getUserInfo() {
-        getRepository().getUserInfo(new IRepository<UserInfo>() {
+        getRepository(LoginRepository.class).getUserInfo(new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
                 getResult().setValue(new ViewResult<>(success.getData(), false));
@@ -65,7 +61,7 @@ public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
                                String area, String oldPassword, String newPassword, boolean isChangePass) {
         UpdateInfoState state = getUpdateInfoState().getValue();
         if (state != null && !state.isDataVaild()) return;
-        getRepository().updateUserInfo(name, district, street, ward, city, area, oldPassword, newPassword, isChangePass, new IRepository<UserInfo>() {
+        getRepository(LoginRepository.class).updateUserInfo(name, district, street, ward, city, area, oldPassword, newPassword, isChangePass, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
                 getResult().setValue(new ViewResult<>(success.getData(), true));
@@ -79,11 +75,11 @@ public class UserViewModel extends BaseViewModel<LoginRepository, UserInfo> {
     }
 
     public void logout() {
-        getRepository().logout();
+        getRepository(LoginRepository.class).logout();
     }
 
     public boolean isAgency() {
-        return getRepository().isAgency();
+        return getRepository(LoginRepository.class).isAgency();
     }
 
     public void updateInfoDataChanged(String name, String street, City city, District district, Ward ward, String oldPass, String newPass, String newPassAgain, boolean isChangePass) {

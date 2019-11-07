@@ -24,12 +24,12 @@ public interface IUserService {
     @FormUrlEncoded
     @POST("/api/createUser.php")
     Call<StandardResponse<FarmerInfo>> createUser(@Field("userId") int userId, @Field("phone") String phone, @Field("name") String name,
-                                             @Field("street") String street, @Field("ward") String ward, @Field("district") String district, @Field("city") String city, @Field("area") String area);
+                                                  @Field("street") String street, @Field("ward") String ward, @Field("district") String district, @Field("city") String city, @Field("area") String area);
 
     @FormUrlEncoded
     @POST("/api/editUser.php")
     Call<StandardResponse<FarmerInfo>> editUser(@Field("userId") int userId, @Field("farmerId") int farmerId, @Field("phone") String phone, @Field("name") String name,
-                                           @Field("street") String street, @Field("ward") String ward, @Field("district") String district, @Field("city") String city, @Field("area") String area);
+                                                @Field("street") String street, @Field("ward") String ward, @Field("district") String district, @Field("city") String city, @Field("area") String area);
 
     @POST("/api/getAddress.php")
     Call<StandardResponse<List<City>>> getAddress();

@@ -16,16 +16,13 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.Tree;
 import com.farm.dinh.data.model.TreeInfo;
 import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.viewmodel.CreateTreeViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.custom.MaterialSpinner;
 import com.farm.dinh.ui.viewmodel.model.CreateTreeState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
@@ -34,11 +31,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-public class CreateTreeFragment extends Fragment {
+public class CreateTreeFragment extends BaseFragment<CreateTreeViewModel> {
     private ArrayAdapter<Tree> treeAdapter;
     private TextInputEditText age, quantity;
     private MaterialSpinner treeSpinner;
-    private CreateTreeViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +58,7 @@ public class CreateTreeFragment extends Fragment {
 
     private void processTree() {
         hideSoftKeyboard();
-        viewModel.processTree((Tree) treeSpinner.getSelectedItem(), age.getText().toString(), quantity.getText().toString());
+        getViewModel().processTree((Tree) treeSpinner.getSelectedItem(), age.getText().toString(), quantity.getText().toString());
     }
 
     private void hideSoftKeyboard() {
@@ -79,9 +75,8 @@ public class CreateTreeFragment extends Fragment {
 
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(CreateTreeViewModel.class);
         final TreeInfo treeInfo = (TreeInfo) getArguments().getSerializable("TreeInfo");
-        viewModel.setFarmerId(getArguments().getInt("FarmerId"));
+        getViewModel().setFarmerId(getArguments().getInt("FarmerId"));
         final TextInputLayout inputTree = view.findViewById(R.id.inputTree);
         final TextInputLayout inputTreeAge = view.findViewById(R.id.inputTreeAge);
         final TextInputLayout inputQuantity = view.findViewById(R.id.inputQuantity);
@@ -111,7 +106,7 @@ public class CreateTreeFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                viewModel.dataChange((Tree) treeSpinner.getSelectedItem(), age.getText().toString(), quantity.getText().toString());
+                getViewModel().dataChange((Tree) treeSpinner.getSelectedItem(), age.getText().toString(), quantity.getText().toString());
             }
         };
         age.addTextChangedListener(afterTextChangedListener);
@@ -120,7 +115,7 @@ public class CreateTreeFragment extends Fragment {
         treeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.dataChange((Tree) treeSpinner.getSelectedItem(), age.getText().toString(), quantity.getText().toString());
+                getViewModel().dataChange((Tree) treeSpinner.getSelectedItem(), age.getText().toString(), quantity.getText().toString());
             }
 
             @Override
@@ -129,7 +124,7 @@ public class CreateTreeFragment extends Fragment {
             }
         });
 
-        viewModel.getCreateTreeState().observe(this, new Observer<CreateTreeState>() {
+        getViewModel().getCreateTreeState().observe(this, new Observer<CreateTreeState>() {
             @Override
             public void onChanged(CreateTreeState createTreeState) {
                 if (createTreeState == null) return;
@@ -151,18 +146,18 @@ public class CreateTreeFragment extends Fragment {
             }
         });
 
-        viewModel.getResult().observe(this, new Observer<ViewResult<List<Tree>>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<List<Tree>>>() {
             @Override
             public void onChanged(ViewResult<List<Tree>> listViewResult) {
                 if (listViewResult == null) return;
                 treeAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, listViewResult.getSuccess());
                 treeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 treeSpinner.setAdapter(treeAdapter);
-                viewModel.getTreeInfoLiveData().setValue(treeInfo);
+                getViewModel().getTreeInfoLiveData().setValue(treeInfo);
             }
         });
 
-        viewModel.getTreeInfoLiveData().observe(this, new Observer<TreeInfo>() {
+        getViewModel().getTreeInfoLiveData().observe(this, new Observer<TreeInfo>() {
             @Override
             public void onChanged(TreeInfo treeInfo) {
                 if (treeInfo == null) return;
@@ -176,7 +171,7 @@ public class CreateTreeFragment extends Fragment {
             }
         });
 
-        viewModel.getProcessTreeState().observe(this, new Observer<ViewResult>() {
+        getViewModel().getProcessTreeState().observe(this, new Observer<ViewResult>() {
             @Override
             public void onChanged(final ViewResult viewResult) {
                 if (viewResult == null) return;
@@ -190,6 +185,11 @@ public class CreateTreeFragment extends Fragment {
                         });
             }
         });
-        viewModel.getTreesList();
+        getViewModel().getTreesList();
+    }
+
+    @Override
+    public Class<CreateTreeViewModel> getViewModelType() {
+        return CreateTreeViewModel.class;
     }
 }

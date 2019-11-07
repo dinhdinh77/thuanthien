@@ -22,9 +22,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.farm.dinh.R;
 import com.farm.dinh.data.model.City;
@@ -34,7 +32,6 @@ import com.farm.dinh.data.model.Ward;
 import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.activity.LoginActivity;
 import com.farm.dinh.ui.viewmodel.UserViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.custom.MaterialSpinner;
 import com.farm.dinh.ui.viewmodel.model.UpdateInfoState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
@@ -45,10 +42,9 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.farm.dinh.local.Pref.KEY_LOGOUT;
 
-public class UserDetailFragment extends Fragment {
+public class UserDetailFragment extends BaseFragment<UserViewModel> {
     private EditText name, phone, street, oldPass, newPass, newPassAgain;
     private CheckBox changePass;
-    private UserViewModel userViewModel;
     private MaterialSpinner spinnerCity, spinnerDistrict, spinnerWard;
     private TextInputLayout inputCity, inputDistrict, inputWard, inputName, inputStreet;
 
@@ -65,7 +61,6 @@ public class UserDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        userViewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(UserViewModel.class);
         name = view.findViewById(R.id.name);
         phone = view.findViewById(R.id.phone);
         street = view.findViewById(R.id.street);
@@ -85,11 +80,11 @@ public class UserDetailFragment extends Fragment {
         final TextInputLayout inputOldPass = view.findViewById(R.id.inputOldPass);
         final TextInputLayout inputNewPass = view.findViewById(R.id.inputNewPass);
         final TextInputLayout inputNewPassAgain = view.findViewById(R.id.inputNewPassAgain);
-        userViewModel.getListAddress().observe(this, new Observer<List<City>>() {
+        getViewModel().getListAddress().observe(this, new Observer<List<City>>() {
             @Override
             public void onChanged(List<City> cities) {
                 if (cities == null) return;
-                userViewModel.getUserInfo();
+                getViewModel().getUserInfo();
                 adapterCity = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, cities);
                 adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCity.setAdapter(adapterCity);
@@ -113,7 +108,7 @@ public class UserDetailFragment extends Fragment {
             }
         });
         Button btnLogout = view.findViewById(R.id.logout);
-        btnLogout.setVisibility(userViewModel.isAgency() ? View.GONE : View.VISIBLE);
+        btnLogout.setVisibility(getViewModel().isAgency() ? View.GONE : View.VISIBLE);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,12 +128,12 @@ public class UserDetailFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                getViewModel().updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
                         (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
             }
         };
 
-        userViewModel.getUpdateInfoState().observe(this, new Observer<UpdateInfoState>() {
+        getViewModel().getUpdateInfoState().observe(this, new Observer<UpdateInfoState>() {
             @Override
             public void onChanged(UpdateInfoState updateInfoState) {
                 if (updateInfoState == null) {
@@ -184,7 +179,7 @@ public class UserDetailFragment extends Fragment {
                 }
             }
         });
-        userViewModel.getResult().observe(this, new Observer<ViewResult<UserInfo>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<UserInfo>>() {
             @Override
             public void onChanged(ViewResult<UserInfo> userInfoViewResult) {
                 if (userInfoViewResult == null) {
@@ -210,7 +205,7 @@ public class UserDetailFragment extends Fragment {
                 }
             }
         });
-        userViewModel.getAddress();
+        getViewModel().getAddress();
     }
 
     private void setupSpinner() {
@@ -238,7 +233,7 @@ public class UserDetailFragment extends Fragment {
     }
 
     private void logout() {
-        userViewModel.logout();
+        getViewModel().logout();
         getActivity().setResult(RESULT_OK);
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.putExtra(KEY_LOGOUT, true);
@@ -270,7 +265,7 @@ public class UserDetailFragment extends Fragment {
                     inputDistrict.setError(null);
                     inputWard.setVisibility(View.GONE);
                     inputWard.setError(null);
-                    userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                    getViewModel().updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
                             (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
                 }
             }
@@ -293,7 +288,7 @@ public class UserDetailFragment extends Fragment {
                 } else {
                     inputWard.setVisibility(View.GONE);
                     inputWard.setError(null);
-                    userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                    getViewModel().updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
                             (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
                 }
             }
@@ -306,7 +301,7 @@ public class UserDetailFragment extends Fragment {
         spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                userViewModel.updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
+                getViewModel().updateInfoDataChanged(name.getText().toString(), street.getText().toString(), (City) spinnerCity.getSelectedItem(), (District) spinnerDistrict.getSelectedItem(),
                         (Ward) spinnerWard.getSelectedItem(), oldPass.getText().toString(), newPass.getText().toString(), newPassAgain.getText().toString(), changePass.isChecked());
             }
 
@@ -334,7 +329,7 @@ public class UserDetailFragment extends Fragment {
         UIHelper.hideSoftKeyboard(null, oldPass);
         UIHelper.hideSoftKeyboard(null, newPass);
         UIHelper.hideSoftKeyboard(null, newPassAgain);
-        userViewModel.updateUserInfo(name.getText().toString(), ((District) spinnerDistrict.getSelectedItem()).getName(),
+        getViewModel().updateUserInfo(name.getText().toString(), ((District) spinnerDistrict.getSelectedItem()).getName(),
                 street.getText().toString(), ((Ward) spinnerWard.getSelectedItem()).getName(), ((City) spinnerCity.getSelectedItem()).getName(), null,
                 oldPass.getText().toString(), newPass.getText().toString(), changePass.isChecked());
     }
@@ -357,5 +352,10 @@ public class UserDetailFragment extends Fragment {
             updateUserInfo();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Class<UserViewModel> getViewModelType() {
+        return UserViewModel.class;
     }
 }

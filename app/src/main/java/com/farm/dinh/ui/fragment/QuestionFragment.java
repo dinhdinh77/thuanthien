@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -29,10 +27,9 @@ import com.farm.dinh.ui.adapter.MessageAdapter;
 import com.farm.dinh.ui.adapter.QuestionAdapter;
 import com.farm.dinh.ui.adapter.VideoAdapter;
 import com.farm.dinh.ui.viewmodel.MainViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
-public class QuestionFragment extends Fragment {
+public class QuestionFragment extends BaseFragment<MainViewModel> {
     private QuestionAdapter adapterQuestion;
     private VideoAdapter videoAdapter;
     private MessageAdapter msgAdapter;
@@ -52,8 +49,7 @@ public class QuestionFragment extends Fragment {
         llQuestion = view.findViewById(R.id.ll_question);
         llMessage = view.findViewById(R.id.ll_message);
         txtNoData = view.findViewById(R.id.txt_NoData);
-        MainViewModel mainViewModel = ViewModelProviders.of(getActivity(), new ViewModelFactory()).get(MainViewModel.class);
-        mainViewModel.getResult().observe(this, new Observer<ViewResult<Questions>>() {
+        getViewModel(getActivity()).getResult().observe(this, new Observer<ViewResult<Questions>>() {
             @Override
             public void onChanged(ViewResult<Questions> questionsViewResult) {
                 if (questionsViewResult == null) {
@@ -72,7 +68,7 @@ public class QuestionFragment extends Fragment {
         lvQuestion.setLayoutManager(new LinearLayoutManager(getContext()));
         lvQuestion.setHasFixedSize(true);
         lvQuestion.addItemDecoration(new DividerItemDecoration(lvQuestion.getContext(), DividerItemDecoration.VERTICAL));
-        adapterQuestion = new QuestionAdapter(mainViewModel);
+        adapterQuestion = new QuestionAdapter(getViewModel(getActivity()));
         lvQuestion.setAdapter(adapterQuestion);
 
         RecyclerView lvVideo = view.findViewById(R.id.lv_video);
@@ -88,14 +84,14 @@ public class QuestionFragment extends Fragment {
         lvMessage.setAdapter(msgAdapter);
 
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-        mainViewModel.getSelectedQuestion().observe(this, new Observer<Question>() {
+        getViewModel(getActivity()).getSelectedQuestion().observe(this, new Observer<Question>() {
             @Override
             public void onChanged(Question question) {
                 navController.navigate(R.id.action_questionFragment_to_answerFragment);
             }
         });
 
-        mainViewModel.getQuestionsList();
+        getViewModel(getActivity()).getQuestionsList();
     }
 
     private void showDataFailed(String errorString) {
@@ -142,5 +138,10 @@ public class QuestionFragment extends Fragment {
             navController.navigate(R.id.action_questionFragment_to_userDetailFragment);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Class<MainViewModel> getViewModelType() {
+        return MainViewModel.class;
     }
 }

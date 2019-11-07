@@ -15,13 +15,9 @@ import com.farm.dinh.ui.viewmodel.model.LoggedInUserView;
 import com.farm.dinh.ui.viewmodel.model.LoginFormState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
-public class LoginViewModel extends BaseViewModel<LoginRepository, LoggedInUserView> {
+public class LoginViewModel extends BaseViewModel<LoggedInUserView> {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<Pair<String, String>> previousUser = new MutableLiveData<>();
-
-    public LoginViewModel(LoginRepository repository) {
-        super(repository);
-    }
 
     public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
@@ -33,7 +29,7 @@ public class LoginViewModel extends BaseViewModel<LoginRepository, LoggedInUserV
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        getRepository().login(username, password, new IRepository<UserInfo>() {
+        getRepository(LoginRepository.class).login(username, password, new IRepository<UserInfo>() {
             @Override
             public void onSuccess(Result.Success<UserInfo> success) {
                 getResult().setValue(new ViewResult<>(new LoggedInUserView(success.getData().getName(), success.getData().getIsAgency())));
@@ -58,7 +54,7 @@ public class LoginViewModel extends BaseViewModel<LoginRepository, LoggedInUserV
     }
 
     public void getAutoFillUser() {
-        getPreviousUser().setValue(getRepository().getPreviousUser());
+        getPreviousUser().setValue(getRepository(LoginRepository.class).getPreviousUser());
     }
 
     // A placeholder username validation check

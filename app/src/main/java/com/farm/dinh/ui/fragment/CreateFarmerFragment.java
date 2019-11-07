@@ -17,9 +17,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -30,7 +28,6 @@ import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.Ward;
 import com.farm.dinh.helper.UIHelper;
 import com.farm.dinh.ui.viewmodel.CreateFarmerViewModel;
-import com.farm.dinh.ui.viewmodel.ViewModelFactory;
 import com.farm.dinh.ui.viewmodel.custom.MaterialSpinner;
 import com.farm.dinh.ui.viewmodel.model.CreateFarmerState;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
@@ -39,8 +36,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-public class CreateFarmerFragment extends Fragment {
-    private CreateFarmerViewModel viewModel;
+public class CreateFarmerFragment extends BaseFragment<CreateFarmerViewModel> {
     private TextInputEditText phone, name, street, area;
     private MaterialSpinner spinnerCity, spinnerDistrict, spinnerWard;
     private TextInputLayout inputCity, inputDistrict, inputWard, inputPhone, inputName, inputStreet, inputArea;
@@ -58,7 +54,6 @@ public class CreateFarmerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final FarmerInfo farmerInfo = (FarmerInfo) getArguments().getSerializable("FarmerInfo");
         final NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(CreateFarmerViewModel.class);
         phone = view.findViewById(R.id.phone);
         name = view.findViewById(R.id.name);
         street = view.findViewById(R.id.street);
@@ -97,7 +92,7 @@ public class CreateFarmerFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+                getViewModel().checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
                         ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()), area.getText().toString());
             }
         };
@@ -107,14 +102,14 @@ public class CreateFarmerFragment extends Fragment {
         street.addTextChangedListener(afterTextChangedListener);
         area.addTextChangedListener(afterTextChangedListener);
 
-        viewModel.getListAddress().observe(this, new Observer<List<City>>() {
+        getViewModel().getListAddress().observe(this, new Observer<List<City>>() {
             @Override
             public void onChanged(List<City> cities) {
                 if (cities == null) return;
                 adapterCity = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, cities);
                 adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCity.setAdapter(adapterCity);
-                viewModel.getFarmerInfoLiveData().setValue(farmerInfo);
+                getViewModel().getFarmerInfoLiveData().setValue(farmerInfo);
                 inputCity.setVisibility(View.VISIBLE);
                 inputDistrict.setVisibility(View.GONE);
                 inputDistrict.setError(null);
@@ -140,7 +135,7 @@ public class CreateFarmerFragment extends Fragment {
                     inputDistrict.setError(null);
                     inputWard.setVisibility(View.GONE);
                     inputWard.setError(null);
-                    viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+                    getViewModel().checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
                             ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()), area.getText().toString());
                 }
             }
@@ -165,7 +160,7 @@ public class CreateFarmerFragment extends Fragment {
                 } else {
                     inputWard.setVisibility(View.GONE);
                     inputWard.setError(null);
-                    viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+                    getViewModel().checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
                             ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()), area.getText().toString());
                 }
             }
@@ -178,7 +173,7 @@ public class CreateFarmerFragment extends Fragment {
         spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+                getViewModel().checkDataChange(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
                         ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()), area.getText().toString());
             }
 
@@ -188,7 +183,7 @@ public class CreateFarmerFragment extends Fragment {
             }
         });
 
-        viewModel.getStateLiveData().observe(this, new Observer<CreateFarmerState>() {
+        getViewModel().getStateLiveData().observe(this, new Observer<CreateFarmerState>() {
             @Override
             public void onChanged(CreateFarmerState createFarmerState) {
                 if (createFarmerState == null) return;
@@ -226,7 +221,7 @@ public class CreateFarmerFragment extends Fragment {
                 }
             }
         });
-        viewModel.getResult().observe(this, new Observer<ViewResult<FarmerInfo>>() {
+        getViewModel().getResult().observe(this, new Observer<ViewResult<FarmerInfo>>() {
             @Override
             public void onChanged(ViewResult<FarmerInfo> farmerInfoViewResult) {
                 if (farmerInfoViewResult == null) return;
@@ -244,7 +239,7 @@ public class CreateFarmerFragment extends Fragment {
                 }
             }
         });
-        viewModel.getFarmerInfoLiveData().observe(this, new Observer<FarmerInfo>() {
+        getViewModel().getFarmerInfoLiveData().observe(this, new Observer<FarmerInfo>() {
             @Override
             public void onChanged(FarmerInfo info) {
                 managerTree.setVisibility(info == null ? View.GONE : View.VISIBLE);
@@ -264,7 +259,7 @@ public class CreateFarmerFragment extends Fragment {
                 area.addTextChangedListener(afterTextChangedListener);
             }
         });
-        viewModel.getAddress();
+        getViewModel().getAddress();
     }
 
     private <T> int getAdapterPosition(ArrayAdapter<T> arrayAdapter, T data) {
@@ -299,7 +294,7 @@ public class CreateFarmerFragment extends Fragment {
 
     private void processFarmer() {
         hideSoftKeyboard();
-        viewModel.processFarmer(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
+        getViewModel().processFarmer(phone.getText().toString(), name.getText().toString(), street.getText().toString(),
                 ((City) spinnerCity.getSelectedItem()), ((District) spinnerDistrict.getSelectedItem()), ((Ward) spinnerWard.getSelectedItem()), area.getText().toString());
     }
 
@@ -321,5 +316,10 @@ public class CreateFarmerFragment extends Fragment {
             processFarmer();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Class<CreateFarmerViewModel> getViewModelType() {
+        return CreateFarmerViewModel.class;
     }
 }

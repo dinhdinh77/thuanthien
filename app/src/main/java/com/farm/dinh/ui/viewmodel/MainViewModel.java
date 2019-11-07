@@ -14,11 +14,7 @@ import com.farm.dinh.ui.viewmodel.custom.SingleLiveEvent;
 import com.farm.dinh.ui.viewmodel.model.ViewResult;
 
 
-public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
-
-    public MainViewModel(MainRepository repository) {
-        super(repository);
-    }
+public class MainViewModel extends BaseViewModel<Questions> {
 
     private SingleLiveEvent<Question> selectedQuestion = new SingleLiveEvent<>();
 
@@ -37,7 +33,7 @@ public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
     }
 
     public void getQuestionsList() {
-        getRepository().getQuestionsList(new IRepository<Questions>() {
+        getRepository(MainRepository.class).getQuestionsList(new IRepository<Questions>() {
             @Override
             public void onSuccess(Result.Success<Questions> success) {
                 getResult().setValue(new ViewResult<>(success.getData()));
@@ -56,7 +52,7 @@ public class MainViewModel extends BaseViewModel<MainRepository, Questions> {
             getAnswerResult().setValue(new ViewResult(error, false));
             return;
         }
-        getRepository().addAnswer(getSelectedQuestion().getValue().getQuestionID(), answer, new IRepository<String>() {
+        getRepository(MainRepository.class).addAnswer(getSelectedQuestion().getValue().getQuestionID(), answer, new IRepository<String>() {
 
             @Override
             public void onSuccess(Result.Success<String> success) {
