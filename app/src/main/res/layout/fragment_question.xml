@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/ll_message"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="180dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
             android:text="@string/title_message"
-
             android:textColor="@android:color/black"
             android:padding="@dimen/title_padding"
             android:textSize="17sp" />
