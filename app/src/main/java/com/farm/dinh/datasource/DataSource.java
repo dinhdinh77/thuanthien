@@ -8,6 +8,9 @@ import com.farm.dinh.remote.StandardResponse;
 import com.farm.dinh.repository.IPagingRepository;
 import com.farm.dinh.repository.IRepository;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +40,9 @@ public abstract class DataSource<S> {
 
             @Override
             public void onFailure(Call<StandardResponse<T>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         };
     }
@@ -59,7 +64,9 @@ public abstract class DataSource<S> {
 
             @Override
             public void onFailure(Call<PagingResponse<T>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         };
     }
@@ -81,7 +88,9 @@ public abstract class DataSource<S> {
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         };
     }
