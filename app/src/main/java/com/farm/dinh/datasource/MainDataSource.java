@@ -12,6 +12,8 @@ import com.farm.dinh.data.model.TreeInfo;
 import com.farm.dinh.repository.IPagingRepository;
 import com.farm.dinh.repository.IRepository;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +39,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<Questions>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -59,7 +63,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -81,7 +87,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<Order>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -103,7 +111,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<Order>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -125,7 +135,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<FarmerInfo>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -147,7 +159,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<FarmerInfo>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -169,7 +183,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<Product>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -191,7 +207,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -213,7 +231,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -235,7 +255,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<TreeInfo>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -257,7 +279,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<Tree>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -279,7 +303,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<TreeInfo>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -301,7 +327,9 @@ public class MainDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<TreeInfo>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }

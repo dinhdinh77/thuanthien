@@ -8,6 +8,8 @@ import com.farm.dinh.data.model.FarmerInfo;
 import com.farm.dinh.data.model.UserInfo;
 import com.farm.dinh.repository.IRepository;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +39,9 @@ public class LoginDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<UserInfo>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -59,7 +63,9 @@ public class LoginDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<UserInfo>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -81,7 +87,9 @@ public class LoginDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<UserInfo>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -103,7 +111,9 @@ public class LoginDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<List<City>>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -125,7 +135,9 @@ public class LoginDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<FarmerInfo>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
@@ -147,7 +159,9 @@ public class LoginDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<APIResponse<FarmerInfo>> call, Throwable t) {
-                listener.onError(new Result.Error(new Exception(t)));
+                if (t instanceof SocketTimeoutException || t instanceof UnknownHostException) {
+                    listener.onError(new Result.Error(new Exception("Lỗi mạng, vui lòng thử lại sau.", t)));
+                } else listener.onError(new Result.Error(new Exception(t)));
             }
         });
     }
