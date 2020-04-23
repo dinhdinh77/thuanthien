@@ -10,6 +10,8 @@ import com.farm.dinh.repository.IRepository;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +25,7 @@ public abstract class DataSource<S> {
         return RemoteService.getService().create(getServiceType());
     }
 
-    public <T> Callback<StandardResponse<T>> getStandardCallBack(final IRepository<T> listener) {
+    protected  <T> Callback<StandardResponse<T>> getStandardCallBack(final IRepository<T> listener) {
         return new Callback<StandardResponse<T>>() {
             @Override
             public void onResponse(Call<StandardResponse<T>> call, Response<StandardResponse<T>> response) {
@@ -47,7 +49,7 @@ public abstract class DataSource<S> {
         };
     }
 
-    public <T> Callback<PagingResponse<T>> getPagingCallBack(final IPagingRepository<T> listener) {
+    protected <T> Callback<PagingResponse<T>> getPagingCallBack(final IPagingRepository<T> listener) {
         return new Callback<PagingResponse<T>>() {
             @Override
             public void onResponse(Call<PagingResponse<T>> call, Response<PagingResponse<T>> response) {
@@ -71,7 +73,7 @@ public abstract class DataSource<S> {
         };
     }
 
-    public Callback<SimpleResponse> getSimpleCallBack(final IRepository<String> listener) {
+    protected Callback<SimpleResponse> getSimpleCallBack(final IRepository<String> listener) {
         return new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
@@ -94,5 +96,4 @@ public abstract class DataSource<S> {
             }
         };
     }
-
 }
